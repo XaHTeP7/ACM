@@ -697,12 +697,12 @@ audio {
 
     <div class="intro">
 
-        <p>
+        <p data-i18n="intro1">
             AI Core Mixes — музыкальная лаборатория
             на стыке жанров и технологий.
         </p>
 
-        <p>
+        <p data-i18n="intro2">
             Этот канал посвящён поиску идеального симбиоза
             между живой яростью рока и цифровой мощью EDM.
             Здесь стираются границы: от классического
@@ -710,7 +710,7 @@ audio {
             Rock, Rap и Bass.
         </p>
 
-        <p>
+        <p data-i18n="intro3">
             Здесь нет коммерции и жёстких графиков.
             Только личный вкус, ручной отбор и то,
             что реально качает. Выкладываю годноту
@@ -724,7 +724,10 @@ audio {
          ПОСЛЕДНИЙ РЕЛИЗ
          ================================================== -->
 
-    <div class="sec-title">
+    <div
+        class="sec-title"
+        data-i18n="latestRelease"
+    >
         Последний релиз
     </div>
 
@@ -899,14 +902,21 @@ audio {
                 "/>
             </svg>
 
-            Поддержать проект, купив чашечку кофе
+            <span
+                data-i18n="support"
+            >
+                Поддержать проект, купив чашечку кофе
+            </span>
 
         </a>
 
 
         <!-- Copyright -->
 
-        <p class="copy">
+        <p
+            class="copy"
+            data-i18n="copyright"
+        >
             © 2026 AI Core Mixes ·
             Все треки — бесплатно,
             только для прослушивания.
@@ -920,6 +930,107 @@ audio {
 <script>
 
 /* =========================================================
+   АВТОЯЗЫК
+   ========================================================= */
+
+/*
+   Русский интерфейс показывается только пользователям,
+   у которых язык браузера начинается с "ru".
+
+   Все остальные получают английский интерфейс.
+*/
+
+const browserLanguage =
+    (navigator.language || "en").toLowerCase();
+
+const currentLanguage =
+    browserLanguage.startsWith("ru")
+        ? "ru"
+        : "en";
+
+document.documentElement.lang =
+    currentLanguage;
+
+
+/* =========================================================
+   ПЕРЕВОДЫ ИНТЕРФЕЙСА
+   ========================================================= */
+
+const translations = {
+
+    ru: {
+
+        intro1:
+            "AI Core Mixes — музыкальная лаборатория на стыке жанров и технологий.",
+
+        intro2:
+            "Этот канал посвящён поиску идеального симбиоза между живой яростью рока и цифровой мощью EDM. Здесь стираются границы: от классического Industrial Metalstep до безумных сочетаний Rock, Rap и Bass.",
+
+        intro3:
+            "Здесь нет коммерции и жёстких графиков. Только личный вкус, ручной отбор и то, что реально качает. Выкладываю годноту по мере её появления.",
+
+        latestRelease:
+            "Последний релиз",
+
+        support:
+            "Поддержать проект, купив чашечку кофе",
+
+        copyright:
+            "© 2026 AI Core Mixes · Все треки — бесплатно, только для прослушивания."
+
+    },
+
+
+    en: {
+
+        intro1:
+            "AI Core Mixes — a music laboratory at the intersection of genres and technology.",
+
+        intro2:
+            "This channel is about finding the perfect fusion between the raw energy of rock and the digital power of EDM. Boundaries disappear here: from classic Industrial Metalstep to wild combinations of Rock, Rap and Bass.",
+
+        intro3:
+            "No commercial pressure and no strict schedule. Just personal taste, careful selection, and whatever really hits. New music is released as it comes.",
+
+        latestRelease:
+            "Latest Release",
+
+        support:
+            "Support the project with a cup of coffee",
+
+        copyright:
+            "© 2026 AI Core Mixes · All tracks are free to listen to."
+
+    }
+
+};
+
+
+/* =========================================================
+   ПРИМЕНЕНИЕ ПЕРЕВОДА
+   ========================================================= */
+
+document
+    .querySelectorAll("[data-i18n]")
+    .forEach(element => {
+
+        const key =
+            element.dataset.i18n;
+
+        if (
+            translations[currentLanguage] &&
+            translations[currentLanguage][key]
+        ) {
+
+            element.textContent =
+                translations[currentLanguage][key];
+
+        }
+
+    });
+
+
+/* =========================================================
    ПОСЛЕДНИЙ РЕЛИЗ
    ========================================================= */
 
@@ -931,8 +1042,11 @@ const lastRelease = {
 
     audio: "last_track.mp3",
 
-    desc:
-        "Короткое описание последнего релиза: атмосфера, идея, из чего собран."
+    descRu:
+        "Короткое описание последнего релиза: атмосфера, идея, из чего собран.",
+
+    descEn:
+        "A short description of the latest release: its atmosphere, concept, and elements."
 
 };
 
@@ -948,7 +1062,9 @@ const playlist1 = [
         cover: "blindfold.jpg",
         audio: "Blindfold.mp3",
         dur: "4:12",
-        desc: "Описание трека…"
+
+        descRu: "Описание трека…",
+        descEn: "Track description…"
     },
 
     {
@@ -956,7 +1072,9 @@ const playlist1 = [
         cover: "hellish_paradise.jpg",
         audio: "Hellish Paradise.mp3",
         dur: "4:50",
-        desc: "Описание трека…"
+
+        descRu: "Описание трека…",
+        descEn: "Track description…"
     }
 
     // Добавляйте остальные Dubstep-треки сюда
@@ -975,7 +1093,9 @@ const playlist2 = [
         cover: "neon_override.jpg",
         audio: "NEON OVERRIDE.mp3",
         dur: "3:58",
-        desc: "Описание трека…"
+
+        descRu: "Описание трека…",
+        descEn: "Track description…"
     },
 
     {
@@ -983,7 +1103,9 @@ const playlist2 = [
         cover: "descend.jpg",
         audio: "DESCEND!.mp3",
         dur: "4:05",
-        desc: "Описание трека…"
+
+        descRu: "Описание трека…",
+        descEn: "Track description…"
     }
 
     // Добавляйте остальные Rockstep-треки сюда
@@ -1019,6 +1141,19 @@ const bg =
 
 
 /* =========================================================
+   ПОЛУЧЕНИЕ ОПИСАНИЯ ТРЕКА
+   ========================================================= */
+
+function getTrackDescription(track) {
+
+    return currentLanguage === "ru"
+        ? track.descRu
+        : track.descEn;
+
+}
+
+
+/* =========================================================
    ВОСПРОИЗВЕДЕНИЕ ТРЕКА
    ========================================================= */
 
@@ -1044,7 +1179,7 @@ function play(track, element) {
             track.name;
 
         mainDesc.textContent =
-            track.desc;
+            getTrackDescription(track);
 
         audioSource.src =
             track.audio;
@@ -1135,6 +1270,7 @@ function render(list, containerId) {
            для более аккуратной структуры.
         */
 
+
         const cover =
             document.createElement("img");
 
@@ -1171,10 +1307,15 @@ function render(list, containerId) {
         meta.className =
             "track-meta";
 
+
+        const description =
+            getTrackDescription(track);
+
+
         meta.textContent =
-            track.desc.length > 42
-                ? track.desc.slice(0, 42) + "…"
-                : track.desc;
+            description.length > 42
+                ? description.slice(0, 42) + "…"
+                : description;
 
 
         const duration =
@@ -1200,4 +1341,71 @@ function render(list, containerId) {
 
 
         /*
-         
+           Клик по карточке
+        */
+
+        element.onclick = () =>
+            play(track, element);
+
+
+        container.appendChild(element);
+
+    });
+
+}
+
+
+/* =========================================================
+   СТАРТ
+   ========================================================= */
+
+
+/*
+   Загружаем последний релиз,
+   но НЕ запускаем его автоматически.
+*/
+
+function loadInitialTrack(track) {
+
+    mainCover.src =
+        track.cover;
+
+    bg.style.backgroundImage =
+        `url("${track.cover}")`;
+
+    mainTitle.textContent =
+        track.name;
+
+    mainDesc.textContent =
+        currentLanguage === "ru"
+            ? track.descRu
+            : track.descEn;
+
+    audioSource.src =
+        track.audio;
+
+    audioPlayer.load();
+
+}
+
+
+/*
+   Инициализация
+*/
+
+loadInitialTrack(lastRelease);
+
+render(
+    playlist1,
+    "list1"
+);
+
+render(
+    playlist2,
+    "list2"
+);
+
+</script>
+
+</body>
+</html>
