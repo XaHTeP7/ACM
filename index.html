@@ -60,20 +60,67 @@ body {
     display: block;
     width: min(360px, 82%);
     height: auto;
-    margin: 0 auto 28px;
+    margin: 0 auto 24px;
 }
 
-.intro {
+/* TOGGLE ABOUT SECTION */
+
+.intro-details {
     max-width: 640px;
     margin: 0 auto 38px;
     text-align: center;
+}
+
+.intro-summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    color: var(--copper);
+    font-size: .85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: rgba(255, 255, 255, .03);
+    border: 1px solid rgba(200, 127, 67, .3);
+    border-radius: 20px;
+    cursor: pointer;
+    list-style: none;
+    transition: all .2s ease;
+}
+
+.intro-summary::-webkit-details-marker {
+    display: none;
+}
+
+.intro-summary:hover {
+    background: rgba(200, 127, 67, .15);
+    border-color: var(--copper);
+    color: #fff;
+}
+
+.intro-summary::after {
+    content: "▾";
+    font-size: .9rem;
+    transition: transform .2s ease;
+}
+
+.intro-details[open] .intro-summary::after {
+    transform: rotate(180deg);
+}
+
+.intro-content {
+    margin-top: 18px;
+    padding: 16px 20px;
+    background: rgba(0, 0, 0, .3);
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, .05);
     color: #b9b9b9;
-    font-size: .95rem;
+    font-size: .9rem;
     line-height: 1.7;
 }
 
-.intro p + p {
-    margin-top: 12px;
+.intro-content p + p {
+    margin-top: 10px;
 }
 
 .sec-title {
@@ -89,6 +136,55 @@ body {
 
 .sec-title::after {
     content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        var(--copper-dim),
+        transparent
+    );
+}
+
+/* TOGGLEABLE GENRE BLOCKS */
+
+.genre-details {
+    width: 100%;
+}
+
+.genre-summary {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+    font-size: .8rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--copper);
+    cursor: pointer;
+    list-style: none;
+    transition: color .2s ease;
+}
+
+.genre-summary::-webkit-details-marker {
+    display: none;
+}
+
+.genre-summary:hover {
+    color: #fff;
+}
+
+.genre-summary::after {
+    content: "▾";
+    font-size: .85rem;
+    margin-left: 2px;
+    transition: transform .2s ease;
+}
+
+.genre-details[open] .genre-summary::after {
+    transform: rotate(180deg);
+}
+
+.genre-title-line {
     flex: 1;
     height: 1px;
     background: linear-gradient(
@@ -126,12 +222,13 @@ body {
     border: 0;
 }
 
-/* PLAYLISTS GRID (2 COLUMNS) */
+/* PLAYLISTS GRID */
 
 .playlists-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 24px;
+    align-items: start;
     margin-bottom: 38px;
 }
 
@@ -139,6 +236,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    margin-top: 10px;
 }
 
 .track {
@@ -298,7 +396,7 @@ body {
 @media(max-width: 720px) {
     .playlists-grid {
         grid-template-columns: 1fr;
-        gap: 32px;
+        gap: 20px;
     }
 }
 
@@ -309,17 +407,7 @@ body {
 
     .logo {
         width: min(340px, 88%);
-        margin-bottom: 22px;
-    }
-
-    .intro {
-        font-size: .9rem;
-        line-height: 1.65;
-        margin-bottom: 34px;
-    }
-
-    .intro p + p {
-        margin-top: 10px;
+        margin-bottom: 20px;
     }
 
     .sec-title {
@@ -370,21 +458,21 @@ body {
     alt="ACM — AI Core Mixes"
 >
 
-<div class="intro">
-
-<p data-i18n="intro1">
-AI Core Mixes — музыкальная лаборатория на стыке жанров и технологий.
-</p>
-
-<p data-i18n="intro2">
-Этот канал посвящён поиску идеального симбиоза между живой яростью рока и цифровой мощью EDM. Здесь стираются границы: от классического Industrial Metalstep до безумных сочетаний Rock, Rap и Bass.
-</p>
-
-<p data-i18n="intro3">
-Здесь нет коммерции и жёстких графиков. Только личный вкус, ручной отбор и то, что реально качает. Выкладываю годноту по мере её появления.
-</p>
-
-</div>
+<!-- TOGGLEABLE ABOUT SECTION -->
+<details class="intro-details">
+    <summary class="intro-summary" data-i18n="aboutBtn">О проекте</summary>
+    <div class="intro-content">
+        <p data-i18n="intro1">
+        AI Core Mixes — музыкальная лаборатория на стыке жанров и технологий.
+        </p>
+        <p data-i18n="intro2">
+        Этот канал посвящён поиску идеального симбиоза между живой яростью рока и цифровой мощью EDM. Здесь стираются границы: от классического Industrial Metalstep до безумных сочетаний Rock, Rap и Bass.
+        </p>
+        <p data-i18n="intro3">
+        Здесь нет коммерции и жёстких графиков. Только личный вкус, ручной отбор и то, что реально качает. Выкладываю годноту по мере её появления.
+        </p>
+    </div>
+</details>
 
 
 <!-- LATEST RELEASE PLAYER -->
@@ -412,17 +500,23 @@ AI Core Mixes — музыкальная лаборатория на стыке 
 
 <div class="playlists-grid">
 
-    <!-- ROCKSTEP -->
-    <div class="playlist-col">
-        <div class="sec-title">Rockstep</div>
+    <!-- ROCKSTEP TOGGLE -->
+    <details class="genre-details">
+        <summary class="genre-summary">
+            <span>Rockstep</span>
+            <div class="genre-title-line"></div>
+        </summary>
         <div class="track-list" id="listRockstep"></div>
-    </div>
+    </details>
 
-    <!-- DUBSTEP -->
-    <div class="playlist-col">
-        <div class="sec-title">Dubstep</div>
+    <!-- DUBSTEP TOGGLE -->
+    <details class="genre-details">
+        <summary class="genre-summary">
+            <span>Dubstep</span>
+            <div class="genre-title-line"></div>
+        </summary>
         <div class="track-list" id="listDubstep"></div>
-    </div>
+    </details>
 
 </div>
 
@@ -494,6 +588,7 @@ document.documentElement.lang = currentLanguage;
 
 const translations = {
 ru: {
+aboutBtn: "О проекте",
 intro1: "AI Core Mixes — музыкальная лаборатория на стыке жанров и технологий.",
 intro2: "Этот канал посвящён поиску идеального симбиоза между живой яростью рока и цифровой мощью EDM. Здесь стираются границы: от классического Industrial Metalstep до безумных сочетаний Rock, Rap и Bass.",
 intro3: "Здесь нет коммерции и жёстких графиков. Только личный вкус, ручной отбор и то, что реально качает. Выкладываю годноту по мере её появления.",
@@ -502,6 +597,7 @@ support: "Поддержать проект, купив чашечку кофе"
 copyright: "© 2026 AI Core Mixes · Все треки — бесплатно, только для прослушивания."
 },
 en: {
+aboutBtn: "About Project",
 intro1: "AI Core Mixes — a music laboratory at the intersection of genres and technology.",
 intro2: "This channel is about finding the perfect fusion between the raw energy of rock and the digital power of EDM. Boundaries disappear here: from classic Industrial Metalstep to wild combinations of Rock, Rap and Bass.",
 intro3: "No commercial pressure and no strict schedule. Just personal taste, careful selection, and whatever really hits. New music is released as it comes.",
