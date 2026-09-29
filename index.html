@@ -418,13 +418,13 @@ body {
     </div>
 </details>
 
-<div class="sec-title" data-i18n="latestRelease">Последний релиз</div>
+<div class="sec-title" data-i18n="latestRelease">Плеер плейлиста</div>
 
 <div class="player" id="player">
     <div class="audiomack-wrap">
         <iframe
             id="audiomackPlayer"
-            src=""
+            src="https://audiomack.com/embed/playlist/ai_core_mixes/heavy-rockstep"
             scrolling="no"
             width="100%"
             height="252"
@@ -435,7 +435,7 @@ body {
 </div>
 
 <div class="playlists-grid">
-    <details class="genre-details">
+    <details class="genre-details" open>
         <summary class="genre-summary">
             <span>Rockstep</span>
             <div class="genre-title-line"></div>
@@ -443,7 +443,7 @@ body {
         <div class="track-list" id="listRockstep"></div>
     </details>
 
-    <details class="genre-details">
+    <details class="genre-details" open>
         <summary class="genre-summary">
             <span>Dubstep</span>
             <div class="genre-title-line"></div>
@@ -475,9 +475,6 @@ Instagram
 
 </div>
 
-<!-- Подключаем SDK от Audiomack -->
-<script src="https://audiomack.com/static/js/api.js"></script>
-
 <script>
 const browserLanguage = (navigator.language || "en").toLowerCase();
 const currentLanguage = browserLanguage.startsWith("ru") ? "ru" : "en";
@@ -489,7 +486,7 @@ aboutBtn: "О проекте",
 intro1: "AI Core Mixes — музыкальная лаборатория на стыке жанров и технологий.",
 intro2: "Этот канал посвящён поиску идеального симбиоза между живой яростью рока и цифровой мощью EDM. Здесь стираются границы: от классического Industrial Metalstep до безумных сочетаний Rock, Rap и Bass.",
 intro3: "Здесь нет коммерции и жёстких графиков. Только личный вкус, ручной отбор и то, что реально качает. Выкладываю годноту по мере её появления.",
-latestRelease: "Последний релиз",
+latestRelease: "Плеер плейлиста",
 support: "Поддержать проект, купив чашечку кофе",
 copyright: "© 2026 AI Core Mixes · Все треки — бесплатно, только для прослушивания."
 },
@@ -498,7 +495,7 @@ aboutBtn: "About Project",
 intro1: "AI Core Mixes — a music laboratory at the intersection of genres and technology.",
 intro2: "This channel is about finding the perfect fusion between the raw energy of rock and the digital power of EDM. Boundaries disappear here: from classic Industrial Metalstep to wild combinations of Rock, Rap and Bass.",
 intro3: "No commercial pressure and no strict schedule. Just personal taste, careful selection, and whatever really hits. New music is released as it comes.",
-latestRelease: "Latest Release",
+latestRelease: "Playlist Player",
 support: "Support the project with a cup of coffee",
 copyright: "© 2026 AI Core Mixes · All tracks are free to listen to."
 }
@@ -511,135 +508,92 @@ document.querySelectorAll("[data-i18n]").forEach(element => {
     }
 });
 
-const lastRelease = {
-    name: "Blindfold",
-    audiomack: "https://audiomack.com/ai_core_mixes/song/blindfold"
+const PLAYLIST_URLS = {
+    rockstep: "https://audiomack.com/embed/playlist/ai_core_mixes/heavy-rockstep",
+    dubstep: "https://audiomack.com/embed/playlist/ai_core_mixes/dubstep"
 };
 
 const playlistRockstep = [
-{ name: "Blindfold", audiomack: "https://audiomack.com/ai_core_mixes/song/blindfold", dur: "", descRu: "Industrial Rock, Electronic Rock", descEn: "Industrial Rock, Electronic Rock" },
-{ name: "Lost In The Cloud-Abyss", audiomack: "https://audiomack.com/ai_core_mixes/song/lost-in-the-cloud-abyss", dur: "", descRu: "Nu-Metal, Metalstep", descEn: "Nu-Metal, Metalstep" },
-{ name: "Hellish Paradise", audiomack: "https://audiomack.com/ai_core_mixes/song/hellish-paradise", dur: "", descRu: "Industrial Metal, Cyber Metal", descEn: "Industrial Metal, Cyber Metal" },
-{ name: "Stray God", audiomack: "https://audiomack.com/ai_core_mixes/song/stray-god", dur: "", descRu: "Doom Metal, Metalstep", descEn: "Doom Metal, Metalstep" },
-{ name: "Twilight Mind", audiomack: "https://audiomack.com/ai_core_mixes/song/twilight-mind", dur: "", descRu: "Blues Rockstep", descEn: "Blues Rockstep" },
-{ name: "Ash Wanderer", audiomack: "https://audiomack.com/ai_core_mixes/song/ash-wanderer", dur: "", descRu: "Nu-Metal, Metalcore, Doom Metal, Metalstep", descEn: "Nu-Metal, Metalcore, Doom Metal, Metalstep" },
-{ name: "Nameless City", audiomack: "https://audiomack.com/ai_core_mixes/song/nameless-city", dur: "", descRu: "Dark Metal, Industrial Metal, Metalstep", descEn: "Dark Metal, Industrial Metal, Metalstep" },
-{ name: "Burn To The Ground", audiomack: "https://audiomack.com/ai_core_mixes/song/burn-to-the-ground", dur: "", descRu: "Doom Metal, Nu-Metal, Metalstep", descEn: "Doom Metal, Nu-Metal, Metalstep" },
-{ name: "Inversion", audiomack: "https://audiomack.com/ai_core_mixes/song/inversion", dur: "", descRu: "Industrial Metal, Doom Metal, Metalstep, Nu-Metal", descEn: "Industrial Metal, Doom Metal, Metalstep, Nu-Metal" },
-{ name: "Burning With Hate", audiomack: "https://audiomack.com/ai_core_mixes/song/burning-with-hate", dur: "", descRu: "Electronic Metalcore, Doom Metal", descEn: "Electronic Metalcore, Doom Metal" },
-{ name: "Descend", audiomack: "https://audiomack.com/ai_core_mixes/song/descend", dur: "", descRu: "Blues Rockstep", descEn: "Blues Rockstep" },
-{ name: "Zero Zero", audiomack: "https://audiomack.com/ai_core_mixes/song/zero-zero", dur: "", descRu: "Industrial Rock, Electronic Metal", descEn: "Industrial Rock, Electronic Metal" },
-{ name: "Through The Fear", audiomack: "https://audiomack.com/ai_core_mixes/song/through-the-fear", dur: "", descRu: "Doom Metal, Metalcore, Nu-Metal, Metalstep", descEn: "Doom Metal, Metalcore, Nu-Metal, Metalstep" },
-{ name: "Boiling Blood", audiomack: "https://audiomack.com/ai_core_mixes/song/boiling-blood", dur: "", descRu: "Industrial Metal, Doom Metal, Cyberpunk", descEn: "Industrial Metal, Doom Metal, Cyberpunk" },
-{ name: "My Demons Within", audiomack: "https://audiomack.com/ai_core_mixes/song/my-demons-within", dur: "", descRu: "Industrial Metal, Nu-Metal, Metalstep", descEn: "Industrial Metal, Nu-Metal, Metalstep" },
-{ name: "False Memories", audiomack: "https://audiomack.com/ai_core_mixes/song/false-memories", dur: "", descRu: "Industrial Doom Metalstep, Sludge-step", descEn: "Industrial Doom Metalstep, Sludge-step" },
-{ name: "Burn My Yesterday", audiomack: "https://audiomack.com/ai_core_mixes/song/burn-my-yesterday", dur: "", descRu: "Metalcore, Industrial Metal, Metalstep", descEn: "Metalcore, Industrial Metal, Metalstep" },
-{ name: "Mad War", audiomack: "https://audiomack.com/ai_core_mixes/song/mad-war", dur: "", descRu: "Electronic Rock, Post-Hardcore", descEn: "Electronic Rock, Post-Hardcore" },
-{ name: "Apex Predator", audiomack: "https://audiomack.com/ai_core_mixes/song/apex-predator", dur: "", descRu: "Neoclassical Doom Metalstep", descEn: "Neoclassical Doom Metalstep" },
-{ name: "Cold Valhalla", audiomack: "https://audiomack.com/ai_core_mixes/song/cold-valhalla", dur: "", descRu: "Cyberpunk Trap Metal", descEn: "Cyberpunk Trap Metal" },
-{ name: "Blades Of Volition", audiomack: "https://audiomack.com/ai_core_mixes/song/blades-of-volition", dur: "", descRu: "Dark Metal, Metalstep", descEn: "Dark Metal, Metalstep" },
-{ name: "Black Bile", audiomack: "https://audiomack.com/ai_core_mixes/song/black-bile", dur: "", descRu: "Dark Industrial Metal", descEn: "Dark Industrial Metal" },
-{ name: "Bloodboil", audiomack: "https://audiomack.com/ai_core_mixes/song/bloodboil", dur: "", descRu: "Industrial Metal, Metalstep", descEn: "Industrial Metal, Metalstep" },
-{ name: "Iron Will", audiomack: "https://audiomack.com/ai_core_mixes/song/iron-will", dur: "", descRu: "Industrial Metalstep", descEn: "Industrial Metalstep" },
-{ name: "Ashes Of The Heavens", audiomack: "https://audiomack.com/ai_core_mixes/song/ashes-of-the-heavens", dur: "", descRu: "Metalstep, Post-Hardcore", descEn: "Metalstep, Post-Hardcore" },
-{ name: "Silicon Rage", audiomack: "https://audiomack.com/ai_core_mixes/song/silicon-rage", dur: "", descRu: "Cybercore, Doom Metal", descEn: "Cybercore, Doom Metal" },
-{ name: "Obsidian Pulse", audiomack: "https://audiomack.com/ai_core_mixes/song/obsidian-pulse", dur: "", descRu: "Industrial Metalcore, Doom Metalstep", descEn: "Industrial Metalcore, Doom Metalstep" },
-{ name: "Glacial Ignite", audiomack: "https://audiomack.com/ai_core_mixes/song/glacial-ignite", dur: "", descRu: "Doom Metal, Metalstep, Rapcore", descEn: "Doom Metal, Metalstep, Rapcore" },
-{ name: "Ghost Chemistry", audiomack: "https://audiomack.com/ai_core_mixes/song/ghost-chemistry", dur: "", descRu: "Heavy Rockstep, Dark Dubstep", descEn: "Heavy Rockstep, Dark Dubstep" },
-{ name: "One Step Into The Void", audiomack: "https://audiomack.com/ai_core_mixes/song/one-step-into-the-void", dur: "", descRu: "Doom Metal, Nu-Metal, Industrial Metalstep", descEn: "Doom Metal, Nu-Metal, Industrial Metalstep" },
-{ name: "Thunder Echo", audiomack: "https://audiomack.com/ai_core_mixes/song/thunder-echo", dur: "", descRu: "Modern Hard Rock, Rockstep", descEn: "Modern Hard Rock, Rockstep" },
-{ name: "Protocol Ghost", audiomack: "https://audiomack.com/ai_core_mixes/song/protocol-ghost", dur: "", descRu: "Dark Cyberpunk, Industrial Metal", descEn: "Dark Cyberpunk, Industrial Metal" },
-{ name: "Neural Facture", audiomack: "https://audiomack.com/ai_core_mixes/song/neural-fracture", dur: "", descRu: "Rap, Metalcore, Doomstep", descEn: "Rap, Metalcore, Doomstep" },
-{ name: "Berserks Protocol", audiomack: "https://audiomack.com/ai_core_mixes/song/berserks-protocol", dur: "", descRu: "Industrial Metalstep, Folk Metal", descEn: "Industrial Metalstep, Folk Metal" },
-{ name: "Illuminated Error", audiomack: "https://audiomack.com/ai_core_mixes/song/illuminated-error", dur: "", descRu: "", descEn: "" },
-{ name: "Neural Breach", audiomack: "https://audiomack.com/ai_core_mixes/song/neural-breach", dur: "", descRu: "", descEn: "" },
-{ name: "System Overload", audiomack: "https://audiomack.com/ai_core_mixes/song/6aba807385d84", dur: "", descRu: "", descEn: "" }
+    { name: "Blindfold", slug: "blindfold", dur: "", descRu: "Industrial Rock, Electronic Rock", descEn: "Industrial Rock, Electronic Rock" },
+    { name: "Lost In The Cloud-Abyss", slug: "lost-in-the-cloud-abyss", dur: "", descRu: "Nu-Metal, Metalstep", descEn: "Nu-Metal, Metalstep" },
+    { name: "Hellish Paradise", slug: "hellish-paradise", dur: "", descRu: "Industrial Metal, Cyber Metal", descEn: "Industrial Metal, Cyber Metal" },
+    { name: "Stray God", slug: "stray-god", dur: "", descRu: "Doom Metal, Metalstep", descEn: "Doom Metal, Metalstep" },
+    { name: "Twilight Mind", slug: "twilight-mind", dur: "", descRu: "Blues Rockstep", descEn: "Blues Rockstep" },
+    { name: "Ash Wanderer", slug: "ash-wanderer", dur: "", descRu: "Nu-Metal, Metalcore, Doom Metal, Metalstep", descEn: "Nu-Metal, Metalcore, Doom Metal, Metalstep" },
+    { name: "Nameless City", slug: "nameless-city", dur: "", descRu: "Dark Metal, Industrial Metal, Metalstep", descEn: "Dark Metal, Industrial Metal, Metalstep" },
+    { name: "Burn To The Ground", slug: "burn-to-the-ground", dur: "", descRu: "Doom Metal, Nu-Metal, Metalstep", descEn: "Doom Metal, Nu-Metal, Metalstep" },
+    { name: "Inversion", slug: "inversion", dur: "", descRu: "Industrial Metal, Doom Metal, Metalstep, Nu-Metal", descEn: "Industrial Metal, Doom Metal, Metalstep, Nu-Metal" },
+    { name: "Burning With Hate", slug: "burning-with-hate", dur: "", descRu: "Electronic Metalcore, Doom Metal", descEn: "Electronic Metalcore, Doom Metal" },
+    { name: "Descend", slug: "descend", dur: "", descRu: "Blues Rockstep", descEn: "Blues Rockstep" },
+    { name: "Zero Zero", slug: "zero-zero", dur: "", descRu: "Industrial Rock, Electronic Metal", descEn: "Industrial Rock, Electronic Metal" },
+    { name: "Through The Fear", slug: "through-the-fear", dur: "", descRu: "Doom Metal, Metalcore, Nu-Metal, Metalstep", descEn: "Doom Metal, Metalcore, Nu-Metal, Metalstep" },
+    { name: "Boiling Blood", slug: "boiling-blood", dur: "", descRu: "Industrial Metal, Doom Metal, Cyberpunk", descEn: "Industrial Metal, Doom Metal, Cyberpunk" },
+    { name: "My Demons Within", slug: "my-demons-within", dur: "", descRu: "Industrial Metal, Nu-Metal, Metalstep", descEn: "Industrial Metal, Nu-Metal, Metalstep" },
+    { name: "False Memories", slug: "false-memories", dur: "", descRu: "Industrial Doom Metalstep, Sludge-step", descEn: "Industrial Doom Metalstep, Sludge-step" },
+    { name: "Burn My Yesterday", slug: "burn-my-yesterday", dur: "", descRu: "Metalcore, Industrial Metal, Metalstep", descEn: "Metalcore, Industrial Metal, Metalstep" },
+    { name: "Mad War", slug: "mad-war", dur: "", descRu: "Electronic Rock, Post-Hardcore", descEn: "Electronic Rock, Post-Hardcore" },
+    { name: "Apex Predator", slug: "apex-predator", dur: "", descRu: "Neoclassical Doom Metalstep", descEn: "Neoclassical Doom Metalstep" },
+    { name: "Cold Valhalla", slug: "cold-valhalla", dur: "", descRu: "Cyberpunk Trap Metal", descEn: "Cyberpunk Trap Metal" },
+    { name: "Blades Of Volition", slug: "blades-of-volition", dur: "", descRu: "Dark Metal, Metalstep", descEn: "Dark Metal, Metalstep" },
+    { name: "Black Bile", slug: "black-bile", dur: "", descRu: "Dark Industrial Metal", descEn: "Dark Industrial Metal" },
+    { name: "Bloodboil", slug: "bloodboil", dur: "", descRu: "Industrial Metal, Metalstep", descEn: "Industrial Metal, Metalstep" },
+    { name: "Iron Will", slug: "iron-will", dur: "", descRu: "Industrial Metalstep", descEn: "Industrial Metalstep" },
+    { name: "Ashes Of The Heavens", slug: "ashes-of-the-heavens", dur: "", descRu: "Metalstep, Post-Hardcore", descEn: "Metalstep, Post-Hardcore" },
+    { name: "Silicon Rage", slug: "silicon-rage", dur: "", descRu: "Cybercore, Doom Metal", descEn: "Cybercore, Doom Metal" },
+    { name: "Obsidian Pulse", slug: "obsidian-pulse", dur: "", descRu: "Industrial Metalcore, Doom Metalstep", descEn: "Industrial Metalcore, Doom Metalstep" },
+    { name: "Glacial Ignite", slug: "glacial-ignite", dur: "", descRu: "Doom Metal, Metalstep, Rapcore", descEn: "Doom Metal, Metalstep, Rapcore" },
+    { name: "Ghost Chemistry", slug: "ghost-chemistry", dur: "", descRu: "Heavy Rockstep, Dark Dubstep", descEn: "Heavy Rockstep, Dark Dubstep" },
+    { name: "One Step Into The Void", slug: "one-step-into-the-void", dur: "", descRu: "Doom Metal, Nu-Metal, Industrial Metalstep", descEn: "Doom Metal, Nu-Metal, Industrial Metalstep" },
+    { name: "Thunder Echo", slug: "thunder-echo", dur: "", descRu: "Modern Hard Rock, Rockstep", descEn: "Modern Hard Rock, Rockstep" },
+    { name: "Protocol Ghost", slug: "protocol-ghost", dur: "", descRu: "Dark Cyberpunk, Industrial Metal", descEn: "Dark Cyberpunk, Industrial Metal" },
+    { name: "Neural Facture", slug: "neural-fracture", dur: "", descRu: "Rap, Metalcore, Doomstep", descEn: "Rap, Metalcore, Doomstep" },
+    { name: "Berserks Protocol", slug: "berserks-protocol", dur: "", descRu: "Industrial Metalstep, Folk Metal", descEn: "Industrial Metalstep, Folk Metal" },
+    { name: "Illuminated Error", slug: "illuminated-error", dur: "", descRu: "", descEn: "" },
+    { name: "Neural Breach", slug: "neural-breach", dur: "", descRu: "", descEn: "" },
+    { name: "System Overload", slug: "6aba807385d84", dur: "", descRu: "", descEn: "" }
 ];
 
 const playlistDubstep = [
-{ name: "Everything is OK", audiomack: "https://audiomack.com/ai_core_mixes/song/everything-is-ok", dur: "", descRu: "Ragga Dubstep", descEn: "Ragga Dubstep" },
-{ name: "Rendezvous with Life", audiomack: "https://audiomack.com/ai_core_mixes/song/rendezvous-with-life", dur: "", descRu: "Melodic Dubstep", descEn: "Melodic Dubstep" },
-{ name: "Boundless Ocean", audiomack: "https://audiomack.com/ai_core_mixes/song/boundless-ocean", dur: "", descRu: "Melodic Dubstep", descEn: "Melodic Dubstep" },
-{ name: "Tomorrow’s Light", audiomack: "https://audiomack.com/ai_core_mixes/song/tomorrows-light", dur: "", descRu: "Tribal Dubstep, Oriental Broste", descEn: "Tribal Dubstep, Oriental Broste" },
-{ name: "NEON OVERRIDE", audiomack: "https://audiomack.com/ai_core_mixes/song/neon-override", dur: "", descRu: "Cyberpunk Dubstep, Glitchstep", descEn: "Cyberpunk Dubstep, Glitchstep" },
-{ name: "Starry Tide", audiomack: "https://audiomack.com/ai_core_mixes/song/starry-tide", dur: "", descRu: "Brostep, Complextro", descEn: "Brostep, Complextro" },
-{ name: "Learning to Fly", audiomack: "https://audiomack.com/ai_core_mixes/song/learning-to-fly", dur: "", descRu: "Epic Dubstep, Brostep", descEn: "Epic Dubstep, Brostep" },
-{ name: "Dream", audiomack: "https://audiomack.com/ai_core_mixes/song/dream", dur: "", descRu: "2012 Oldschool Dubstep", descEn: "2012 Oldschool Dubstep" },
-{ name: "Street Instinct", audiomack: "https://audiomack.com/ai_core_mixes/song/street-instinct", dur: "", descRu: "Ragga Rockstep", descEn: "Ragga Rockstep" },
-{ name: "Zenith", audiomack: "https://audiomack.com/ai_core_mixes/song/zenith", dur: "", descRu: "Melodic Dubstep, Complextro", descEn: "Melodic Dubstep, Complextro" },
-{ name: "Voltage", audiomack: "https://audiomack.com/ai_core_mixes/song/voltage", dur: "", descRu: "Dubstep EDM", descEn: "Dubstep EDM" },
-{ name: "GOD MODE: EXTENDED", audiomack: "https://audiomack.com/ai_core_mixes/song/god-mode-extended", dur: "", descRu: "Gaming Dubstep", descEn: "Gaming Dubstep" },
-{ name: "Boneless Pressure", audiomack: "https://audiomack.com/ai_core_mixes/song/boneless-pressure", dur: "", descRu: "Ragga Dubstep", descEn: "Ragga Dubstep" },
-{ name: "Unleash the Storm", audiomack: "https://audiomack.com/ai_core_mixes/song/unleash-the-storm", dur: "", descRu: "Melodic Dubstep, Crossbreed, Drum-step", descEn: "Melodic Dubstep, Crossbreed, Drum-step" },
-{ name: "Beyond the Sky", audiomack: "https://audiomack.com/ai_core_mixes/song/6aba804ec576b", dur: "", descRu: "Cyberpunk, Dubstep", descEn: "Cyberpunk, Dubstep" }
+    { name: "Everything is OK", slug: "everything-is-ok", dur: "", descRu: "Ragga Dubstep", descEn: "Ragga Dubstep" },
+    { name: "Rendezvous with Life", slug: "rendezvous-with-life", dur: "", descRu: "Melodic Dubstep", descEn: "Melodic Dubstep" },
+    { name: "Boundless Ocean", slug: "boundless-ocean", dur: "", descRu: "Melodic Dubstep", descEn: "Melodic Dubstep" },
+    { name: "Tomorrow’s Light", slug: "tomorrows-light", dur: "", descRu: "Tribal Dubstep, Oriental Broste", descEn: "Tribal Dubstep, Oriental Broste" },
+    { name: "NEON OVERRIDE", slug: "neon-override", dur: "", descRu: "Cyberpunk Dubstep, Glitchstep", descEn: "Cyberpunk Dubstep, Glitchstep" },
+    { name: "Starry Tide", slug: "starry-tide", dur: "", descRu: "Brostep, Complextro", descEn: "Brostep, Complextro" },
+    { name: "Learning to Fly", slug: "learning-to-fly", dur: "", descRu: "Epic Dubstep, Brostep", descEn: "Epic Dubstep, Brostep" },
+    { name: "Dream", slug: "dream", dur: "", descRu: "2012 Oldschool Dubstep", descEn: "2012 Oldschool Dubstep" },
+    { name: "Street Instinct", slug: "street-instinct", dur: "", descRu: "Ragga Rockstep", descEn: "Ragga Rockstep" },
+    { name: "Zenith", slug: "zenith", dur: "", descRu: "Melodic Dubstep, Complextro", descEn: "Melodic Dubstep, Complextro" },
+    { name: "Voltage", slug: "voltage", dur: "", descRu: "Dubstep EDM", descEn: "Dubstep EDM" },
+    { name: "GOD MODE: EXTENDED", slug: "god-mode-extended", dur: "", descRu: "Gaming Dubstep", descEn: "Gaming Dubstep" },
+    { name: "Boneless Pressure", slug: "boneless-pressure", dur: "", descRu: "Ragga Dubstep", descEn: "Ragga Dubstep" },
+    { name: "Unleash the Storm", slug: "unleash-the-storm", dur: "", descRu: "Melodic Dubstep, Crossbreed, Drum-step", descEn: "Melodic Dubstep, Crossbreed, Drum-step" },
+    { name: "Beyond the Sky", slug: "6aba804ec576b", dur: "", descRu: "Cyberpunk, Dubstep", descEn: "Cyberpunk, Dubstep" }
 ];
 
-const $ = id => document.getElementById(id);
-const audiomackPlayer = $("audiomackPlayer");
-
-let currentPlaylist = playlistRockstep;
-let currentTrackIndex = 0;
-let amPlayer = null;
-
-function getTrackDescription(track) {
-    return currentLanguage === "ru" ? track.descRu : track.descEn;
-}
-
-function getAudiomackEmbedUrl(url) {
-    if (!url || url.includes("/embed/")) return url;
-    try {
-        const parts = new URL(url).pathname.split("/").filter(Boolean);
-        if (parts.length >= 3 && parts[1] === "song") {
-            return "https://audiomack.com/embed/song/" + parts[0] + "/" + parts[2];
-        }
-    } catch (error) {}
-    return url;
-}
-
-function play(track, element, playlist = null, index = -1, autoStart = true) {
-    if (playlist) {
-        currentPlaylist = playlist;
-        currentTrackIndex = index;
-    }
-
-    let embedUrl = getAudiomackEmbedUrl(track.audiomack);
-    if (autoStart) {
-        embedUrl += (embedUrl.includes("?") ? "&" : "?") + "autoplay=1";
-    }
-
-    audiomackPlayer.src = embedUrl;
+function playTrack(track, playlistType, element) {
+    const baseUrl = PLAYLIST_URLS[playlistType];
+    const embedUrl = `${baseUrl}?part=${track.slug}&autoplay=1`;
+    
+    const iframe = document.getElementById("audiomackPlayer");
+    iframe.src = embedUrl;
 
     document.querySelectorAll(".track").forEach(el => el.classList.remove("active"));
     if (element) {
         element.classList.add("active");
     }
 
-    $("player").scrollIntoView({
+    document.getElementById("player").scrollIntoView({
         behavior: "smooth",
         block: "center"
     });
 }
 
-function playNextTrack() {
-    if (!currentPlaylist || !currentPlaylist.length) return;
-
-    currentTrackIndex++;
-    if (currentTrackIndex >= currentPlaylist.length) {
-        currentTrackIndex = 0;
-    }
-
-    const nextTrack = currentPlaylist[currentTrackIndex];
-    const containerId = currentPlaylist === playlistRockstep ? "listRockstep" : "listDubstep";
-    const trackElements = $(containerId).querySelectorAll(".track");
-
-    play(nextTrack, trackElements[currentTrackIndex], currentPlaylist, currentTrackIndex, true);
-}
-
-function render(list, containerId) {
-    const container = $(containerId);
+function renderList(list, containerId, playlistType) {
+    const container = document.getElementById(containerId);
     container.innerHTML = "";
 
-    list.forEach((track, index) => {
+    list.forEach((track) => {
         const element = document.createElement("div");
         element.className = "track";
 
@@ -650,43 +604,29 @@ function render(list, containerId) {
         name.className = "track-name";
         name.textContent = track.name;
 
+        const desc = currentLanguage === "ru" ? track.descRu : track.descEn;
         const meta = document.createElement("div");
         meta.className = "track-meta";
-        meta.textContent = getTrackDescription(track);
+        meta.textContent = desc;
 
         const duration = document.createElement("div");
         duration.className = "track-dur";
         duration.textContent = track.dur || "";
 
         info.appendChild(name);
-        if (getTrackDescription(track)) {
-            info.appendChild(meta);
-        }
-
+        if (desc) info.appendChild(meta);
         element.appendChild(info);
-        if (track.dur) {
-            element.appendChild(duration);
-        }
+        if (track.dur) element.appendChild(duration);
 
-        element.onclick = () => play(track, element, list, index, true);
+        element.onclick = () => playTrack(track, playlistType, element);
 
         container.appendChild(element);
     });
 }
 
-// Инициализация при загрузке страницы
 window.addEventListener("DOMContentLoaded", () => {
-    // Начальная загрузка первого релиза без автовоспроизведения
-    play(lastRelease, null, playlistRockstep, 0, false);
-    
-    render(playlistRockstep, "listRockstep");
-    render(playlistDubstep, "listDubstep");
-
-    // Подключаем слушатель Audiomack API
-    if (window.Audiomack && window.Audiomack.Player) {
-        amPlayer = new window.Audiomack.Player(audiomackPlayer);
-        amPlayer.on("ENDED", playNextTrack);
-    }
+    renderList(playlistRockstep, "listRockstep", "rockstep");
+    renderList(playlistDubstep, "listDubstep", "dubstep");
 });
 </script>
 
