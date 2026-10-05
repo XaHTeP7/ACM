@@ -99,7 +99,7 @@ body::before{
 .about-content p:last-child{margin-bottom:0}
 
 /* =========================================================
-   ACM PLAYER — UI НА ОСНОВЕ МАКЕТА
+   ACM PLAYER
    ========================================================= */
 
 .player-card{
@@ -116,7 +116,6 @@ body::before{
     align-items:center;
 }
 
-/* Статус справа сверху */
 .status-badge{
     position:absolute;
     top:20px;
@@ -147,7 +146,6 @@ body::before{
     to{opacity:1; box-shadow:0 0 10px var(--copper);}
 }
 
-/* Обложка с эффектом частичек */
 .cover-wrapper{
     position:relative;
     width:260px;
@@ -164,7 +162,6 @@ body::before{
     border:1px solid rgba(255,255,255,0.1);
 }
 
-/* Декоративное свечение / искры вокруг обложки */
 .cover-wrapper::after{
     content:"";
     position:absolute;
@@ -175,7 +172,6 @@ body::before{
     filter:blur(10px);
 }
 
-/* Правая инфо-панель */
 .player-details{
     display:flex;
     flex-direction:column;
@@ -205,18 +201,12 @@ body::before{
     gap:12px;
     font-size:11px;
     letter-spacing:1.5px;
-    color:var(--text-dim);
+    color:var(--copper);
     text-transform:uppercase;
     margin-bottom:30px;
+    font-weight:600;
 }
 
-.track-meta-tags span:not(:last-child)::after{
-    content:"•";
-    margin-left:12px;
-    color:#3a424e;
-}
-
-/* Waveform область */
 .waveform-container{
     position:relative;
     width:100%;
@@ -240,7 +230,6 @@ body::before{
     margin-bottom:25px;
 }
 
-/* Панель кнопок */
 .controls-row{
     display:flex;
     align-items:center;
@@ -261,13 +250,8 @@ body::before{
     outline:none;
 }
 
-.ctrl-btn:hover{
-    color:#fff;
-}
-
-.ctrl-btn.active{
-    color:var(--copper);
-}
+.ctrl-btn:hover{color:#fff}
+.ctrl-btn.active{color:var(--copper)}
 
 .ctrl-btn svg{
     width:18px;
@@ -275,7 +259,6 @@ body::before{
     fill:currentColor;
 }
 
-/* Большая кнопка Play/Pause с кольцом */
 .btn-play-wrap{
     position:relative;
     width:56px;
@@ -315,7 +298,6 @@ body::before{
     fill:currentColor;
 }
 
-/* Громкость */
 .volume-row{
     display:flex;
     align-items:center;
@@ -379,10 +361,7 @@ body::before{
 }
 
 .genre-section summary::-webkit-details-marker{display:none}
-
-.genre-section summary:hover{
-    background:rgba(224,90,29,.15);
-}
+.genre-section summary:hover{background:rgba(224,90,29,.15)}
 
 .genre-section summary::after{
     content:"▼";
@@ -390,9 +369,7 @@ body::before{
     transition:transform .3s;
 }
 
-.genre-section details[open] summary::after{
-    transform:rotate(180deg);
-}
+.genre-section details[open] summary::after{transform:rotate(180deg)}
 
 .track-list{
     display:flex;
@@ -483,7 +460,6 @@ body::before{
     color:#444;
 }
 
-/* АДАПТИВНОСТЬ */
 @media(max-width:768px){
     .player-card{
         grid-template-columns:1fr;
@@ -508,11 +484,9 @@ body::before{
 
 <!-- О ПРОЕКТЕ -->
 <details class="about-section" id="about-section">
-    <summary class="about-toggle">О проекте</summary>
-    <div class="about-content">
-        <p>AI Core Mixes — музыкальная лаборатория на стыке жанров и технологий.</p>
-        <p>Этот канал посвящён поиску идеального симбиоза между живой яростью рока и цифровой мощью EDM. Здесь стираются границы: от классического Industrial Metalstep до безумных сочетаний Rock, Rap и Bass.</p>
-        <p>Здесь нет коммерции и жёстких графиков. Только личный вкус, ручной отбор и то, что реально качает. Выкладываю годноту по мере её появления.</p>
+    <summary class="about-toggle" id="about-toggle">О проекте</summary>
+    <div class="about-content" id="about-content">
+        <!-- Заполняется автоматически через JS -->
     </div>
 </details>
 
@@ -529,13 +503,11 @@ body::before{
     </div>
 
     <div class="player-details">
-        <div class="track-category">ACM / NOW PLAYING</div>
+        <div class="track-category" id="track-category">NOW PLAYING</div>
         <div class="track-title" id="player-title">HELLISH PARADISE</div>
         
         <div class="track-meta-tags">
-            <span id="player-genre">INDUSTRIAL METAL</span>
-            <span id="player-subgenre">METALSTEP</span>
-            <span id="player-bpm">135 BPM</span>
+            <span id="player-genre">INDUSTRIAL METAL, METALSTEP</span>
         </div>
 
         <div class="waveform-container" id="waveform">
@@ -543,8 +515,8 @@ body::before{
         </div>
 
         <div class="time-row">
-            <span id="time-current">01:42</span>
-            <span id="time-total">04:17</span>
+            <span id="time-current">00:00</span>
+            <span id="time-total">00:00</span>
         </div>
 
         <div class="controls-row">
@@ -617,10 +589,10 @@ body::before{
 
     <a href="https://ko-fi.com/ВАШ_НИК" target="_blank" rel="noopener" class="coffee-link">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h13a3 3 0 0 1 0 6h-1.2M4 8v7a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4V8H4z"/></svg>
-        Поддержать проект
+        <span id="coffee-text">Поддержать проект</span>
     </a>
 
-    <div class="copyright">
+    <div class="copyright" id="copyright-text">
         © 2026 AI Core Mixes · Все треки — бесплатно, только для прослушивания.
     </div>
 
@@ -631,62 +603,105 @@ body::before{
 <script>
 const WORKER_URL = 'https://acm-audio-proxy.deniska.workers.dev';
 
+const translations = {
+    ru: {
+        aboutTitle: "О проекте",
+        aboutText: `
+            <p>AI Core Mixes — музыкальная лаборатория на стыке жанров и технологий.</p>
+            <p>Этот канал посвящён поиску идеального симбиоза между живой яростью рока и цифровой мощью EDM. Здесь стираются границы: от классического Industrial Metalstep до безумных сочетаний Rock, Rap и Bass.</p>
+            <p>Здесь нет коммерции и жёстких графиков. Только личный вкус, ручной отбор и то, что реально качает. Выкладываю годноту по мере её появления.</p>
+        `,
+        nowPlaying: "СЕЙЧАС ИГРАЕТ",
+        support: "Поддержать проект",
+        copyright: "© 2026 AI Core Mixes · Все треки — бесплатно, только для прослушивания."
+    },
+    en: {
+        aboutTitle: "About Project",
+        aboutText: `
+            <p>AI Core Mixes is a music laboratory at the intersection of genres and technologies.</p>
+            <p>This channel is dedicated to finding the perfect symbiosis between the raw fury of rock and the digital power of EDM. Boundaries blur here: from classic Industrial Metalstep to insane blends of Rock, Rap, and Bass.</p>
+            <p>No commercialism or strict schedules. Just personal taste, hand-picked tracks, and pure energy. Releasing heavy hitters as they arrive.</p>
+        `,
+        nowPlaying: "NOW PLAYING",
+        support: "Support Project",
+        copyright: "© 2026 AI Core Mixes · All tracks are free for listening only."
+    }
+};
+
+function applyLanguage() {
+    const userLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+    const lang = userLang.startsWith('ru') || userLang.startsWith('uk') || userLang.startsWith('be') ? 'ru' : 'en';
+    const t = translations[lang];
+
+    const toggleEl = document.getElementById('about-toggle');
+    const contentEl = document.getElementById('about-content');
+    const categoryEl = document.getElementById('track-category');
+    const coffeeText = document.getElementById('coffee-text');
+    const copyEl = document.getElementById('copyright-text');
+
+    if (toggleEl) toggleEl.textContent = t.aboutTitle;
+    if (contentEl) contentEl.innerHTML = t.aboutText;
+    if (categoryEl) categoryEl.textContent = t.nowPlaying;
+    if (coffeeText) coffeeText.textContent = t.support;
+    if (copyEl) copyEl.textContent = t.copyright;
+}
+
 const playlistRockstep = [
-    { id:'Hellish Paradise', name:'HELLISH PARADISE', genre:'INDUSTRIAL METAL', subgenre:'METALSTEP', bpm:'135 BPM' },
-    { id:'Blindfold', name:'Blindfold', genre:'Industrial Rock', subgenre:'Electronic Rock', bpm:'130 BPM' },
-    { id:'Lost In The Cloud-Abyss', name:'Lost In The Cloud-Abyss', genre:'Nu-Metal', subgenre:'Metalstep', bpm:'140 BPM' },
-    { id:'Stray God', name:'Stray God', genre:'Doom Metal', subgenre:'Metalstep', bpm:'128 BPM' },
-    { id:'Twilight Mind', name:'Twilight Mind', genre:'Blues Rockstep', subgenre:'Electronic', bpm:'120 BPM' },
-    { id:'Ash Wanderer', name:'Ash Wanderer', genre:'Nu-Metal', subgenre:'Metalcore', bpm:'135 BPM' },
-    { id:'Nameless City', name:'Nameless City', genre:'Dark Metal', subgenre:'Industrial Metal', bpm:'132 BPM' },
-    { id:'Burn To The Ground', name:'Burn To The Ground', genre:'Doom Metal', subgenre:'Nu-Metal', bpm:'125 BPM' },
-    { id:'Inversion', name:'Inversion', genre:'Industrial Metal', subgenre:'Doom Metal', bpm:'138 BPM' },
-    { id:'Burning With Hate', name:'Burning With Hate', genre:'Electronic Metalcore', subgenre:'Metalstep', bpm:'140 BPM' },
-    { id:'Descend', name:'Descend', genre:'Blues Rockstep', subgenre:'Hard Rock', bpm:'118 BPM' },
-    { id:'Zero Zero', name:'Zero Zero', genre:'Industrial Rock', subgenre:'Electronic Metal', bpm:'130 BPM' },
-    { id:'Through The Fear', name:'Through The Fear', genre:'Doom Metal', subgenre:'Metalcore', bpm:'134 BPM' },
-    { id:'Boiling Blood', name:'Boiling Blood', genre:'Industrial Metal', subgenre:'Cyberpunk', bpm:'145 BPM' },
-    { id:'My Demons Within', name:'My Demons Within', genre:'Industrial Metal', subgenre:'Nu-Metal', bpm:'130 BPM' },
-    { id:'False Memories', name:'False Memories', genre:'Industrial Doom', subgenre:'Metalstep', bpm:'128 BPM' },
-    { id:'Burn My Yesterday', name:'Burn My Yesterday', genre:'Metalcore', subgenre:'Industrial Metal', bpm:'135 BPM' },
-    { id:'Mad War', name:'Mad War', genre:'Electronic Rock', subgenre:'Post-Hardcore', bpm:'138 BPM' },
-    { id:'Apex Predator', name:'Apex Predator', genre:'Neoclassical Doom', subgenre:'Metalstep', bpm:'140 BPM' },
-    { id:'Cold Valhalla', name:'Cold Valhalla', genre:'Cyberpunk Trap', subgenre:'Metal', bpm:'132 BPM' },
-    { id:'Blades Of Volition', name:'Blades Of Volition', genre:'Dark Metal', subgenre:'Metalstep', bpm:'136 BPM' },
-    { id:'Black Bile', name:'Black Bile', genre:'Dark Industrial', subgenre:'Metal', bpm:'125 BPM' },
-    { id:'Bloodboil', name:'Bloodboil', genre:'Industrial Metal', subgenre:'Metalstep', bpm:'142 BPM' },
-    { id:'Iron Will', name:'Iron Will', genre:'Industrial', subgenre:'Metalstep', bpm:'130 BPM' },
-    { id:'Ashes Of The Heavens', name:'Ashes Of The Heavens', genre:'Metalstep', subgenre:'Post-Hardcore', bpm:'138 BPM' },
-    { id:'Silicon Rage', name:'Silicon Rage', genre:'Cybercore', subgenre:'Doom Metal', bpm:'140 BPM' },
-    { id:'Obsidian Pulse', name:'Obsidian Pulse', genre:'Industrial', subgenre:'Metalcore', bpm:'133 BPM' },
-    { id:'Glacial Ignite', name:'Glacial Ignite', genre:'Doom Metal', subgenre:'Metalstep', bpm:'126 BPM' },
-    { id:'Ghost Chemistry', name:'Ghost Chemistry', genre:'Heavy Rockstep', subgenre:'Dark Dubstep', bpm:'140 BPM' },
-    { id:'One Step Into The Void', name:'One Step Into The Void', genre:'Doom Metal', subgenre:'Nu-Metal', bpm:'124 BPM' },
-    { id:'Thunder Echo', name:'Thunder Echo', genre:'Modern Hard Rock', subgenre:'Rockstep', bpm:'130 BPM' },
-    { id:'Protocol Ghost', name:'Protocol Ghost', genre:'Dark Cyberpunk', subgenre:'Industrial Metal', bpm:'135 BPM' },
-    { id:'Neural Fracture', name:'Neural Fracture', genre:'Rap Metalcore', subgenre:'Doomstep', bpm:'142 BPM' },
-    { id:'Berserks Protocol', name:'Berserks Protocol', genre:'Industrial Metalstep', subgenre:'Folk Metal', bpm:'136 BPM' },
-    { id:'Illuminated Error', name:'Illuminated Error', genre:'Industrial', subgenre:'Cyber Metal', bpm:'135 BPM' },
-    { id:'Neural Breach', name:'Neural Breach', genre:'Cybercore', subgenre:'Metalstep', bpm:'138 BPM' },
-    { id:'System Overload', name:'System Overload', genre:'Industrial Metal', subgenre:'Dubstep', bpm:'140 BPM' }
+    { id:'Blindfold', name:'Blindfold', genre:'Industrial Rock, Electronic Rock' },
+    { id:'Lost In The Cloud-Abyss', name:'Lost In The Cloud-Abyss', genre:'Nu-Metal, Metalstep' },
+    { id:'Hellish Paradise', name:'Hellish Paradise', genre:'Industrial Metal, Cyber Metal' },
+    { id:'Stray God', name:'Stray God', genre:'Doom Metal, Metalstep' },
+    { id:'Twilight Mind', name:'Twilight Mind', genre:'Blues Rockstep' },
+    { id:'Ash Wanderer', name:'Ash Wanderer', genre:'Nu-Metal, Metalcore' },
+    { id:'Nameless City', name:'Nameless City', genre:'Dark Metal, Industrial Metal' },
+    { id:'Burn To The Ground', name:'Burn To The Ground', genre:'Doom Metal, Nu-Metal' },
+    { id:'Inversion', name:'Inversion', genre:'Industrial Metal, Doom Metal' },
+    { id:'Burning With Hate', name:'Burning With Hate', genre:'Electronic Metalcore' },
+    { id:'Descend', name:'Descend', genre:'Blues Rockstep' },
+    { id:'Zero Zero', name:'Zero Zero', genre:'Industrial Rock, Electronic Metal' },
+    { id:'Through The Fear', name:'Through The Fear', genre:'Doom Metal, Metalcore' },
+    { id:'Boiling Blood', name:'Boiling Blood', genre:'Industrial Metal, Cyberpunk' },
+    { id:'My Demons Within', name:'My Demons Within', genre:'Industrial Metal, Nu-Metal' },
+    { id:'False Memories', name:'False Memories', genre:'Industrial Doom Metalstep' },
+    { id:'Burn My Yesterday', name:'Burn My Yesterday', genre:'Metalcore, Industrial Metal' },
+    { id:'Mad War', name:'Mad War', genre:'Electronic Rock, Post-Hardcore' },
+    { id:'Apex Predator', name:'Apex Predator', genre:'Neoclassical Doom Metalstep' },
+    { id:'Cold Valhalla', name:'Cold Valhalla', genre:'Cyberpunk Trap Metal' },
+    { id:'Blades Of Volition', name:'Blades Of Volition', genre:'Dark Metal, Metalstep' },
+    { id:'Black Bile', name:'Black Bile', genre:'Dark Industrial Metal' },
+    { id:'Bloodboil', name:'Bloodboil', genre:'Industrial Metal, Metalstep' },
+    { id:'Iron Will', name:'Iron Will', genre:'Industrial Metalstep' },
+    { id:'Ashes Of The Heavens', name:'Ashes Of The Heavens', genre:'Metalstep, Post-Hardcore' },
+    { id:'Silicon Rage', name:'Silicon Rage', genre:'Cybercore, Doom Metal' },
+    { id:'Obsidian Pulse', name:'Obsidian Pulse', genre:'Industrial Metalcore' },
+    { id:'Glacial Ignite', name:'Glacial Ignite', genre:'Doom Metal, Metalstep' },
+    { id:'Ghost Chemistry', name:'Ghost Chemistry', genre:'Heavy Rockstep, Dark Dubstep' },
+    { id:'One Step Into The Void', name:'One Step Into The Void', genre:'Doom Metal, Nu-Metal' },
+    { id:'Thunder Echo', name:'Thunder Echo', genre:'Modern Hard Rock, Rockstep' },
+    { id:'Protocol Ghost', name:'Protocol Ghost', genre:'Dark Cyberpunk, Industrial Metal' },
+    { id:'Neural Fracture', name:'Neural Fracture', genre:'Rap, Metalcore, Doomstep' },
+    { id:'Berserks Protocol', name:'Berserks Protocol', genre:'Industrial Metalstep, Folk Metal' },
+    { id:'Illuminated Error', name:'Illuminated Error', genre:'Industrial Cyber Metal' },
+    { id:'Neural Breach', name:'Neural Breach', genre:'Cybercore, Metalstep' },
+    { id:'System Overload', name:'System Overload', genre:'Industrial Metal, Dubstep' }
 ];
 
 const playlistDubstep = [
-    { id:'Everything is OK', name:'Everything is OK', genre:'Ragga Dubstep', subgenre:'Bass', bpm:'140 BPM' },
-    { id:'Rendezvous with Life', name:'Rendezvous with Life', genre:'Melodic Dubstep', subgenre:'Chillstep', bpm:'140 BPM' },
-    { id:'Boundless Ocean', name:'Boundless Ocean', genre:'Melodic Dubstep', subgenre:'Atmospheric', bpm:'138 BPM' },
-    { id:"Tomorrow's Light", name:"Tomorrow's Light", genre:'Tribal Dubstep', subgenre:'Ethnic Bass', bpm:'140 BPM' },
-    { id:'NEON OVERRIDE', name:'NEON OVERRIDE', genre:'Cyberpunk Dubstep', subgenre:'Glitchstep', bpm:'142 BPM' },
-    { id:'Starry Tide', name:'Starry Tide', genre:'Brostep', subgenre:'Complextro', bpm:'140 BPM' },
-    { id:'Learning to Fly', name:'Learning to Fly', genre:'Epic Dubstep', subgenre:'Brostep', bpm:'140 BPM' },
-    { id:'Dream', name:'Dream', genre:'2012 Oldschool', subgenre:'Dubstep', bpm:'140 BPM' },
-    { id:'Street Instinct', name:'Street Instinct', genre:'Ragga Rockstep', subgenre:'Bass', bpm:'140 BPM' },
-    { id:'Zenith', name:'Zenith', genre:'Melodic Dubstep', subgenre:'Complextro', bpm:'138 BPM' },
-    { id:'Voltage', name:'Voltage', genre:'Dubstep EDM', subgenre:'Heavy Bass', bpm:'140 BPM' },
-    { id:'GOD MODE: EXTENDED', name:'GOD MODE: EXTENDED', genre:'Gaming Dubstep', subgenre:'Crossbreed', bpm:'145 BPM' },
-    { id:'Boneless Pressure', name:'Boneless Pressure', genre:'Ragga Dubstep', subgenre:'Reggae Bass', bpm:'140 BPM' },
-    { id:'Unleash the Storm', name:'Unleash the Storm', genre:'Melodic Dubstep', subgenre:'Crossbreed', bpm:'142 BPM' },
-    { id:'Beyond the Sky', name:'Beyond the Sky', genre:'Cyberpunk', subgenre:'Dubstep', bpm:'140 BPM' }
+    { id:'Everything is OK', name:'Everything is OK', genre:'Ragga Dubstep' },
+    { id:'Rendezvous with Life', name:'Rendezvous with Life', genre:'Melodic Dubstep' },
+    { id:'Boundless Ocean', name:'Boundless Ocean', genre:'Melodic Dubstep' },
+    { id:"Tomorrow's Light", name:"Tomorrow's Light", genre:'Tribal Dubstep' },
+    { id:'NEON OVERRIDE', name:'NEON OVERRIDE', genre:'Cyberpunk Dubstep, Glitchstep' },
+    { id:'Starry Tide', name:'Starry Tide', genre:'Brostep, Complextro' },
+    { id:'Learning to Fly', name:'Learning to Fly', genre:'Epic Dubstep, Brostep' },
+    { id:'Dream', name:'Dream', genre:'2012 Oldschool Dubstep' },
+    { id:'Street Instinct', name:'Street Instinct', genre:'Ragga Rockstep' },
+    { id:'Zenith', name:'Zenith', genre:'Melodic Dubstep, Complextro' },
+    { id:'Voltage', name:'Voltage', genre:'Dubstep EDM' },
+    { id:'GOD MODE: EXTENDED', name:'GOD MODE: EXTENDED', genre:'Gaming Dubstep' },
+    { id:'Boneless Pressure', name:'Boneless Pressure', genre:'Ragga Dubstep' },
+    { id:'Unleash the Storm', name:'Unleash the Storm', genre:'Melodic Dubstep, Crossbreed' },
+    { id:'Beyond the Sky', name:'Beyond the Sky', genre:'Cyberpunk, Dubstep' }
 ];
 
 const audio = document.getElementById('audio-player');
@@ -703,8 +718,6 @@ const volumeSlider = document.getElementById('volume-slider');
 
 const playerTitle = document.getElementById('player-title');
 const playerGenre = document.getElementById('player-genre');
-const playerSubgenre = document.getElementById('player-subgenre');
-const playerBpm = document.getElementById('player-bpm');
 const playerCover = document.getElementById('player-cover');
 
 const waveform = document.getElementById('waveform');
@@ -781,11 +794,9 @@ function drawWave(){
 
         const isPlayed = (i / bars) <= progress;
 
-        // Оранжевый цвет для воспроизведённой части, тёмно-серый для оставшейся
         ctx.fillStyle = isPlayed ? '#e05a1d' : '#222832';
         ctx.fillRect(x, y, barWidth, barHeight);
 
-        // Индикатор позиции
         if(Math.abs((i / bars) - progress) < (1 / bars)){
             ctx.fillStyle = '#ffffff';
             ctx.shadowColor = '#e05a1d';
@@ -849,8 +860,6 @@ function loadTrack(index, playlist, autoPlay = true){
 
     playerTitle.textContent = track.name;
     playerGenre.textContent = track.genre || 'INDUSTRIAL METAL';
-    playerSubgenre.textContent = track.subgenre || 'METALSTEP';
-    playerBpm.textContent = track.bpm || '135 BPM';
 
     playerCover.src = track.cover || 'acm_logo.png';
     playerCover.alt = track.name;
@@ -969,6 +978,7 @@ function escapeHtml(value){
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+    applyLanguage();
     resizeCanvas();
     renderList(playlistRockstep, 'list-rockstep');
     renderList(playlistDubstep, 'list-dubstep');
