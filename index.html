@@ -49,7 +49,64 @@ body::before {
     margin: 0 auto 30px;
 }
 
-/* ===== ПРОСТОЙ ПЛЕЕР ===== */
+/* ===== О ПРОЕКТЕ ===== */
+.about-section {
+    margin-bottom: 40px;
+}
+
+.about-toggle {
+    width: 100%;
+    padding: 14px 24px;
+    background: rgba(200,127,67,0.1);
+    border: 1px solid rgba(200,127,67,0.3);
+    border-radius: 10px;
+    color: var(--copper);
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.2s;
+}
+
+.about-toggle:hover {
+    background: rgba(200,127,67,0.2);
+    border-color: var(--copper);
+}
+
+.about-toggle::after {
+    content: '▼';
+    font-size: 10px;
+    transition: transform 0.3s;
+}
+
+.about-section[open] .about-toggle::after {
+    transform: rotate(180deg);
+}
+
+.about-content {
+    margin-top: 15px;
+    padding: 20px;
+    background: rgba(0,0,0,0.6);
+    border: 1px solid rgba(200,127,67,0.2);
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--text-dim);
+}
+
+.about-content p {
+    margin-bottom: 12px;
+}
+
+.about-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* ===== ПЛЕЕР ===== */
 .player-container {
     background: rgba(0,0,0,0.7);
     border: 1px solid var(--copper);
@@ -136,7 +193,6 @@ body::before {
     letter-spacing: 1px;
 }
 
-/* Визуализация */
 .waveform {
     width: 100%;
     height: 60px;
@@ -151,7 +207,6 @@ body::before {
     height: 100%;
 }
 
-/* Прогресс */
 .progress-container {
     margin-bottom: 15px;
 }
@@ -182,7 +237,6 @@ body::before {
     font-family: monospace;
 }
 
-/* Контролы */
 .controls {
     display: flex;
     justify-content: center;
@@ -230,7 +284,6 @@ body::before {
     fill: currentColor;
 }
 
-/* Громкость */
 .volume-control {
     display: flex;
     align-items: center;
@@ -256,12 +309,16 @@ body::before {
     cursor: pointer;
 }
 
-/* Плейлисты */
+/* ===== ПЛЕЙЛИСТЫ ===== */
 .playlists {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 25px;
     margin-bottom: 40px;
+}
+
+.genre-section {
+    width: 100%;
 }
 
 .genre-section details {
@@ -271,11 +328,12 @@ body::before {
 .genre-section summary {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
-    padding: 12px;
+    padding: 14px;
     background: rgba(200,127,67,0.1);
     border: 1px solid rgba(200,127,67,0.3);
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
     list-style: none;
     font-size: 12px;
@@ -283,10 +341,25 @@ body::before {
     text-transform: uppercase;
     color: var(--copper);
     margin-bottom: 15px;
+    transition: all 0.2s;
 }
 
 .genre-section summary::-webkit-details-marker {
     display: none;
+}
+
+.genre-section summary:hover {
+    background: rgba(200,127,67,0.15);
+}
+
+.genre-section summary::after {
+    content: '▼';
+    font-size: 10px;
+    transition: transform 0.3s;
+}
+
+.genre-section details[open] summary::after {
+    transform: rotate(180deg);
 }
 
 .track-list {
@@ -319,6 +392,7 @@ body::before {
 .track-item-name {
     flex: 1;
     font-weight: 600;
+    font-size: 13px;
 }
 
 .track-item-meta {
@@ -326,7 +400,7 @@ body::before {
     color: var(--text-dim);
 }
 
-/* Футер */
+/* ===== ФУТЕР ===== */
 .footer {
     text-align: center;
     padding-top: 30px;
@@ -351,6 +425,7 @@ body::before {
     color: var(--text);
     text-decoration: none;
     transition: all 0.2s;
+    font-size: 13px;
 }
 
 .social-link:hover {
@@ -407,6 +482,16 @@ body::before {
 <div class="wrap">
 
 <img class="logo" src="acm_logo.png" alt="ACM">
+
+<!-- О ПРОЕКТЕ -->
+<details class="about-section" id="about-section">
+    <summary class="about-toggle">О проекте</summary>
+    <div class="about-content">
+        <p>AI Core Mixes — музыкальная лаборатория на стыке жанров и технологий.</p>
+        <p>Этот канал посвящён поиску идеального симбиоза между живой яростью рока и цифровой мощью EDM. Здесь стираются границы: от классического Industrial Metalstep до безумных сочетаний Rock, Rap и Bass.</p>
+        <p>Здесь нет коммерции и жёстких графиков. Только личный вкус, ручной отбор и то, что реально качает. Выкладываю годноту по мере её появления.</p>
+    </div>
+</details>
 
 <!-- ПЛЕЕР -->
 <div class="player-container">
@@ -468,10 +553,10 @@ body::before {
 
 <audio id="audio-player" preload="auto"></audio>
 
-<!-- ПЛЕЙЛИСТЫ -->
+<!-- ПЛЕЙЛИСТЫ (оба свёрнуты по умолчанию) -->
 <div class="playlists">
     <div class="genre-section">
-        <details open>
+        <details>
             <summary>Rockstep</summary>
             <div class="track-list" id="list-rockstep"></div>
         </details>
@@ -556,7 +641,7 @@ const playlistDubstep = [
     { id: 'Everything is OK', name: 'Everything is OK', genre: 'Ragga Dubstep' },
     { id: 'Rendezvous with Life', name: 'Rendezvous with Life', genre: 'Melodic Dubstep' },
     { id: 'Boundless Ocean', name: 'Boundless Ocean', genre: 'Melodic Dubstep' },
-    { id: 'Tomorrow's Light', name: 'Tomorrow's Light', genre: 'Tribal Dubstep' },
+    { id: 'Tomorrow\'s Light', name: 'Tomorrow\'s Light', genre: 'Tribal Dubstep' },
     { id: 'NEON OVERRIDE', name: 'NEON OVERRIDE', genre: 'Cyberpunk Dubstep, Glitchstep' },
     { id: 'Starry Tide', name: 'Starry Tide', genre: 'Brostep, Complextro' },
     { id: 'Learning to Fly', name: 'Learning to Fly', genre: 'Epic Dubstep, Brostep' },
@@ -616,7 +701,6 @@ function drawWave() {
     
     if (!isInit || audio.paused) {
         ctx.clearRect(0, 0, w, h);
-        // Статичная волна
         for (let i = 0; i < 50; i++) {
             const barH = Math.random() * h * 0.5 + h * 0.1;
             ctx.fillStyle = 'rgba(200,127,67,0.2)';
@@ -660,7 +744,7 @@ function loadTrack(index, playlist, autoPlay = true) {
     
     playerTitle.textContent = track.name;
     playerGenre.textContent = track.genre || '—';
-    playerCover.src = 'acm_logo.png'; // Пока заглушка
+    playerCover.src = 'acm_logo.png';
     
     const url = `${WORKER_URL}/?track=${encodeURIComponent(track.id)}`;
     audio.src = url;
@@ -675,6 +759,10 @@ function loadTrack(index, playlist, autoPlay = true) {
     const listId = playlist === playlistRockstep ? 'list-rockstep' : 'list-dubstep';
     const items = document.getElementById(listId).querySelectorAll('.track-item');
     if (items[index]) items[index].classList.add('active');
+    
+    // 🔥 АВТОМАТИЧЕСКИ РАСКРЫВАЕМ ПЛЕЙЛИСТ АКТИВНОГО ТРЕКА
+    const activeDetails = document.getElementById(listId).closest('details');
+    if (activeDetails) activeDetails.open = true;
 }
 
 function togglePlay() {
