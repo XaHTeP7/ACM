@@ -50,39 +50,76 @@ body::before{
     opacity:0.9;
 }
 
-/* ===== О ПРОЕКТЕ ===== */
+/* ===== О ПРОЕКТЕ & КНОПКИ-РАЗДЕЛИТЕЛИ С ЛИНИЯМИ ===== */
 .about-section{margin-bottom:30px}
 
-.about-toggle{
-    width:100%;
-    padding:12px 20px;
-    background:rgba(224, 90, 29, 0.08);
-    border:1px solid rgba(224, 90, 29, 0.25);
-    border-radius:8px;
-    color:var(--copper);
-    font-size:12px;
-    letter-spacing:2px;
-    text-transform:uppercase;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:10px;
-    transition:.2s;
+.about-toggle,
+.genre-section summary {
+    width: 100%;
+    padding: 10px 0;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    color: var(--copper);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    transition: color 0.3s, text-shadow 0.3s;
+    list-style: none;
 }
 
-.about-toggle:hover{
-    background:rgba(224, 90, 29, 0.15);
-    border-color:var(--copper);
+.genre-section summary::-webkit-details-marker { display: none; }
+
+.about-toggle:hover,
+.genre-section summary:hover {
+    color: #ff773d;
+    text-shadow: 0 0 10px var(--copper-glow);
 }
 
-.about-toggle::after{
-    content:"▼";
-    font-size:9px;
-    transition:transform .3s;
+/* Линии слева и справа */
+.about-toggle::before,
+.about-toggle::after,
+.genre-section summary::before,
+.genre-section summary::after {
+    content: "";
+    flex: 1;
+    height: 2px;
+    pointer-events: none;
 }
 
-.about-section[open] .about-toggle::after{transform:rotate(180deg)}
+/* Левая полоса (сужается и угасает влево) */
+.about-toggle::before,
+.genre-section summary::before {
+    background: linear-gradient(to left, rgba(224, 90, 29, 0.8), rgba(224, 90, 29, 0));
+    clip-path: polygon(0 50%, 100% 0, 100% 100%);
+}
+
+/* Правая полоса (сужается и угасает вправо) */
+.about-toggle::after,
+.genre-section summary::after {
+    background: linear-gradient(to right, rgba(224, 90, 29, 0.8), rgba(224, 90, 29, 0));
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+/* Стрелки-указатели */
+.about-toggle span::after,
+.genre-section summary span::after {
+    content: "▼";
+    display: inline-block;
+    margin-left: 8px;
+    font-size: 8px;
+    transition: transform 0.3s;
+}
+
+.about-section[open] .about-toggle span::after,
+.genre-section details[open] summary span::after {
+    transform: rotate(180deg);
+}
 
 .about-content{
     margin-top:12px;
@@ -342,34 +379,8 @@ body::before{
 }
 
 .genre-section summary{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:10px;
-    padding:12px;
     margin-bottom:12px;
-    background:rgba(224,90,29,.08);
-    border:1px solid rgba(224,90,29,.2);
-    border-radius:8px;
-    cursor:pointer;
-    list-style:none;
-    font-size:11px;
-    letter-spacing:2px;
-    text-transform:uppercase;
-    color:var(--copper);
-    transition:.2s;
 }
-
-.genre-section summary::-webkit-details-marker{display:none}
-.genre-section summary:hover{background:rgba(224,90,29,.15)}
-
-.genre-section summary::after{
-    content:"▼";
-    font-size:8px;
-    transition:transform .3s;
-}
-
-.genre-section details[open] summary::after{transform:rotate(180deg)}
 
 .track-list{
     display:flex;
@@ -484,7 +495,7 @@ body::before{
 
 <!-- О ПРОЕКТЕ -->
 <details class="about-section" id="about-section">
-    <summary class="about-toggle" id="about-toggle">О проекте</summary>
+    <summary class="about-toggle" id="about-toggle"><span>О проекте</span></summary>
     <div class="about-content" id="about-content">
         <!-- Заполняется автоматически через JS -->
     </div>
@@ -559,14 +570,14 @@ body::before{
 
     <div class="genre-section">
         <details open>
-            <summary>Rockstep</summary>
+            <summary><span>Rockstep</span></summary>
             <div class="track-list" id="list-rockstep"></div>
         </details>
     </div>
 
     <div class="genre-section">
         <details>
-            <summary>Dubstep</summary>
+            <summary><span>Dubstep</span></summary>
             <div class="track-list" id="list-dubstep"></div>
         </details>
     </div>
@@ -639,7 +650,7 @@ function applyLanguage() {
     const coffeeText = document.getElementById('coffee-text');
     const copyEl = document.getElementById('copyright-text');
 
-    if (toggleEl) toggleEl.textContent = t.aboutTitle;
+    if (toggleEl) toggleEl.innerHTML = `<span>${t.aboutTitle}</span>`;
     if (contentEl) contentEl.innerHTML = t.aboutText;
     if (categoryEl) categoryEl.textContent = t.nowPlaying;
     if (coffeeText) coffeeText.textContent = t.support;
