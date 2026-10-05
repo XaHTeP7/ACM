@@ -23,9 +23,7 @@
     --text-muted: #666;
 }
 
-html {
-    scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
     font-family: "Segoe UI", Tahoma, sans-serif;
@@ -40,7 +38,7 @@ body {
     position: fixed;
     inset: -40px;
     z-index: -1;
-    background: url("last_cover.jpg") center/cover no-repeat;
+    background: url("acm_logo.png") center/cover no-repeat; /* Заменил на лого, пока нет last_cover */
     filter: blur(40px) brightness(.25);
     opacity: .65;
     transform: scale(1.08);
@@ -83,26 +81,10 @@ body {
     list-style: none;
     transition: all .2s ease;
 }
-
-.intro-summary::-webkit-details-marker {
-    display: none;
-}
-
-.intro-summary:hover {
-    background: rgba(200, 127, 67, .15);
-    border-color: var(--copper);
-    color: #fff;
-}
-
-.intro-summary::after {
-    content: "▾";
-    font-size: .9rem;
-    transition: transform .2s ease;
-}
-
-.intro-details[open] .intro-summary::after {
-    transform: rotate(180deg);
-}
+.intro-summary::-webkit-details-marker { display: none; }
+.intro-summary:hover { background: rgba(200, 127, 67, .15); border-color: var(--copper); color: #fff; }
+.intro-summary::after { content: "▾"; font-size: .9rem; transition: transform .2s ease; }
+.intro-details[open] .intro-summary::after { transform: rotate(180deg); }
 
 .intro-content {
     margin-top: 18px;
@@ -114,10 +96,7 @@ body {
     font-size: .9rem;
     line-height: 1.7;
 }
-
-.intro-content p + p {
-    margin-top: 10px;
-}
+.intro-content p + p { margin-top: 10px; }
 
 .sec-title {
     display: flex;
@@ -129,7 +108,6 @@ body {
     text-transform: uppercase;
     color: var(--copper);
 }
-
 .sec-title::after {
     content: "";
     flex: 1;
@@ -137,10 +115,7 @@ body {
     background: linear-gradient(90deg, var(--copper-dim), transparent);
 }
 
-.genre-details {
-    width: 100%;
-}
-
+.genre-details { width: 100%; }
 .genre-summary {
     display: flex;
     align-items: center;
@@ -154,249 +129,225 @@ body {
     list-style: none;
     transition: color .2s ease;
 }
+.genre-summary::-webkit-details-marker { display: none; }
+.genre-summary:hover { color: #fff; }
+.genre-summary::after { content: "▾"; font-size: .85rem; margin-left: 2px; transition: transform .2s ease; }
+.genre-details[open] .genre-summary::after { transform: rotate(180deg); }
+.genre-title-line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--copper-dim), transparent); }
 
-.genre-summary::-webkit-details-marker {
-    display: none;
-}
-
-.genre-summary:hover {
-    color: #fff;
-}
-
-.genre-summary::after {
-    content: "▾";
-    font-size: .85rem;
-    margin-left: 2px;
-    transition: transform .2s ease;
-}
-
-.genre-details[open] .genre-summary::after {
-    transform: rotate(180deg);
-}
-
-.genre-title-line {
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, var(--copper-dim), transparent);
-}
-
+/* ===== CUSTOM PLAYER STYLES ===== */
 .player {
-    background: rgba(0,0,0,.52);
+    background: rgba(0,0,0,.6);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(200,127,67,.25);
     border-radius: 20px;
     padding: 24px;
     margin-bottom: 42px;
-    text-align: center;
-}
-
-.audiomack-wrap {
-    width: 100%;
-    max-width: 620px;
-    margin: 0 auto;
+    position: relative;
     overflow: hidden;
-    border-radius: 14px;
+}
+.player::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--copper), transparent);
+    opacity: 0.6;
 }
 
-.audiomack-wrap iframe {
-    display: block;
-    width: 100%;
-    height: 252px;
-    border: 0;
+.acm-core-status {
+    position: absolute;
+    top: 16px; right: 20px;
+    display: flex; align-items: center; gap: 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 10px; letter-spacing: 2px;
+    color: var(--text-muted); text-transform: uppercase;
+}
+.acm-core-dot {
+    width: 6px; height: 6px;
+    background: var(--copper);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--copper);
+    animation: acm-pulse 2s ease-in-out infinite;
+}
+@keyframes acm-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
 }
 
+.acm-player-top {
+    display: flex; gap: 24px; align-items: center;
+    margin-bottom: 20px;
+}
+.acm-cover-wrap {
+    position: relative; width: 160px; height: 160px; flex-shrink: 0;
+}
+.acm-cover {
+    width: 100%; height: 100%; object-fit: cover;
+    border-radius: 8px;
+    -webkit-mask-image: linear-gradient(to right, #000 70%, transparent 100%);
+    mask-image: linear-gradient(to right, #000 70%, transparent 100%);
+    filter: url(#acm-destroy);
+    transition: filter 0.5s;
+}
+.acm-cover-glow {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at center, rgba(200,127,67,0.15), transparent 70%);
+    pointer-events: none;
+    animation: acm-glow 3s ease-in-out infinite;
+}
+@keyframes acm-glow { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+.acm-track-info { flex: 1; min-width: 0; text-align: left; }
+.acm-label {
+    font-family: 'Courier New', monospace;
+    font-size: 10px; letter-spacing: 3px;
+    color: var(--text-muted); text-transform: uppercase;
+    margin-bottom: 8px;
+}
+.acm-track-title {
+    font-size: 24px; font-weight: 800;
+    color: var(--text); letter-spacing: 1px;
+    text-transform: uppercase; margin: 0 0 8px 0;
+    line-height: 1.2; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis;
+}
+.acm-track-meta {
+    font-family: 'Courier New', monospace;
+    font-size: 11px; color: var(--copper);
+    letter-spacing: 1px; text-transform: uppercase;
+}
+
+.acm-waveform {
+    width: 100%; height: 50px; margin: 15px 0 10px 0; position: relative;
+}
+#acm-wave-canvas { width: 100%; height: 100%; display: block; }
+
+.acm-progress-wrap {
+    position: relative; width: 100%; height: 4px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px; cursor: pointer; margin-bottom: 6px;
+}
+.acm-progress-fill {
+    height: 100%; background: var(--copper);
+    border-radius: 2px; width: 0%; position: relative;
+    box-shadow: 0 0 8px rgba(200,127,67,0.5);
+    transition: width 0.1s linear;
+}
+.acm-progress-fill::after {
+    content: ''; position: absolute; right: -5px; top: 50%;
+    transform: translateY(-50%); width: 10px; height: 10px;
+    background: var(--copper); border-radius: 50%;
+    box-shadow: 0 0 10px var(--copper);
+}
+.acm-time {
+    display: flex; justify-content: space-between;
+    font-family: 'Courier New', monospace;
+    font-size: 10px; color: var(--text-muted); margin-bottom: 16px;
+}
+
+.acm-controls {
+    display: flex; align-items: center; justify-content: center;
+    gap: 16px; margin-bottom: 16px;
+}
+.acm-btn {
+    background: none; border: none; color: var(--text-dim);
+    cursor: pointer; padding: 8px; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center;
+}
+.acm-btn:hover { color: var(--copper); transform: scale(1.1); }
+.acm-btn.active { color: var(--copper); }
+.acm-btn svg { width: 20px; height: 20px; fill: currentColor; }
+
+.acm-btn-play {
+    width: 48px; height: 48px; border-radius: 50%;
+    border: 2px solid var(--copper); color: var(--copper);
+    background: rgba(200,127,67,0.05);
+}
+.acm-btn-play:hover {
+    background: rgba(200,127,67,0.15);
+    box-shadow: 0 0 16px rgba(200,127,67,0.4);
+}
+.acm-btn-play svg { width: 22px; height: 22px; }
+
+.acm-volume-wrap {
+    display: flex; align-items: center; justify-content: flex-end; gap: 8px;
+}
+.acm-volume-wrap svg { width: 16px; height: 16px; fill: var(--text-muted); }
+.acm-volume-slider {
+    -webkit-appearance: none; appearance: none;
+    width: 80px; height: 3px; background: rgba(255,255,255,0.1);
+    border-radius: 2px; outline: none; cursor: pointer;
+}
+.acm-volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 10px; height: 10px;
+    background: var(--copper); border-radius: 50%; cursor: pointer;
+    box-shadow: 0 0 6px rgba(200,127,67,0.6);
+}
+
+/* ===== PLAYLISTS ===== */
 .playlists-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    align-items: start;
-    margin-bottom: 38px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 24px; align-items: start; margin-bottom: 38px;
 }
-
-.track-list {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    margin-top: 10px;
-}
-
+.track-list { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 10px; }
 .track {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    min-height: 52px;
-    padding: 10px 16px;
-    background: var(--card);
-    border-radius: 12px;
-    cursor: pointer;
-    border-left: 3px solid transparent;
+    display: flex; align-items: center; gap: 12px;
+    min-height: 48px; padding: 10px 14px;
+    background: var(--card); border-radius: 12px;
+    cursor: pointer; border-left: 3px solid transparent;
     transition: background .2s ease, transform .2s ease, border-color .2s ease;
 }
-
-.track:hover {
-    background: var(--card-hover);
-    transform: translateX(4px);
-}
-
-.track.active {
-    background: rgba(200,127,67,.13);
-    border-left-color: var(--copper);
-}
-
-.track-info {
-    flex: 1;
-    min-width: 0;
-}
-
+.track:hover { background: var(--card-hover); transform: translateX(4px); }
+.track.active { background: rgba(200,127,67,.13); border-left-color: var(--copper); }
+.track-info { flex: 1; min-width: 0; }
 .track-name {
-    font-weight: 600;
-    font-size: .9rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: block;
+    font-weight: 600; font-size: .9rem;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;
 }
-
 .track-meta {
-    font-size: .75rem;
-    color: #888;
-    margin-top: 2px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: block;
+    font-size: .75rem; color: var(--text-muted);
+    margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;
 }
 
-.track-dur {
-    color: #666;
-    font-size: .88rem;
-    flex-shrink: 0;
-}
-
-.footer {
-    margin-top: 48px;
-    text-align: center;
-}
-
-.links {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 6px;
-}
-
+/* ===== FOOTER ===== */
+.footer { margin-top: 48px; text-align: center; }
+.links { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 6px; }
 .link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    min-width: 150px;
-    padding: 10px 18px;
-    border-radius: 30px;
-    text-decoration: none;
-    color: #eee;
-    background: rgba(255,255,255,.045);
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    min-width: 150px; padding: 10px 18px; border-radius: 30px;
+    text-decoration: none; color: #eee; background: rgba(255,255,255,.045);
     border: 1px solid rgba(200,127,67,.3);
     transition: background .2s ease, color .2s ease, border-color .2s ease, transform .2s ease;
     font-size: .9rem;
 }
-
-.link:hover {
-    background: var(--copper);
-    color: #0a0a0a;
-    border-color: var(--copper);
-    transform: translateY(-2px);
-}
-
-.link svg {
-    width: 18px;
-    height: 18px;
-    fill: currentColor;
-}
-
-.link .stroke {
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 2;
-}
+.link:hover { background: var(--copper); color: #0a0a0a; border-color: var(--copper); transform: translateY(-2px); }
+.link svg { width: 18px; height: 18px; fill: currentColor; }
+.link .stroke { fill: none; stroke: currentColor; stroke-width: 2; }
 
 .coffee {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    margin-top: 18px;
-    color: #888;
-    font-size: .85rem;
-    text-decoration: none;
-    transition: color .2s ease;
+    display: inline-flex; align-items: center; gap: 7px;
+    margin-top: 18px; color: var(--text-muted);
+    font-size: .85rem; text-decoration: none; transition: color .2s ease;
 }
+.coffee:hover { color: var(--copper); }
+.coffee svg { width: 16px; height: 16px; flex-shrink: 0; }
+.coffee svg path { fill: none; stroke: currentColor; stroke-width: 2; stroke-linejoin: round; }
 
-.coffee:hover {
-    color: var(--copper);
-}
-
-.coffee svg {
-    width: 16px;
-    height: 16px;
-    flex-shrink: 0;
-}
-
-.coffee svg path {
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 2;
-    stroke-linejoin: round;
-}
-
-.copy {
-    color: #555;
-    font-size: .78rem;
-    line-height: 1.6;
-    margin-top: 18px;
-}
+.copy { color: #555; font-size: .78rem; line-height: 1.6; margin-top: 18px; }
 
 @media(max-width: 720px) {
-    .playlists-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
+    .playlists-grid { grid-template-columns: 1fr; gap: 20px; }
+    .acm-player-top { flex-direction: column; text-align: center; }
+    .acm-track-info { text-align: center; }
+    .acm-cover-wrap { width: 140px; height: 140px; margin: 0 auto; }
 }
-
 @media(max-width: 600px) {
-    .wrap {
-        padding: 30px 18px 48px;
-    }
-    .logo {
-        width: min(340px, 88%);
-        margin-bottom: 20px;
-    }
-    .sec-title {
-        margin-bottom: 14px;
-    }
-    .player {
-        padding: 16px 12px;
-        margin-bottom: 32px;
-        border-radius: 18px;
-    }
-    .audiomack-wrap {
-        border-radius: 12px;
-    }
-    .track-list {
-        grid-template-columns: 1fr;
-    }
-    .track {
-        gap: 10px;
-        padding: 8px 12px;
-        min-height: 48px;
-    }
-    .footer {
-        margin-top: 42px;
-    }
-    .link {
-        min-width: 145px;
-    }
+    .wrap { padding: 30px 18px 48px; }
+    .logo { width: min(340px, 88%); margin-bottom: 20px; }
+    .player { padding: 16px 12px; margin-bottom: 32px; border-radius: 18px; }
+    .track { gap: 10px; padding: 8px 12px; min-height: 48px; }
 }
 </style>
 </head>
@@ -418,21 +369,74 @@ body {
     </div>
 </details>
 
-<div class="sec-title" data-i18n="latestRelease">Последний релиз</div>
+<!-- ЗАГОЛОВОК "ПОСЛЕДНИЙ РЕЛИЗ" УДАЛЁН -->
 
+<!-- CUSTOM PLAYER -->
 <div class="player" id="player">
-    <div class="audiomack-wrap">
-        <iframe
-            id="audiomackPlayer"
-            src=""
-            scrolling="no"
-            width="100%"
-            height="252"
-            frameborder="0"
-            allow="autoplay"
-        ></iframe>
+    <!-- SVG фильтр для эффекта распада обложки -->
+    <svg style="position:absolute;width:0;height:0;">
+        <defs>
+            <filter id="acm-destroy">
+                <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="3" result="noise"/>
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+        </defs>
+    </svg>
+
+    <div class="acm-core-status">
+        <div class="acm-core-dot"></div>
+        CORE ONLINE
+    </div>
+
+    <div class="acm-player-top">
+        <div class="acm-cover-wrap">
+            <img class="acm-cover" id="acm-cover" src="acm_logo.png" alt="Cover">
+            <div class="acm-cover-glow"></div>
+        </div>
+        <div class="acm-track-info">
+            <div class="acm-label">ACM / NOW PLAYING</div>
+            <h2 class="acm-track-title" id="acm-title">—</h2>
+            <div class="acm-track-meta" id="acm-genre">—</div>
+        </div</div>
+
+    <div class="acm-waveform">
+        <canvas id="acm-wave-canvas"></canvas>
+    </div>
+
+    <div class="acm-progress-wrap" id="acm-progress">
+        <div class="acm-progress-fill" id="acm-progress-fill"></div>
+    </div>
+    <div class="acm-time">
+        <span id="acm-time-cur">0:00</span>
+        <span id="acm-time-dur">0:00</span>
+    </div>
+
+    <div class="acm-controls">
+        <button class="acm-btn" id="acm-shuffle" title="Shuffle">
+            <svg viewBox="0 0 24 24"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>
+        </button>
+        <button class="acm-btn" id="acm-prev" title="Previous">
+            <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+        </button>
+        <button class="acm-btn acm-btn-play" id="acm-play" title="Play">
+            <svg viewBox="0 0 24 24" id="acm-play-icon"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <button class="acm-btn" id="acm-next" title="Next">
+            <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+        </button>
+        <button class="acm-btn" id="acm-repeat" title="Repeat">
+            <svg viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>
+        </button>
+    </div>
+
+    <div class="acm-volume-wrap">
+        <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+        <input type="range" class="acm-volume-slider" id="acm-volume" min="0" max="1" step="0.01" value="0.7">
     </div>
 </div>
+
+<audio id="acm-audio" preload="auto"></audio>
+<!-- /CUSTOM PLAYER -->
 
 <div class="playlists-grid">
     <details class="genre-details">
@@ -458,7 +462,6 @@ body {
 <svg viewBox="0 0 24 24"><path d="M23 12s0-3.9-.5-5.8c-.3-1-1.1-1.8-2.1-2.1C18.5 3.6 12 3.6 12 3.6s-6.5 0-8.4.5c-1 .3-1.8 1.1-2.1 2.1C1 8.1 1 12 1 12s0 3.9.5 5.8c.3 1 1.1 1.8 2.1 2.1 1.9.5 8.4.5 8.4.5s6.5 0 8.4-.5c1-.3 1.8-1.1 2.1-2.1.5-1.9.5-5.8.5-5.8zM9.8 15.5V8.5l6.2 3.5-6.2 3.5z"/></svg>
 YouTube
 </a>
-
 <a class="link" href="https://instagram.com/ВАШ_НИК" target="_blank" rel="noopener noreferrer">
 <svg viewBox="0 0 24 24"><rect class="stroke" x="3" y="3" width="18" height="18" rx="5"/><circle class="stroke" cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1.2"/></svg>
 Instagram
@@ -475,33 +478,29 @@ Instagram
 
 </div>
 
-<!-- Подключаем SDK от Audiomack -->
-<script src="https://audiomack.com/static/js/api.js"></script>
-
 <script>
+// ===== ЯЗЫК =====
 const browserLanguage = (navigator.language || "en").toLowerCase();
 const currentLanguage = browserLanguage.startsWith("ru") ? "ru" : "en";
 document.documentElement.lang = currentLanguage;
 
 const translations = {
-ru: {
-aboutBtn: "О проекте",
-intro1: "AI Core Mixes — музыкальная лаборатория на стыке жанров и технологий.",
-intro2: "Этот канал посвящён поиску идеального симбиоза между живой яростью рока и цифровой мощью EDM. Здесь стираются границы: от классического Industrial Metalstep до безумных сочетаний Rock, Rap и Bass.",
-intro3: "Здесь нет коммерции и жёстких графиков. Только личный вкус, ручной отбор и то, что реально качает. Выкладываю годноту по мере её появления.",
-latestRelease: "Последний релиз",
-support: "Поддержать проект, купив чашечку кофе",
-copyright: "© 2026 AI Core Mixes · Все треки — бесплатно, только для прослушивания."
-},
-en: {
-aboutBtn: "About Project",
-intro1: "AI Core Mixes — a music laboratory at the intersection of genres and technology.",
-intro2: "This channel is about finding the perfect fusion between the raw energy of rock and the digital power of EDM. Boundaries disappear here: from classic Industrial Metalstep to wild combinations of Rock, Rap and Bass.",
-intro3: "No commercial pressure and no strict schedule. Just personal taste, careful selection, and whatever really hits. New music is released as it comes.",
-latestRelease: "Latest Release",
-support: "Support the project with a cup of coffee",
-copyright: "© 2026 AI Core Mixes · All tracks are free to listen to."
-}
+    ru: {
+        aboutBtn: "О проекте",
+        intro1: "AI Core Mixes — музыкальная лаборатория на стыке жанров и технологий.",
+        intro2: "Этот канал посвящён поиску идеального симбиоза между живой яростью рока и цифровой мощью EDM. Здесь стираются границы: от классического Industrial Metalstep до безумных сочетаний Rock, Rap и Bass.",
+        intro3: "Здесь нет коммерции и жёстких графиков. Только личный вкус, ручной отбор и то, что реально качает. Выкладываю годноту по мере её появления.",
+        support: "Поддержать проект, купив чашечку кофе",
+        copyright: "© 2026 AI Core Mixes · Все треки — бесплатно, только для прослушивания."
+    },
+    en: {
+        aboutBtn: "About Project",
+        intro1: "AI Core Mixes — a music laboratory at the intersection of genres and technology.",
+        intro2: "This channel is about finding the perfect fusion between the raw energy of rock and the digital power of EDM. Boundaries disappear here: from classic Industrial Metalstep to wild combinations of Rock, Rap and Bass.",
+        intro3: "No commercial pressure and no strict schedule. Just personal taste, careful selection, and whatever really hits. New music is released as it comes.",
+        support: "Support the project with a cup of coffee",
+        copyright: "© 2026 AI Core Mixes · All tracks are free to listen to."
+    }
 };
 
 document.querySelectorAll("[data-i18n]").forEach(element => {
@@ -511,182 +510,317 @@ document.querySelectorAll("[data-i18n]").forEach(element => {
     }
 });
 
-const lastRelease = {
-    name: "Blindfold",
-    audiomack: "https://audiomack.com/ai_core_mixes/song/blindfold"
-};
-
+// ===== ДАННЫЕ ТРЕКОВ =====
+// ВАЖНО: поле 'id' должно ТОЧНО совпадать с именем файла в папке Nekogram в R2 (без .mp3)
+// Поле 'cover' пока стоит заглушкой, поменяем позже.
 const playlistRockstep = [
-{ name: "Blindfold", audiomack: "https://audiomack.com/ai_core_mixes/song/blindfold", dur: "", descRu: "Industrial Rock, Electronic Rock", descEn: "Industrial Rock, Electronic Rock" },
-{ name: "Lost In The Cloud-Abyss", audiomack: "https://audiomack.com/ai_core_mixes/song/lost-in-the-cloud-abyss", dur: "", descRu: "Nu-Metal, Metalstep", descEn: "Nu-Metal, Metalstep" },
-{ name: "Hellish Paradise", audiomack: "https://audiomack.com/ai_core_mixes/song/hellish-paradise", dur: "", descRu: "Industrial Metal, Cyber Metal", descEn: "Industrial Metal, Cyber Metal" },
-{ name: "Stray God", audiomack: "https://audiomack.com/ai_core_mixes/song/stray-god", dur: "", descRu: "Doom Metal, Metalstep", descEn: "Doom Metal, Metalstep" },
-{ name: "Twilight Mind", audiomack: "https://audiomack.com/ai_core_mixes/song/twilight-mind", dur: "", descRu: "Blues Rockstep", descEn: "Blues Rockstep" },
-{ name: "Ash Wanderer", audiomack: "https://audiomack.com/ai_core_mixes/song/ash-wanderer", dur: "", descRu: "Nu-Metal, Metalcore, Doom Metal, Metalstep", descEn: "Nu-Metal, Metalcore, Doom Metal, Metalstep" },
-{ name: "Nameless City", audiomack: "https://audiomack.com/ai_core_mixes/song/nameless-city", dur: "", descRu: "Dark Metal, Industrial Metal, Metalstep", descEn: "Dark Metal, Industrial Metal, Metalstep" },
-{ name: "Burn To The Ground", audiomack: "https://audiomack.com/ai_core_mixes/song/burn-to-the-ground", dur: "", descRu: "Doom Metal, Nu-Metal, Metalstep", descEn: "Doom Metal, Nu-Metal, Metalstep" },
-{ name: "Inversion", audiomack: "https://audiomack.com/ai_core_mixes/song/inversion", dur: "", descRu: "Industrial Metal, Doom Metal, Metalstep, Nu-Metal", descEn: "Industrial Metal, Doom Metal, Metalstep, Nu-Metal" },
-{ name: "Burning With Hate", audiomack: "https://audiomack.com/ai_core_mixes/song/burning-with-hate", dur: "", descRu: "Electronic Metalcore, Doom Metal", descEn: "Electronic Metalcore, Doom Metal" },
-{ name: "Descend", audiomack: "https://audiomack.com/ai_core_mixes/song/descend", dur: "", descRu: "Blues Rockstep", descEn: "Blues Rockstep" },
-{ name: "Zero Zero", audiomack: "https://audiomack.com/ai_core_mixes/song/zero-zero", dur: "", descRu: "Industrial Rock, Electronic Metal", descEn: "Industrial Rock, Electronic Metal" },
-{ name: "Through The Fear", audiomack: "https://audiomack.com/ai_core_mixes/song/through-the-fear", dur: "", descRu: "Doom Metal, Metalcore, Nu-Metal, Metalstep", descEn: "Doom Metal, Metalcore, Nu-Metal, Metalstep" },
-{ name: "Boiling Blood", audiomack: "https://audiomack.com/ai_core_mixes/song/boiling-blood", dur: "", descRu: "Industrial Metal, Doom Metal, Cyberpunk", descEn: "Industrial Metal, Doom Metal, Cyberpunk" },
-{ name: "My Demons Within", audiomack: "https://audiomack.com/ai_core_mixes/song/my-demons-within", dur: "", descRu: "Industrial Metal, Nu-Metal, Metalstep", descEn: "Industrial Metal, Nu-Metal, Metalstep" },
-{ name: "False Memories", audiomack: "https://audiomack.com/ai_core_mixes/song/false-memories", dur: "", descRu: "Industrial Doom Metalstep, Sludge-step", descEn: "Industrial Doom Metalstep, Sludge-step" },
-{ name: "Burn My Yesterday", audiomack: "https://audiomack.com/ai_core_mixes/song/burn-my-yesterday", dur: "", descRu: "Metalcore, Industrial Metal, Metalstep", descEn: "Metalcore, Industrial Metal, Metalstep" },
-{ name: "Mad War", audiomack: "https://audiomack.com/ai_core_mixes/song/mad-war", dur: "", descRu: "Electronic Rock, Post-Hardcore", descEn: "Electronic Rock, Post-Hardcore" },
-{ name: "Apex Predator", audiomack: "https://audiomack.com/ai_core_mixes/song/apex-predator", dur: "", descRu: "Neoclassical Doom Metalstep", descEn: "Neoclassical Doom Metalstep" },
-{ name: "Cold Valhalla", audiomack: "https://audiomack.com/ai_core_mixes/song/cold-valhalla", dur: "", descRu: "Cyberpunk Trap Metal", descEn: "Cyberpunk Trap Metal" },
-{ name: "Blades Of Volition", audiomack: "https://audiomack.com/ai_core_mixes/song/blades-of-volition", dur: "", descRu: "Dark Metal, Metalstep", descEn: "Dark Metal, Metalstep" },
-{ name: "Black Bile", audiomack: "https://audiomack.com/ai_core_mixes/song/black-bile", dur: "", descRu: "Dark Industrial Metal", descEn: "Dark Industrial Metal" },
-{ name: "Bloodboil", audiomack: "https://audiomack.com/ai_core_mixes/song/bloodboil", dur: "", descRu: "Industrial Metal, Metalstep", descEn: "Industrial Metal, Metalstep" },
-{ name: "Iron Will", audiomack: "https://audiomack.com/ai_core_mixes/song/iron-will", dur: "", descRu: "Industrial Metalstep", descEn: "Industrial Metalstep" },
-{ name: "Ashes Of The Heavens", audiomack: "https://audiomack.com/ai_core_mixes/song/ashes-of-the-heavens", dur: "", descRu: "Metalstep, Post-Hardcore", descEn: "Metalstep, Post-Hardcore" },
-{ name: "Silicon Rage", audiomack: "https://audiomack.com/ai_core_mixes/song/silicon-rage", dur: "", descRu: "Cybercore, Doom Metal", descEn: "Cybercore, Doom Metal" },
-{ name: "Obsidian Pulse", audiomack: "https://audiomack.com/ai_core_mixes/song/obsidian-pulse", dur: "", descRu: "Industrial Metalcore, Doom Metalstep", descEn: "Industrial Metalcore, Doom Metalstep" },
-{ name: "Glacial Ignite", audiomack: "https://audiomack.com/ai_core_mixes/song/glacial-ignite", dur: "", descRu: "Doom Metal, Metalstep, Rapcore", descEn: "Doom Metal, Metalstep, Rapcore" },
-{ name: "Ghost Chemistry", audiomack: "https://audiomack.com/ai_core_mixes/song/ghost-chemistry", dur: "", descRu: "Heavy Rockstep, Dark Dubstep", descEn: "Heavy Rockstep, Dark Dubstep" },
-{ name: "One Step Into The Void", audiomack: "https://audiomack.com/ai_core_mixes/song/one-step-into-the-void", dur: "", descRu: "Doom Metal, Nu-Metal, Industrial Metalstep", descEn: "Doom Metal, Nu-Metal, Industrial Metalstep" },
-{ name: "Thunder Echo", audiomack: "https://audiomack.com/ai_core_mixes/song/thunder-echo", dur: "", descRu: "Modern Hard Rock, Rockstep", descEn: "Modern Hard Rock, Rockstep" },
-{ name: "Protocol Ghost", audiomack: "https://audiomack.com/ai_core_mixes/song/protocol-ghost", dur: "", descRu: "Dark Cyberpunk, Industrial Metal", descEn: "Dark Cyberpunk, Industrial Metal" },
-{ name: "Neural Facture", audiomack: "https://audiomack.com/ai_core_mixes/song/neural-fracture", dur: "", descRu: "Rap, Metalcore, Doomstep", descEn: "Rap, Metalcore, Doomstep" },
-{ name: "Berserks Protocol", audiomack: "https://audiomack.com/ai_core_mixes/song/berserks-protocol", dur: "", descRu: "Industrial Metalstep, Folk Metal", descEn: "Industrial Metalstep, Folk Metal" },
-{ name: "Illuminated Error", audiomack: "https://audiomack.com/ai_core_mixes/song/illuminated-error", dur: "", descRu: "", descEn: "" },
-{ name: "Neural Breach", audiomack: "https://audiomack.com/ai_core_mixes/song/neural-breach", dur: "", descRu: "", descEn: "" },
-{ name: "System Overload", audiomack: "https://audiomack.com/ai_core_mixes/song/6aba807385d84", dur: "", descRu: "", descEn: "" }
+    { id: "Blindfold", name: "Blindfold", descRu: "Industrial Rock, Electronic Rock", descEn: "Industrial Rock, Electronic Rock", cover: "acm_logo.png" },
+    { id: "Lost In The Cloud-Abyss", name: "Lost In The Cloud-Abyss", descRu: "Nu-Metal, Metalstep", descEn: "Nu-Metal, Metalstep", cover: "acm_logo.png" },
+    { id: "Hellish Paradise", name: "Hellish Paradise", descRu: "Industrial Metal, Cyber Metal", descEn: "Industrial Metal, Cyber Metal", cover: "acm_logo.png" },
+    { id: "Stray God", name: "Stray God", descRu: "Doom Metal, Metalstep", descEn: "Doom Metal, Metalstep", cover: "acm_logo.png" },
+    { id: "Twilight Mind", name: "Twilight Mind", descRu: "Blues Rockstep", descEn: "Blues Rockstep", cover: "acm_logo.png" },
+    { id: "Ash Wanderer", name: "Ash Wanderer", descRu: "Nu-Metal, Metalcore, Doom Metal, Metalstep", descEn: "Nu-Metal, Metalcore, Doom Metal, Metalstep", cover: "acm_logo.png" },
+    { id: "Nameless City", name: "Nameless City", descRu: "Dark Metal, Industrial Metal, Metalstep", descEn: "Dark Metal, Industrial Metal, Metalstep", cover: "acm_logo.png" },
+    { id: "Burn To The Ground", name: "Burn To The Ground", descRu: "Doom Metal, Nu-Metal, Metalstep", descEn: "Doom Metal, Nu-Metal, Metalstep", cover: "acm_logo.png" },
+    { id: "Inversion", name: "Inversion", descRu: "Industrial Metal, Doom Metal, Metalstep, Nu-Metal", descEn: "Industrial Metal, Doom Metal, Metalstep, Nu-Metal", cover: "acm_logo.png" },
+    { id: "Burning With Hate", name: "Burning With Hate", descRu: "Electronic Metalcore, Doom Metal", descEn: "Electronic Metalcore, Doom Metal", cover: "acm_logo.png" },
+    { id: "Descend", name: "Descend", descRu: "Blues Rockstep", descEn: "Blues Rockstep", cover: "acm_logo.png" },
+    { id: "Zero Zero", name: "Zero Zero", descRu: "Industrial Rock, Electronic Metal", descEn: "Industrial Rock, Electronic Metal", cover: "acm_logo.png" },
+    { id: "Through The Fear", name: "Through The Fear", descRu: "Doom Metal, Metalcore, Nu-Metal, Metalstep", descEn: "Doom Metal, Metalcore, Nu-Metal, Metalstep", cover: "acm_logo.png" },
+    { id: "Boiling Blood", name: "Boiling Blood", descRu: "Industrial Metal, Doom Metal, Cyberpunk", descEn: "Industrial Metal, Doom Metal, Cyberpunk", cover: "acm_logo.png" },
+    { id: "My Demons Within", name: "My Demons Within", descRu: "Industrial Metal, Nu-Metal, Metalstep", descEn: "Industrial Metal, Nu-Metal, Metalstep", cover: "acm_logo.png" },
+    { id: "False Memories", name: "False Memories", descRu: "Industrial Doom Metalstep, Sludge-step", descEn: "Industrial Doom Metalstep, Sludge-step", cover: "acm_logo.png" },
+    { id: "Burn My Yesterday", name: "Burn My Yesterday", descRu: "Metalcore, Industrial Metal, Metalstep", descEn: "Metalcore, Industrial Metal, Metalstep", cover: "acm_logo.png" },
+    { id: "Mad War", name: "Mad War", descRu: "Electronic Rock, Post-Hardcore", descEn: "Electronic Rock, Post-Hardcore", cover: "acm_logo.png" },
+    { id: "Apex Predator", name: "Apex Predator", descRu: "Neoclassical Doom Metalstep", descEn: "Neoclassical Doom Metalstep", cover: "acm_logo.png" },
+    { id: "Cold Valhalla", name: "Cold Valhalla", descRu: "Cyberpunk Trap Metal", descEn: "Cyberpunk Trap Metal", cover: "acm_logo.png" },
+    { id: "Blades Of Volition", name: "Blades Of Volition", descRu: "Dark Metal, Metalstep", descEn: "Dark Metal, Metalstep", cover: "acm_logo.png" },
+    { id: "Black Bile", name: "Black Bile", descRu: "Dark Industrial Metal", descEn: "Dark Industrial Metal", cover: "acm_logo.png" },
+    { id: "Bloodboil", name: "Bloodboil", descRu: "Industrial Metal, Metalstep", descEn: "Industrial Metal, Metalstep", cover: "acm_logo.png" },
+    { id: "Iron Will", name: "Iron Will", descRu: "Industrial Metalstep", descEn: "Industrial Metalstep", cover: "acm_logo.png" },
+    { id: "Ashes Of The Heavens", name: "Ashes Of The Heavens", descRu: "Metalstep, Post-Hardcore", descEn: "Metalstep, Post-Hardcore", cover: "acm_logo.png" },
+    { id: "Silicon Rage", name: "Silicon Rage", descRu: "Cybercore, Doom Metal", descEn: "Cybercore, Doom Metal", cover: "acm_logo.png" },
+    { id: "Obsidian Pulse", name: "Obsidian Pulse", descRu: "Industrial Metalcore, Doom Metalstep", descEn: "Industrial Metalcore, Doom Metalstep", cover: "acm_logo.png" },
+    { id: "Glacial Ignite", name: "Glacial Ignite", descRu: "Doom Metal, Metalstep, Rapcore", descEn: "Doom Metal, Metalstep, Rapcore", cover: "acm_logo.png" },
+    { id: "Ghost Chemistry", name: "Ghost Chemistry", descRu: "Heavy Rockstep, Dark Dubstep", descEn: "Heavy Rockstep, Dark Dubstep", cover: "acm_logo.png" },
+    { id: "One Step Into The Void", name: "One Step Into The Void", descRu: "Doom Metal, Nu-Metal, Industrial Metalstep", descEn: "Doom Metal, Nu-Metal, Industrial Metalstep", cover: "acm_logo.png" },
+    { id: "Thunder Echo", name: "Thunder Echo", descRu: "Modern Hard Rock, Rockstep", descEn: "Modern Hard Rock, Rockstep", cover: "acm_logo.png" },
+    { id: "Protocol Ghost", name: "Protocol Ghost", descRu: "Dark Cyberpunk, Industrial Metal", descEn: "Dark Cyberpunk, Industrial Metal", cover: "acm_logo.png" },
+    { id: "Neural Fracture", name: "Neural Fracture", descRu: "Rap, Metalcore, Doomstep", descEn: "Rap, Metalcore, Doomstep", cover: "acm_logo.png" },
+    { id: "Berserks Protocol", name: "Berserks Protocol", descRu: "Industrial Metalstep, Folk Metal", descEn: "Industrial Metalstep, Folk Metal", cover: "acm_logo.png" },
+    { id: "Illuminated Error", name: "Illuminated Error", descRu: "", descEn: "", cover: "acm_logo.png" },
+    { id: "Neural Breach", name: "Neural Breach", descRu: "", descEn: "", cover: "acm_logo.png" },
+    { id: "System Overload", name: "System Overload", descRu: "", descEn: "", cover: "acm_logo.png" }
 ];
 
 const playlistDubstep = [
-{ name: "Everything is OK", audiomack: "https://audiomack.com/ai_core_mixes/song/everything-is-ok", dur: "", descRu: "Ragga Dubstep", descEn: "Ragga Dubstep" },
-{ name: "Rendezvous with Life", audiomack: "https://audiomack.com/ai_core_mixes/song/rendezvous-with-life", dur: "", descRu: "Melodic Dubstep", descEn: "Melodic Dubstep" },
-{ name: "Boundless Ocean", audiomack: "https://audiomack.com/ai_core_mixes/song/boundless-ocean", dur: "", descRu: "Melodic Dubstep", descEn: "Melodic Dubstep" },
-{ name: "Tomorrow’s Light", audiomack: "https://audiomack.com/ai_core_mixes/song/tomorrows-light", dur: "", descRu: "Tribal Dubstep, Oriental Broste", descEn: "Tribal Dubstep, Oriental Broste" },
-{ name: "NEON OVERRIDE", audiomack: "https://audiomack.com/ai_core_mixes/song/neon-override", dur: "", descRu: "Cyberpunk Dubstep, Glitchstep", descEn: "Cyberpunk Dubstep, Glitchstep" },
-{ name: "Starry Tide", audiomack: "https://audiomack.com/ai_core_mixes/song/starry-tide", dur: "", descRu: "Brostep, Complextro", descEn: "Brostep, Complextro" },
-{ name: "Learning to Fly", audiomack: "https://audiomack.com/ai_core_mixes/song/learning-to-fly", dur: "", descRu: "Epic Dubstep, Brostep", descEn: "Epic Dubstep, Brostep" },
-{ name: "Dream", audiomack: "https://audiomack.com/ai_core_mixes/song/dream", dur: "", descRu: "2012 Oldschool Dubstep", descEn: "2012 Oldschool Dubstep" },
-{ name: "Street Instinct", audiomack: "https://audiomack.com/ai_core_mixes/song/street-instinct", dur: "", descRu: "Ragga Rockstep", descEn: "Ragga Rockstep" },
-{ name: "Zenith", audiomack: "https://audiomack.com/ai_core_mixes/song/zenith", dur: "", descRu: "Melodic Dubstep, Complextro", descEn: "Melodic Dubstep, Complextro" },
-{ name: "Voltage", audiomack: "https://audiomack.com/ai_core_mixes/song/voltage", dur: "", descRu: "Dubstep EDM", descEn: "Dubstep EDM" },
-{ name: "GOD MODE: EXTENDED", audiomack: "https://audiomack.com/ai_core_mixes/song/god-mode-extended", dur: "", descRu: "Gaming Dubstep", descEn: "Gaming Dubstep" },
-{ name: "Boneless Pressure", audiomack: "https://audiomack.com/ai_core_mixes/song/boneless-pressure", dur: "", descRu: "Ragga Dubstep", descEn: "Ragga Dubstep" },
-{ name: "Unleash the Storm", audiomack: "https://audiomack.com/ai_core_mixes/song/unleash-the-storm", dur: "", descRu: "Melodic Dubstep, Crossbreed, Drum-step", descEn: "Melodic Dubstep, Crossbreed, Drum-step" },
-{ name: "Beyond the Sky", audiomack: "https://audiomack.com/ai_core_mixes/song/6aba804ec576b", dur: "", descRu: "Cyberpunk, Dubstep", descEn: "Cyberpunk, Dubstep" }
+    { id: "Everything is OK", name: "Everything is OK", descRu: "Ragga Dubstep", descEn: "Ragga Dubstep", cover: "acm_logo.png" },
+    { id: "Rendezvous with Life", name: "Rendezvous with Life", descRu: "Melodic Dubstep", descEn: "Melodic Dubstep", cover: "acm_logo.png" },
+    { id: "Boundless Ocean", name: "Boundless Ocean", descRu: "Melodic Dubstep", descEn: "Melodic Dubstep", cover: "acm_logo.png" },
+    { id: "Tomorrow’s Light", name: "Tomorrow’s Light", descRu: "Tribal Dubstep, Oriental Brostep", descEn: "Tribal Dubstep, Oriental Brostep", cover: "acm_logo.png" },
+    { id: "NEON OVERRIDE", name: "NEON OVERRIDE", descRu: "Cyberpunk Dubstep, Glitchstep", descEn: "Cyberpunk Dubstep, Glitchstep", cover: "acm_logo.png" },
+    { id: "Starry Tide", name: "Starry Tide", descRu: "Brostep, Complextro", descEn: "Brostep, Complextro", cover: "acm_logo.png" },
+    { id: "Learning to Fly", name: "Learning to Fly", descRu: "Epic Dubstep, Brostep", descEn: "Epic Dubstep, Brostep", cover: "acm_logo.png" },
+    { id: "Dream", name: "Dream", descRu: "2012 Oldschool Dubstep", descEn: "2012 Oldschool Dubstep", cover: "acm_logo.png" },
+    { id: "Street Instinct", name: "Street Instinct", descRu: "Ragga Rockstep", descEn: "Ragga Rockstep", cover: "acm_logo.png" },
+    { id: "Zenith", name: "Zenith", descRu: "Melodic Dubstep, Complextro", descEn: "Melodic Dubstep, Complextro", cover: "acm_logo.png" },
+    { id: "Voltage", name: "Voltage", descRu: "Dubstep EDM", descEn: "Dubstep EDM", cover: "acm_logo.png" },
+    { id: "GOD MODE: EXTENDED", name: "GOD MODE: EXTENDED", descRu: "Gaming Dubstep", descEn: "Gaming Dubstep", cover: "acm_logo.png" },
+    { id: "Boneless Pressure", name: "Boneless Pressure", descRu: "Ragga Dubstep", descEn: "Ragga Dubstep", cover: "acm_logo.png" },
+    { id: "Unleash the Storm", name: "Unleash the Storm", descRu: "Melodic Dubstep, Crossbreed, Drum-step", descEn: "Melodic Dubstep, Crossbreed, Drum-step", cover: "acm_logo.png" },
+    { id: "Beyond the Sky", name: "Beyond the Sky", descRu: "Cyberpunk, Dubstep", descEn: "Cyberpunk, Dubstep", cover: "acm_logo.png" }
 ];
 
+// ===== ЛОГИКА ПЛЕЕРА =====
 const $ = id => document.getElementById(id);
-const audiomackPlayer = $("audiomackPlayer");
+const audio = $("acm-audio");
+const playBtn = $("acm-play");
+const playIcon = $("acm-play-icon");
+const prevBtn = $("acm-prev");
+const nextBtn = $("acm-next");
+const shuffleBtn = $("acm-shuffle");
+const repeatBtn = $("acm-repeat");
+const progressWrap = $("acm-progress");
+const progressFill = $("acm-progress-fill");
+const timeCur = $("acm-time-cur");
+const timeDur = $("acm-time-dur");
+const volumeSlider = $("acm-volume");
+const titleEl = $("acm-title");
+const genreEl = $("acm-genre");
+const coverEl = $("acm-cover");
+const canvas = $("acm-wave-canvas");
+const ctx = canvas.getContext("2d");
 
 let currentPlaylist = playlistRockstep;
 let currentTrackIndex = 0;
-let amPlayer = null;
+let isShuffle = false;
+let isRepeat = false;
+let audioContext, analyser, source, dataArray;
+let isAudioContextInit = false;
+
+const WORKER_URL = "https://acm-audio-proxy.deniska.workers.dev";
 
 function getTrackDescription(track) {
     return currentLanguage === "ru" ? track.descRu : track.descEn;
 }
 
-function getAudiomackEmbedUrl(url) {
-    if (!url || url.includes("/embed/")) return url;
-    try {
-        const parts = new URL(url).pathname.split("/").filter(Boolean);
-        if (parts.length >= 3 && parts[1] === "song") {
-            return "https://audiomack.com/embed/song/" + parts[0] + "/" + parts[2];
-        }
-    } catch (error) {}
-    return url;
+function initAudioContext() {
+    if (isAudioContextInit) return;
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    analyser = audioContext.createAnalyser();
+    analyser.fftSize = 256;
+    source = audioContext.createMediaElementSource(audio);
+    source.connect(analyser);
+    analyser.connect(audioContext.destination);
+    dataArray = new Uint8Array(analyser.frequencyBinCount);
+    isAudioContextInit = true;
+    drawWaveform();
 }
 
-function play(track, element, playlist = null, index = -1, autoStart = true) {
-    if (playlist) {
-        currentPlaylist = playlist;
-        currentTrackIndex = index;
+function drawWaveform() {
+    const w = canvas.width = canvas.offsetWidth * 2;
+    const h = canvas.height = canvas.offsetHeight * 2;
+    ctx.clearRect(0, 0, w, h);
+
+    if (!isAudioContextInit || audio.paused) {
+        drawStaticWave(w, h);
+        requestAnimationFrame(drawWaveform);
+        return;
     }
 
-    let embedUrl = getAudiomackEmbedUrl(track.audiomack);
-    if (autoStart) {
-        embedUrl += (embedUrl.includes("?") ? "&" : "?") + "autoplay=1";
+    analyser.getByteFrequencyData(dataArray);
+    const barWidth = w / dataArray.length * 2.5;
+    let x = 0;
+    const progress = audio.duration ? (audio.currentTime / audio.duration) : 0;
+    const progressX = w * progress;
+
+    for (let i = 0; i < dataArray.length; i++) {
+        const barHeight = (dataArray[i] / 255) * h * 0.8;
+        const isPlayed = x < progressX;
+        ctx.fillStyle = isPlayed ? "var(--copper)" : "rgba(255,255,255,0.1)";
+        // Примечание: ctx.fillStyle не понимает CSS переменные напрямую в некоторых браузерах, 
+        // поэтому используем getComputedStyle или хардкод цвета для canvas
+        ctx.fillStyle = isPlayed ? "#c87f43" : "rgba(255,255,255,0.1)";
+        ctx.fillRect(x, (h - barHeight) / 2, Math.max(1, barWidth - 1), barHeight);
+        x += barWidth;
+    }
+    requestAnimationFrame(drawWaveform);
+}
+
+function drawStaticWave(w, h) {
+    ctx.clearRect(0, 0, w, h);
+    const bars = 60;
+    const barWidth = w / bars;
+    for (let i = 0; i < bars; i++) {
+        const barHeight = Math.random() * h * 0.4 + h * 0.1;
+        ctx.fillStyle = "rgba(200, 127, 67, 0.2)";
+        ctx.fillRect(i * barWidth, (h - barHeight) / 2, barWidth - 2, barHeight);
+    }
+}
+
+function formatTime(s) {
+    if (isNaN(s)) return "0:00";
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return m + ":" + (sec < 10 ? "0" : "") + sec;
+}
+
+function loadTrack(index, playlist, autoPlay = true) {
+    if (index < 0 || index >= playlist.length) return;
+    currentPlaylist = playlist;
+    currentTrackIndex = index;
+    const track = playlist[index];
+
+    titleEl.textContent = track.name;
+    genreEl.textContent = getTrackDescription(track);
+    coverEl.src = track.cover || "acm_logo.png";
+
+    const url = `${WORKER_URL}/?track=${encodeURIComponent(track.id)}`;
+    audio.src = url;
+    
+    if (autoPlay) {
+        initAudioContext();
+        audio.play().catch(e => console.log("Autoplay blocked:", e));
     }
 
-    audiomackPlayer.src = embedUrl;
-
+    // Обновляем активный класс в списках
     document.querySelectorAll(".track").forEach(el => el.classList.remove("active"));
-    if (element) {
-        element.classList.add("active");
-    }
-
-    $("player").scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-    });
-}
-
-function playNextTrack() {
-    if (!currentPlaylist || !currentPlaylist.length) return;
-
-    currentTrackIndex++;
-    if (currentTrackIndex >= currentPlaylist.length) {
-        currentTrackIndex = 0;
-    }
-
-    const nextTrack = currentPlaylist[currentTrackIndex];
-    const containerId = currentPlaylist === playlistRockstep ? "listRockstep" : "listDubstep";
+    const containerId = playlist === playlistRockstep ? "listRockstep" : "listDubstep";
     const trackElements = $(containerId).querySelectorAll(".track");
-
-    play(nextTrack, trackElements[currentTrackIndex], currentPlaylist, currentTrackIndex, true);
+    if (trackElements[index]) {
+        trackElements[index].classList.add("active");
+        // Плавный скролл к плееру при ручном выборе
+        if (autoPlay) {
+            $("player").scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+    }
 }
+
+function togglePlay() {
+    if (!isAudioContextInit) initAudioContext();
+    if (audio.paused) {
+        audio.play().catch(e => console.log("Play error:", e));
+    } else {
+        audio.pause();
+    }
+}
+
+function updatePlayIcon() {
+    if (audio.paused) {
+        playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+    } else {
+        playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+    }
+}
+
+function nextTrack() {
+    let next;
+    if (isShuffle) {
+        next = Math.floor(Math.random() * currentPlaylist.length);
+    } else {
+        next = (currentTrackIndex + 1) % currentPlaylist.length;
+    }
+    loadTrack(next, currentPlaylist, true);
+}
+
+function prevTrack() {
+    if (audio.currentTime > 3) {
+        audio.currentTime = 0;
+        return;
+    }
+    const prev = (currentTrackIndex - 1 + currentPlaylist.length) % currentPlaylist.length;
+    loadTrack(prev, currentPlaylist, true);
+}
+
+// ===== СОБЫТИЯ =====
+playBtn.addEventListener("click", togglePlay);
+audio.addEventListener("play", updatePlayIcon);
+audio.addEventListener("pause", updatePlayIcon);
+
+audio.addEventListener("ended", () => {
+    if (isRepeat) {
+        audio.currentTime = 0;
+        audio.play();
+    } else {
+        nextTrack();
+    }
+});
+
+audio.addEventListener("timeupdate", () => {
+    if (audio.duration) {
+        const pct = (audio.currentTime / audio.duration) * 100;
+        progressFill.style.width = pct + "%";
+        timeCur.textContent = formatTime(audio.currentTime);
+    }
+});
+
+audio.addEventListener("loadedmetadata", () => {
+    timeDur.textContent = formatTime(audio.duration);
+});
+
+audio.addEventListener("error", (e) => {
+    console.error("Audio load error:", e);
+    titleEl.textContent = "Ошибка загрузки (проверьте имя файла в R2)";
+});
+
+progressWrap.addEventListener("click", (e) => {
+    const rect = progressWrap.getBoundingClientRect();
+    const pct = (e.clientX - rect.left) / rect.width;
+    if (audio.duration) audio.currentTime = pct * audio.duration;
+});
+
+volumeSlider.addEventListener("input", (e) => {
+    audio.volume = e.target.value;
+});
+
+shuffleBtn.addEventListener("click", () => {
+    isShuffle = !isShuffle;
+    shuffleBtn.classList.toggle("active", isShuffle);
+});
+
+repeatBtn.addEventListener("click", () => {
+    isRepeat = !isRepeat;
+    repeatBtn.classList.toggle("active", isRepeat);
+});
+
+nextBtn.addEventListener("click", nextTrack);
+prevBtn.addEventListener("click", prevTrack);
 
 function render(list, containerId) {
     const container = $(containerId);
     container.innerHTML = "";
-
     list.forEach((track, index) => {
         const element = document.createElement("div");
         element.className = "track";
-
+        
         const info = document.createElement("div");
         info.className = "track-info";
-
+        
         const name = document.createElement("div");
         name.className = "track-name";
         name.textContent = track.name;
-
+        
         const meta = document.createElement("div");
         meta.className = "track-meta";
         meta.textContent = getTrackDescription(track);
-
-        const duration = document.createElement("div");
-        duration.className = "track-dur";
-        duration.textContent = track.dur || "";
-
+        
         info.appendChild(name);
-        if (getTrackDescription(track)) {
-            info.appendChild(meta);
-        }
-
+        if (getTrackDescription(track)) info.appendChild(meta);
         element.appendChild(info);
-        if (track.dur) {
-            element.appendChild(duration);
-        }
-
-        element.onclick = () => play(track, element, list, index, true);
-
+        
+        element.onclick = () => loadTrack(index, list, true);
         container.appendChild(element);
     });
 }
 
-// Инициализация при загрузке страницы
+// ===== ИНИЦИАЛИЗАЦИЯ =====
 window.addEventListener("DOMContentLoaded", () => {
-    // Начальная загрузка первого релиза без автовоспроизведения
-    play(lastRelease, null, playlistRockstep, 0, false);
-    
     render(playlistRockstep, "listRockstep");
     render(playlistDubstep, "listDubstep");
-
-    // Подключаем слушатель Audiomack API
-    if (window.Audiomack && window.Audiomack.Player) {
-        amPlayer = new window.Audiomack.Player(audiomackPlayer);
-        amPlayer.on("ENDED", playNextTrack);
-    }
+    
+    // Загружаем первый трек, но не запускаем автоматически (ждем клика)
+    loadTrack(0, playlistRockstep, false);
+    drawStaticWave(canvas.offsetWidth * 2, canvas.offsetHeight * 2);
 });
 </script>
 
