@@ -9,17 +9,17 @@
 *{margin:0;padding:0;box-sizing:border-box}
 
 :root{
-    --copper:#c87f43;
-    --copper-dim:#9a6234;
-    --bg:#080808;
-    --card:rgba(255,255,255,.045);
-    --card-hover:rgba(255,255,255,.075);
-    --text:#fff;
-    --text-dim:#a9a9a9;
+    --copper:#e05a1d;
+    --copper-glow:rgba(224, 90, 29, 0.4);
+    --bg:#07080a;
+    --card:rgba(255,255,255,.03);
+    --card-hover:rgba(255,255,255,.06);
+    --text:#ffffff;
+    --text-dim:#7e8895;
 }
 
 body{
-    font-family:"Segoe UI",Tahoma,sans-serif;
+    font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     color:var(--text);
     min-height:100vh;
     background:var(--bg);
@@ -33,34 +33,34 @@ body::before{
     content:"";
     position:fixed;
     inset:0;
-    background:rgba(8,8,8,.85);
+    background:rgba(5, 6, 8, 0.92);
     z-index:-1;
 }
 
 .wrap{
-    max-width:900px;
+    max-width:960px;
     margin:0 auto;
     padding:40px 20px;
 }
 
 .logo{
     display:block;
-    width:min(360px,80%);
+    width:min(280px,70%);
     margin:0 auto 30px;
+    opacity:0.9;
 }
 
 /* ===== О ПРОЕКТЕ ===== */
-
-.about-section{margin-bottom:40px}
+.about-section{margin-bottom:30px}
 
 .about-toggle{
     width:100%;
-    padding:14px 24px;
-    background:rgba(200,127,67,.1);
-    border:1px solid rgba(200,127,67,.3);
-    border-radius:10px;
+    padding:12px 20px;
+    background:rgba(224, 90, 29, 0.08);
+    border:1px solid rgba(224, 90, 29, 0.25);
+    border-radius:8px;
     color:var(--copper);
-    font-size:13px;
+    font-size:12px;
     letter-spacing:2px;
     text-transform:uppercase;
     cursor:pointer;
@@ -72,443 +72,306 @@ body::before{
 }
 
 .about-toggle:hover{
-    background:rgba(200,127,67,.2);
+    background:rgba(224, 90, 29, 0.15);
     border-color:var(--copper);
 }
 
 .about-toggle::after{
     content:"▼";
-    font-size:10px;
+    font-size:9px;
     transition:transform .3s;
 }
 
 .about-section[open] .about-toggle::after{transform:rotate(180deg)}
 
 .about-content{
-    margin-top:15px;
-    padding:20px;
-    background:rgba(0,0,0,.6);
-    border:1px solid rgba(200,127,67,.2);
-    border-radius:10px;
-    font-size:14px;
-    line-height:1.8;
+    margin-top:12px;
+    padding:18px;
+    background:rgba(0,0,0,.5);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:8px;
+    font-size:13px;
+    line-height:1.7;
     color:var(--text-dim);
 }
 
-.about-content p{margin-bottom:12px}
+.about-content p{margin-bottom:8px}
 .about-content p:last-child{margin-bottom:0}
 
 /* =========================================================
-   ACM PLAYER — НОВЫЙ МИНИМАЛИСТИЧНЫЙ ДИЗАЙН
-   Обложка растворяется точками в фон.
+   ACM PLAYER — UI НА ОСНОВЕ МАКЕТА
    ========================================================= */
 
-.player-container{
+.player-card{
     position:relative;
-    overflow:hidden;
+    background:radial-gradient(ellipse at center, #12151b 0%, #08090c 100%);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:12px;
+    padding:35px;
     margin-bottom:40px;
-    padding:0;
-    border:1px solid rgba(255,255,255,.09);
-    border-radius:18px;
-    background:#0b0d0f;
-    box-shadow:0 16px 50px rgba(0,0,0,.32);
+    box-shadow:0 30px 60px rgba(0,0,0,.7);
+    display:grid;
+    grid-template-columns:260px 1fr;
+    gap:40px;
+    align-items:center;
 }
 
-/* Верхняя часть */
-
-.player-main{
-    position:relative;
-    min-height:330px;
-    display:flex;
-    align-items:flex-end;
-    overflow:hidden;
-    background:
-        radial-gradient(circle at 27% 45%,rgba(200,127,67,.13),transparent 35%),
-        linear-gradient(110deg,#17191a 0%,#0d1012 58%,#0a0c0e 100%);
-}
-
-/* Очень лёгкая текстура вместо тяжёлой графики */
-
-.player-main::after{
-    content:"";
+/* Статус справа сверху */
+.status-badge{
     position:absolute;
-    inset:0;
-    pointer-events:none;
-    opacity:.12;
-    background-image:radial-gradient(rgba(255,255,255,.18) .5px,transparent .5px);
-    background-size:5px 5px;
-    mix-blend-mode:soft-light;
-}
-
-/* ===== ОБЛОЖКА ===== */
-
-.player-cover{
-    position:absolute;
-    z-index:1;
-    left:24px;
-    top:24px;
-    width:300px;
-    aspect-ratio:1;
-    overflow:visible;
-    border-radius:10px;
-    isolation:isolate;
-}
-
-/* Сама картинка */
-
-.player-cover img{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    display:block;
-    object-fit:cover;
-    border-radius:10px;
-
-    /*
-      Мягкая прозрачность по правому краю.
-      Дополнительный dotted overlay ниже создаёт эффект
-      распада изображения на точки.
-    */
-    -webkit-mask-image:linear-gradient(
-        90deg,
-        #000 0%,
-        #000 66%,
-        rgba(0,0,0,.96) 72%,
-        rgba(0,0,0,.55) 84%,
-        transparent 100%
-    );
-    mask-image:linear-gradient(
-        90deg,
-        #000 0%,
-        #000 66%,
-        rgba(0,0,0,.96) 72%,
-        rgba(0,0,0,.55) 84%,
-        transparent 100%
-    );
-}
-
-/*
-  Точечное растворение.
-  Используем radial-gradient вместо Canvas — это почти бесплатный
-  декоративный слой для браузера.
-*/
-
-.player-cover::before{
-    content:"";
-    position:absolute;
-    z-index:3;
-    inset:-2px -8px -8px -2px;
-    pointer-events:none;
-
-    background:
-        radial-gradient(circle at 99% 18%,rgba(11,13,15,0) 0 1px,#0b0d0f 1.2px 2px,transparent 2.2px),
-        radial-gradient(circle at 96% 34%,rgba(11,13,15,0) 0 1px,#0b0d0f 1.2px 2.3px,transparent 2.5px),
-        radial-gradient(circle at 99% 52%,rgba(11,13,15,0) 0 .8px,#0b0d0f 1px 2px,transparent 2.2px),
-        radial-gradient(circle at 94% 72%,rgba(11,13,15,0) 0 1px,#0b0d0f 1.2px 2.4px,transparent 2.6px),
-        radial-gradient(circle at 82% 4%,rgba(11,13,15,0) 0 .7px,#0b0d0f 1px 2px,transparent 2.3px),
-        radial-gradient(circle at 65% 96%,rgba(11,13,15,0) 0 .8px,#0b0d0f 1px 2.1px,transparent 2.4px);
-
-    background-size:17px 19px,23px 21px,19px 23px,29px 25px,21px 23px,27px 21px;
-    background-position:0 0,7px 3px,3px 9px,11px 2px,4px 7px,9px 1px;
-    opacity:.9;
-
-    /*
-      Стираем слой к центру — точки видны в основном по краям.
-    */
-    -webkit-mask-image:radial-gradient(
-        ellipse at 40% 45%,
-        transparent 0 48%,
-        #000 67%,
-        #000 100%
-    );
-    mask-image:radial-gradient(
-        ellipse at 40% 45%,
-        transparent 0 48%,
-        #000 67%,
-        #000 100%
-    );
-}
-
-/* Несколько крупных редких частиц */
-
-.player-cover::after{
-    content:"";
-    position:absolute;
-    z-index:4;
-    right:-15px;
-    top:8%;
-    width:90px;
-    height:84%;
-    pointer-events:none;
-    opacity:.7;
-
-    background:
-        radial-gradient(circle,rgba(200,127,67,.8) 0 1px,transparent 1.6px) 8px 10px/31px 37px,
-        radial-gradient(circle,rgba(255,255,255,.5) 0 .8px,transparent 1.5px) 0 0/23px 29px,
-        radial-gradient(circle,rgba(200,127,67,.45) 0 .7px,transparent 1.4px) 13px 17px/41px 43px;
-
-    filter:drop-shadow(0 0 4px rgba(200,127,67,.18));
-    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 35%,#000 100%);
-    mask-image:linear-gradient(90deg,transparent 0,#000 35%,#000 100%);
-}
-
-/* ===== ИНФОРМАЦИЯ ===== */
-
-.player-info{
-    position:relative;
-    z-index:5;
-    width:100%;
-    padding:0 28px 25px 350px;
-    background:linear-gradient(
-        90deg,
-        transparent 0%,
-        rgba(11,13,15,.5) 24%,
-        rgba(11,13,15,.94) 48%,
-        #0b0d0f 72%
-    );
-}
-
-.player-label{
-    margin-bottom:7px;
-    font-size:10px;
-    letter-spacing:2px;
-    color:#72787b;
-    text-transform:uppercase;
-}
-
-.player-title{
-    margin-bottom:7px;
-    font-size:28px;
-    line-height:1.05;
-    font-weight:800;
-    letter-spacing:.5px;
-    text-transform:uppercase;
-}
-
-.player-genre{
-    font-size:11px;
-    color:var(--copper);
-    letter-spacing:1px;
-    text-transform:uppercase;
-}
-
-/* Статус */
-
-.core-status{
-    position:absolute;
-    z-index:8;
-    top:18px;
-    right:20px;
+    top:20px;
+    right:25px;
     display:flex;
     align-items:center;
-    gap:7px;
-    font-size:9px;
-    letter-spacing:1.5px;
-    color:#62686b;
-    text-transform:uppercase;
+    gap:6px;
+    font-size:10px;
+    letter-spacing:2px;
+    color:#5a6370;
+    font-weight:600;
 }
 
-.core-dot{
-    width:5px;
-    height:5px;
+.status-dot{
+    width:6px;
+    height:6px;
     border-radius:50%;
-    background:#62686b;
+    background:#e05a1d;
+    box-shadow:0 0 8px var(--copper);
 }
 
-.player-container.is-playing .core-dot{
-    background:var(--copper);
-    box-shadow:0 0 8px rgba(200,127,67,.7);
-    animation:pulse 1.8s infinite;
+.player-card.is-playing .status-dot{
+    animation:blink 1.2s infinite alternate;
 }
 
-@keyframes pulse{
-    0%,100%{opacity:1}
-    50%{opacity:.35}
+@keyframes blink{
+    from{opacity:0.4; box-shadow:0 0 2px var(--copper);}
+    to{opacity:1; box-shadow:0 0 10px var(--copper);}
 }
 
-/* ===== НИЖНЯЯ ПАНЕЛЬ ===== */
-
-.player-controls-area{
+/* Обложка с эффектом частичек */
+.cover-wrapper{
     position:relative;
-    z-index:10;
-    padding:17px 22px 20px;
-    border-top:1px solid rgba(255,255,255,.07);
-    background:rgba(8,10,11,.96);
+    width:260px;
+    height:260px;
+    border-radius:6px;
 }
 
-/* Canvas waveform */
-
-.waveform{
+.cover-image{
     width:100%;
-    height:48px;
-    margin-bottom:6px;
-    cursor:pointer;
+    height:100%;
+    object-fit:cover;
     border-radius:6px;
-    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,0.8);
+    border:1px solid rgba(255,255,255,0.1);
+}
+
+/* Декоративное свечение / искры вокруг обложки */
+.cover-wrapper::after{
+    content:"";
+    position:absolute;
+    inset:-15px;
+    background:radial-gradient(circle, rgba(224,90,29,0.2) 0%, transparent 70%);
+    z-index:-1;
+    pointer-events:none;
+    filter:blur(10px);
+}
+
+/* Правая инфо-панель */
+.player-details{
+    display:flex;
+    flex-direction:column;
+}
+
+.track-category{
+    font-size:11px;
+    letter-spacing:2px;
+    color:#4e5765;
+    text-transform:uppercase;
+    margin-bottom:10px;
+    font-weight:600;
+}
+
+.track-title{
+    font-size:28px;
+    font-weight:900;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    color:#fff;
+    margin-bottom:8px;
+    line-height:1.1;
+}
+
+.track-meta-tags{
+    display:flex;
+    gap:12px;
+    font-size:11px;
+    letter-spacing:1.5px;
+    color:var(--text-dim);
+    text-transform:uppercase;
+    margin-bottom:30px;
+}
+
+.track-meta-tags span:not(:last-child)::after{
+    content:"•";
+    margin-left:12px;
+    color:#3a424e;
+}
+
+/* Waveform область */
+.waveform-container{
+    position:relative;
+    width:100%;
+    height:60px;
+    margin-bottom:12px;
+    cursor:pointer;
 }
 
 #wave-canvas{
+    width:100%;
+    height:100%;
     display:block;
-    width:100%;
-    height:100%;
 }
 
-/* Время */
-
-.progress-container{
-    margin-bottom:14px;
-}
-
-.progress-bar{
-    width:100%;
-    height:3px;
-    background:rgba(255,255,255,.08);
-    border-radius:3px;
-    cursor:pointer;
-    overflow:hidden;
-}
-
-.progress-fill{
-    height:100%;
-    width:0;
-    background:var(--copper);
-    border-radius:3px;
-}
-
-.time-display{
+.time-row{
     display:flex;
     justify-content:space-between;
-    margin-top:7px;
-    font-size:10px;
-    color:#73787b;
+    font-size:11px;
+    color:#4e5765;
     font-family:monospace;
+    margin-bottom:25px;
 }
 
-/* Кнопки */
-
-.controls{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:13px;
-}
-
-.btn{
-    width:40px;
-    height:40px;
-    padding:0;
+/* Панель кнопок */
+.controls-row{
     display:flex;
     align-items:center;
     justify-content:center;
+    gap:20px;
+    margin-bottom:20px;
+}
+
+.ctrl-btn{
     background:none;
-    border:1px solid transparent;
-    border-radius:50%;
-    color:#777d80;
+    border:none;
+    color:#4e5765;
     cursor:pointer;
-    transition:.18s;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:color 0.2s, transform 0.1s;
+    outline:none;
 }
 
-.btn:hover{
+.ctrl-btn:hover{
+    color:#fff;
+}
+
+.ctrl-btn.active{
     color:var(--copper);
-    border-color:rgba(200,127,67,.2);
 }
 
-.btn.active{color:var(--copper)}
-
-.btn svg{
+.ctrl-btn svg{
     width:18px;
     height:18px;
     fill:currentColor;
 }
 
-.btn-play{
-    width:50px;
-    height:50px;
-    color:#080808;
-    background:var(--text);
-    border:none;
+/* Большая кнопка Play/Pause с кольцом */
+.btn-play-wrap{
+    position:relative;
+    width:56px;
+    height:56px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
-.btn-play:hover{
-    color:#080808;
-    background:#fff;
-    transform:scale(1.04);
+.play-ring{
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    border:1px solid var(--copper);
+    box-shadow:0 0 12px var(--copper-glow);
+    pointer-events:none;
 }
 
-.btn-play svg{
+.ctrl-btn-play{
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    background:#161920;
+    border:1px solid rgba(255,255,255,0.1);
+    color:#fff;
+}
+
+.ctrl-btn-play:hover{
+    background:#202530;
+    color:var(--copper);
+    transform:scale(1.05);
+}
+
+.ctrl-btn-play svg{
     width:20px;
     height:20px;
+    fill:currentColor;
 }
 
 /* Громкость */
-
-.volume-control{
+.volume-row{
     display:flex;
     align-items:center;
     justify-content:flex-end;
-    gap:9px;
-    margin-top:-45px;
-    color:#666b6e;
+    gap:8px;
+    color:#3a424e;
 }
 
-.volume-control svg{flex-shrink:0}
+.volume-row svg{
+    width:14px;
+    height:14px;
+    fill:currentColor;
+}
 
 .volume-slider{
-    width:90px;
-    height:3px;
+    width:70px;
+    height:2px;
     appearance:none;
     -webkit-appearance:none;
-    background:rgba(255,255,255,.1);
-    border-radius:2px;
+    background:#202530;
     outline:none;
+    border-radius:2px;
 }
 
 .volume-slider::-webkit-slider-thumb{
     appearance:none;
     -webkit-appearance:none;
-    width:10px;
-    height:10px;
+    width:8px;
+    height:8px;
     background:var(--copper);
     border-radius:50%;
     cursor:pointer;
-}
-
-.volume-slider::-moz-range-thumb{
-    width:10px;
-    height:10px;
-    border:0;
-    background:var(--copper);
-    border-radius:50%;
-    cursor:pointer;
+    box-shadow:0 0 6px var(--copper);
 }
 
 /* ===== ПЛЕЙЛИСТЫ ===== */
-
 .playlists{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:25px;
+    gap:20px;
     margin-bottom:40px;
 }
-
-.genre-section{width:100%}
-
-.genre-section details{width:100%}
 
 .genre-section summary{
     display:flex;
     align-items:center;
     justify-content:center;
     gap:10px;
-    padding:14px;
-    margin-bottom:15px;
-    background:rgba(200,127,67,.1);
-    border:1px solid rgba(200,127,67,.3);
-    border-radius:10px;
+    padding:12px;
+    margin-bottom:12px;
+    background:rgba(224,90,29,.08);
+    border:1px solid rgba(224,90,29,.2);
+    border-radius:8px;
     cursor:pointer;
     list-style:none;
-    font-size:12px;
+    font-size:11px;
     letter-spacing:2px;
     text-transform:uppercase;
     color:var(--copper);
@@ -518,12 +381,12 @@ body::before{
 .genre-section summary::-webkit-details-marker{display:none}
 
 .genre-section summary:hover{
-    background:rgba(200,127,67,.15);
+    background:rgba(224,90,29,.15);
 }
 
 .genre-section summary::after{
     content:"▼";
-    font-size:10px;
+    font-size:8px;
     transition:transform .3s;
 }
 
@@ -534,68 +397,67 @@ body::before{
 .track-list{
     display:flex;
     flex-direction:column;
-    gap:8px;
+    gap:6px;
 }
 
 .track-item{
     display:flex;
     align-items:center;
-    padding:12px 16px;
+    padding:10px 14px;
     background:var(--card);
-    border-radius:8px;
+    border-radius:6px;
     cursor:pointer;
-    border-left:3px solid transparent;
+    border-left:2px solid transparent;
     transition:.2s;
 }
 
 .track-item:hover{
     background:var(--card-hover);
-    transform:translateX(5px);
+    transform:translateX(4px);
 }
 
 .track-item.active{
-    background:rgba(200,127,67,.15);
+    background:rgba(224,90,29,.1);
     border-left-color:var(--copper);
 }
 
 .track-item-name{
     flex:1;
     font-weight:600;
-    font-size:13px;
+    font-size:12px;
 }
 
 .track-item-meta{
-    font-size:11px;
+    font-size:10px;
     color:var(--text-dim);
 }
 
 /* ===== ФУТЕР ===== */
-
 .footer{
     text-align:center;
-    padding-top:30px;
+    padding-top:25px;
     border-top:1px solid rgba(255,255,255,.05);
 }
 
 .social-links{
     display:flex;
     justify-content:center;
-    gap:15px;
-    margin-bottom:20px;
+    gap:12px;
+    margin-bottom:15px;
 }
 
 .social-link{
     display:inline-flex;
     align-items:center;
-    gap:8px;
-    padding:10px 20px;
+    gap:6px;
+    padding:8px 16px;
     background:var(--card);
-    border:1px solid rgba(200,127,67,.3);
-    border-radius:25px;
+    border:1px solid rgba(224,90,29,.25);
+    border-radius:20px;
     color:var(--text);
     text-decoration:none;
     transition:.2s;
-    font-size:13px;
+    font-size:12px;
 }
 
 .social-link:hover{
@@ -610,61 +472,30 @@ body::before{
     gap:6px;
     color:var(--text-dim);
     text-decoration:none;
-    font-size:13px;
-    margin-bottom:15px;
+    font-size:12px;
+    margin-bottom:12px;
 }
 
 .coffee-link:hover{color:var(--copper)}
 
 .copyright{
-    font-size:12px;
-    color:#555;
+    font-size:11px;
+    color:#444;
 }
 
-/* ===== АДАПТИВ ===== */
-
+/* АДАПТИВНОСТЬ */
 @media(max-width:768px){
-    .player-main{
-        min-height:390px;
-        display:block;
+    .player-card{
+        grid-template-columns:1fr;
+        padding:25px;
+        gap:25px;
     }
-
-    .player-cover{
-        left:18px;
-        top:18px;
-        width:calc(100% - 36px);
+    .cover-wrapper{
+        margin:0 auto;
+        width:220px;
+        height:220px;
     }
-
-    .player-info{
-        position:absolute;
-        left:0;
-        bottom:0;
-        padding:150px 20px 22px;
-        background:linear-gradient(
-            0deg,
-            #0b0d0f 0%,
-            rgba(11,13,15,.96) 46%,
-            transparent 100%
-        );
-    }
-
-    .player-title{font-size:23px}
-
-    .volume-control{
-        justify-content:center;
-        margin-top:15px;
-    }
-
     .playlists{grid-template-columns:1fr}
-}
-
-@media(max-width:480px){
-    .wrap{padding:25px 12px}
-    .player-controls-area{padding-left:14px;padding-right:14px}
-    .controls{gap:5px}
-    .btn{width:36px;height:36px}
-    .btn-play{width:48px;height:48px}
-    .player-cover{width:calc(100% - 36px)}
 }
 </style>
 </head>
@@ -685,95 +516,68 @@ body::before{
     </div>
 </details>
 
-<!-- ПЛЕЕР -->
-<div class="player-container" id="player-container">
+<!-- ACM ПЛЕЕР -->
+<div class="player-card" id="player-card">
 
-    <div class="core-status">
-        <div class="core-dot"></div>
-        <span id="core-status-text">CORE IDLE</span>
+    <div class="status-badge">
+        <div class="status-dot"></div>
+        <span id="status-text">CORE ONLINE</span>
     </div>
 
-    <div class="player-main">
-
-        <div class="player-cover">
-            <img id="player-cover" src="acm_logo.png" alt="Cover">
-        </div>
-
-        <div class="player-info">
-            <div class="player-label">ACM // NOW PLAYING</div>
-            <div class="player-title" id="player-title">—</div>
-            <div class="player-genre" id="player-genre">—</div>
-        </div>
-
+    <div class="cover-wrapper">
+        <img id="player-cover" class="cover-image" src="acm_logo.png" alt="Cover">
     </div>
 
-    <div class="player-controls-area">
+    <div class="player-details">
+        <div class="track-category">ACM / NOW PLAYING</div>
+        <div class="track-title" id="player-title">HELLISH PARADISE</div>
+        
+        <div class="track-meta-tags">
+            <span id="player-genre">INDUSTRIAL METAL</span>
+            <span id="player-subgenre">METALSTEP</span>
+            <span id="player-bpm">135 BPM</span>
+        </div>
 
-        <div class="waveform" id="waveform" title="Нажмите для перемотки">
+        <div class="waveform-container" id="waveform">
             <canvas id="wave-canvas"></canvas>
         </div>
 
-        <div class="progress-container">
-            <div class="progress-bar" id="progress-bar">
-                <div class="progress-fill" id="progress-fill"></div>
+        <div class="time-row">
+            <span id="time-current">01:42</span>
+            <span id="time-total">04:17</span>
+        </div>
+
+        <div class="controls-row">
+            <button class="ctrl-btn" id="btn-shuffle" title="Shuffle">
+                <svg viewBox="0 0 24 24"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>
+            </button>
+
+            <button class="ctrl-btn" id="btn-prev" title="Previous">
+                <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+            </button>
+
+            <div class="btn-play-wrap">
+                <div class="play-ring"></div>
+                <button class="ctrl-btn ctrl-btn-play" id="btn-play" title="Play">
+                    <svg viewBox="0 0 24 24" id="play-icon"><path d="M8 5v14l11-7z"/></svg>
+                </button>
             </div>
 
-            <div class="time-display">
-                <span id="time-current">0:00</span>
-                <span id="time-total">0:00</span>
-            </div>
+            <button class="ctrl-btn" id="btn-next" title="Next">
+                <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+            </button>
+
+            <button class="ctrl-btn" id="btn-repeat" title="Repeat">
+                <svg viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>
+            </button>
         </div>
 
-        <div class="controls">
-
-            <button class="btn" id="btn-shuffle" title="Shuffle" aria-label="Shuffle">
-                <svg viewBox="0 0 24 24">
-                    <path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/>
-                </svg>
-            </button>
-
-            <button class="btn" id="btn-prev" title="Previous" aria-label="Previous">
-                <svg viewBox="0 0 24 24">
-                    <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
-                </svg>
-            </button>
-
-            <button class="btn btn-play" id="btn-play" title="Play" aria-label="Play">
-                <svg viewBox="0 0 24 24" id="play-icon">
-                    <path d="M8 5v14l11-7z"/>
-                </svg>
-            </button>
-
-            <button class="btn" id="btn-next" title="Next" aria-label="Next">
-                <svg viewBox="0 0 24 24">
-                    <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
-                </svg>
-            </button>
-
-            <button class="btn" id="btn-repeat" title="Repeat" aria-label="Repeat">
-                <svg viewBox="0 0 24 24">
-                    <path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/>
-                </svg>
-            </button>
-
+        <div class="volume-row">
+            <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+            <input type="range" class="volume-slider" id="volume-slider" min="0" max="1" step="0.01" value="0.7">
         </div>
-
-        <div class="volume-control">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
-            </svg>
-
-            <input type="range"
-                   class="volume-slider"
-                   id="volume-slider"
-                   min="0"
-                   max="1"
-                   step="0.01"
-                   value="0.7"
-                   aria-label="Volume">
-        </div>
-
     </div>
+
 </div>
 
 <audio id="audio-player" preload="auto"></audio>
@@ -782,7 +586,7 @@ body::before{
 <div class="playlists">
 
     <div class="genre-section">
-        <details>
+        <details open>
             <summary>Rockstep</summary>
             <div class="track-list" id="list-rockstep"></div>
         </details>
@@ -801,29 +605,18 @@ body::before{
 <div class="footer">
 
     <div class="social-links">
-
         <a href="https://youtube.com/ник" target="_blank" rel="noopener" class="social-link">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M23 12s0-3.9-.5-5.8c-.3-1-1.1-1.8-2.1-2.1C18.5 3.6 12 3.6 12 3.6s-6.5 0-8.4.5c-1 .3-1.8 1.1-2.1 2.1C1 8.1 1 12 1 12s0 3.9.5 5.8c.3 1 1.1 1.8 2.1 2.1 8.4.5 8.4.5 8.4.5s6.5 0 8.4-.5c1-.3 1.8-1.1 2.1-2.1.5-1.9.5-5.8.5-5.8zM9.8 15.5V8.5l6.2 3.5-6.2 3.5z"/>
-            </svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.9-.5-5.8c-.3-1-1.1-1.8-2.1-2.1C18.5 3.6 12 3.6 12 3.6s-6.5 0-8.4.5c-1 .3-1.8 1.1-2.1 2.1C1 8.1 1 12 1 12s0 3.9.5 5.8c.3 1 1.1 1.8 2.1 2.1 8.4.5 8.4.5 8.4.5s6.5 0 8.4-.5c1-.3 1.8-1.1 2.1-2.1.5-1.9.5-5.8.5-5.8zM9.8 15.5V8.5l6.2 3.5-6.2 3.5z"/></svg>
             YouTube
         </a>
-
         <a href="https://instagram.com/ВАШ_НИК" target="_blank" rel="noopener" class="social-link">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="3" width="18" height="18" rx="5"/>
-                <circle cx="12" cy="12" r="4"/>
-                <circle cx="17.4" cy="6.6" r="1.2"/>
-            </svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1.2"/></svg>
             Instagram
         </a>
-
     </div>
 
     <a href="https://ko-fi.com/ВАШ_НИК" target="_blank" rel="noopener" class="coffee-link">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M4 8h13a3 3 0 0 1 0 6h-1.2M4 8v7a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4V8H4z"/>
-        </svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h13a3 3 0 0 1 0 6h-1.2M4 8v7a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4V8H4z"/></svg>
         Поддержать проект
     </a>
 
@@ -836,94 +629,87 @@ body::before{
 </div>
 
 <script>
-/* =========================================================
-   ДАННЫЕ
-   ========================================================= */
-
 const WORKER_URL = 'https://acm-audio-proxy.deniska.workers.dev';
 
 const playlistRockstep = [
-    { id:'Blindfold', name:'Blindfold', genre:'Industrial Rock, Electronic Rock' },
-    { id:'Lost In The Cloud-Abyss', name:'Lost In The Cloud-Abyss', genre:'Nu-Metal, Metalstep' },
-    { id:'Hellish Paradise', name:'Hellish Paradise', genre:'Industrial Metal, Cyber Metal' },
-    { id:'Stray God', name:'Stray God', genre:'Doom Metal, Metalstep' },
-    { id:'Twilight Mind', name:'Twilight Mind', genre:'Blues Rockstep' },
-    { id:'Ash Wanderer', name:'Ash Wanderer', genre:'Nu-Metal, Metalcore' },
-    { id:'Nameless City', name:'Nameless City', genre:'Dark Metal, Industrial Metal' },
-    { id:'Burn To The Ground', name:'Burn To The Ground', genre:'Doom Metal, Nu-Metal' },
-    { id:'Inversion', name:'Inversion', genre:'Industrial Metal, Doom Metal' },
-    { id:'Burning With Hate', name:'Burning With Hate', genre:'Electronic Metalcore' },
-    { id:'Descend', name:'Descend', genre:'Blues Rockstep' },
-    { id:'Zero Zero', name:'Zero Zero', genre:'Industrial Rock, Electronic Metal' },
-    { id:'Through The Fear', name:'Through The Fear', genre:'Doom Metal, Metalcore' },
-    { id:'Boiling Blood', name:'Boiling Blood', genre:'Industrial Metal, Cyberpunk' },
-    { id:'My Demons Within', name:'My Demons Within', genre:'Industrial Metal, Nu-Metal' },
-    { id:'False Memories', name:'False Memories', genre:'Industrial Doom Metalstep' },
-    { id:'Burn My Yesterday', name:'Burn My Yesterday', genre:'Metalcore, Industrial Metal' },
-    { id:'Mad War', name:'Mad War', genre:'Electronic Rock, Post-Hardcore' },
-    { id:'Apex Predator', name:'Apex Predator', genre:'Neoclassical Doom Metalstep' },
-    { id:'Cold Valhalla', name:'Cold Valhalla', genre:'Cyberpunk Trap Metal' },
-    { id:'Blades Of Volition', name:'Blades Of Volition', genre:'Dark Metal, Metalstep' },
-    { id:'Black Bile', name:'Black Bile', genre:'Dark Industrial Metal' },
-    { id:'Bloodboil', name:'Bloodboil', genre:'Industrial Metal, Metalstep' },
-    { id:'Iron Will', name:'Iron Will', genre:'Industrial Metalstep' },
-    { id:'Ashes Of The Heavens', name:'Ashes Of The Heavens', genre:'Metalstep, Post-Hardcore' },
-    { id:'Silicon Rage', name:'Silicon Rage', genre:'Cybercore, Doom Metal' },
-    { id:'Obsidian Pulse', name:'Obsidian Pulse', genre:'Industrial Metalcore' },
-    { id:'Glacial Ignite', name:'Glacial Ignite', genre:'Doom Metal, Metalstep' },
-    { id:'Ghost Chemistry', name:'Ghost Chemistry', genre:'Heavy Rockstep, Dark Dubstep' },
-    { id:'One Step Into The Void', name:'One Step Into The Void', genre:'Doom Metal, Nu-Metal' },
-    { id:'Thunder Echo', name:'Thunder Echo', genre:'Modern Hard Rock, Rockstep' },
-    { id:'Protocol Ghost', name:'Protocol Ghost', genre:'Dark Cyberpunk, Industrial Metal' },
-    { id:'Neural Fracture', name:'Neural Fracture', genre:'Rap, Metalcore, Doomstep' },
-    { id:'Berserks Protocol', name:'Berserks Protocol', genre:'Industrial Metalstep, Folk Metal' },
-    { id:'Illuminated Error', name:'Illuminated Error', genre:'' },
-    { id:'Neural Breach', name:'Neural Breach', genre:'' },
-    { id:'System Overload', name:'System Overload', genre:'' }
+    { id:'Hellish Paradise', name:'HELLISH PARADISE', genre:'INDUSTRIAL METAL', subgenre:'METALSTEP', bpm:'135 BPM' },
+    { id:'Blindfold', name:'Blindfold', genre:'Industrial Rock', subgenre:'Electronic Rock', bpm:'130 BPM' },
+    { id:'Lost In The Cloud-Abyss', name:'Lost In The Cloud-Abyss', genre:'Nu-Metal', subgenre:'Metalstep', bpm:'140 BPM' },
+    { id:'Stray God', name:'Stray God', genre:'Doom Metal', subgenre:'Metalstep', bpm:'128 BPM' },
+    { id:'Twilight Mind', name:'Twilight Mind', genre:'Blues Rockstep', subgenre:'Electronic', bpm:'120 BPM' },
+    { id:'Ash Wanderer', name:'Ash Wanderer', genre:'Nu-Metal', subgenre:'Metalcore', bpm:'135 BPM' },
+    { id:'Nameless City', name:'Nameless City', genre:'Dark Metal', subgenre:'Industrial Metal', bpm:'132 BPM' },
+    { id:'Burn To The Ground', name:'Burn To The Ground', genre:'Doom Metal', subgenre:'Nu-Metal', bpm:'125 BPM' },
+    { id:'Inversion', name:'Inversion', genre:'Industrial Metal', subgenre:'Doom Metal', bpm:'138 BPM' },
+    { id:'Burning With Hate', name:'Burning With Hate', genre:'Electronic Metalcore', subgenre:'Metalstep', bpm:'140 BPM' },
+    { id:'Descend', name:'Descend', genre:'Blues Rockstep', subgenre:'Hard Rock', bpm:'118 BPM' },
+    { id:'Zero Zero', name:'Zero Zero', genre:'Industrial Rock', subgenre:'Electronic Metal', bpm:'130 BPM' },
+    { id:'Through The Fear', name:'Through The Fear', genre:'Doom Metal', subgenre:'Metalcore', bpm:'134 BPM' },
+    { id:'Boiling Blood', name:'Boiling Blood', genre:'Industrial Metal', subgenre:'Cyberpunk', bpm:'145 BPM' },
+    { id:'My Demons Within', name:'My Demons Within', genre:'Industrial Metal', subgenre:'Nu-Metal', bpm:'130 BPM' },
+    { id:'False Memories', name:'False Memories', genre:'Industrial Doom', subgenre:'Metalstep', bpm:'128 BPM' },
+    { id:'Burn My Yesterday', name:'Burn My Yesterday', genre:'Metalcore', subgenre:'Industrial Metal', bpm:'135 BPM' },
+    { id:'Mad War', name:'Mad War', genre:'Electronic Rock', subgenre:'Post-Hardcore', bpm:'138 BPM' },
+    { id:'Apex Predator', name:'Apex Predator', genre:'Neoclassical Doom', subgenre:'Metalstep', bpm:'140 BPM' },
+    { id:'Cold Valhalla', name:'Cold Valhalla', genre:'Cyberpunk Trap', subgenre:'Metal', bpm:'132 BPM' },
+    { id:'Blades Of Volition', name:'Blades Of Volition', genre:'Dark Metal', subgenre:'Metalstep', bpm:'136 BPM' },
+    { id:'Black Bile', name:'Black Bile', genre:'Dark Industrial', subgenre:'Metal', bpm:'125 BPM' },
+    { id:'Bloodboil', name:'Bloodboil', genre:'Industrial Metal', subgenre:'Metalstep', bpm:'142 BPM' },
+    { id:'Iron Will', name:'Iron Will', genre:'Industrial', subgenre:'Metalstep', bpm:'130 BPM' },
+    { id:'Ashes Of The Heavens', name:'Ashes Of The Heavens', genre:'Metalstep', subgenre:'Post-Hardcore', bpm:'138 BPM' },
+    { id:'Silicon Rage', name:'Silicon Rage', genre:'Cybercore', subgenre:'Doom Metal', bpm:'140 BPM' },
+    { id:'Obsidian Pulse', name:'Obsidian Pulse', genre:'Industrial', subgenre:'Metalcore', bpm:'133 BPM' },
+    { id:'Glacial Ignite', name:'Glacial Ignite', genre:'Doom Metal', subgenre:'Metalstep', bpm:'126 BPM' },
+    { id:'Ghost Chemistry', name:'Ghost Chemistry', genre:'Heavy Rockstep', subgenre:'Dark Dubstep', bpm:'140 BPM' },
+    { id:'One Step Into The Void', name:'One Step Into The Void', genre:'Doom Metal', subgenre:'Nu-Metal', bpm:'124 BPM' },
+    { id:'Thunder Echo', name:'Thunder Echo', genre:'Modern Hard Rock', subgenre:'Rockstep', bpm:'130 BPM' },
+    { id:'Protocol Ghost', name:'Protocol Ghost', genre:'Dark Cyberpunk', subgenre:'Industrial Metal', bpm:'135 BPM' },
+    { id:'Neural Fracture', name:'Neural Fracture', genre:'Rap Metalcore', subgenre:'Doomstep', bpm:'142 BPM' },
+    { id:'Berserks Protocol', name:'Berserks Protocol', genre:'Industrial Metalstep', subgenre:'Folk Metal', bpm:'136 BPM' },
+    { id:'Illuminated Error', name:'Illuminated Error', genre:'Industrial', subgenre:'Cyber Metal', bpm:'135 BPM' },
+    { id:'Neural Breach', name:'Neural Breach', genre:'Cybercore', subgenre:'Metalstep', bpm:'138 BPM' },
+    { id:'System Overload', name:'System Overload', genre:'Industrial Metal', subgenre:'Dubstep', bpm:'140 BPM' }
 ];
 
 const playlistDubstep = [
-    { id:'Everything is OK', name:'Everything is OK', genre:'Ragga Dubstep' },
-    { id:'Rendezvous with Life', name:'Rendezvous with Life', genre:'Melodic Dubstep' },
-    { id:'Boundless Ocean', name:'Boundless Ocean', genre:'Melodic Dubstep' },
-    { id:"Tomorrow's Light", name:"Tomorrow's Light", genre:'Tribal Dubstep' },
-    { id:'NEON OVERRIDE', name:'NEON OVERRIDE', genre:'Cyberpunk Dubstep, Glitchstep' },
-    { id:'Starry Tide', name:'Starry Tide', genre:'Brostep, Complextro' },
-    { id:'Learning to Fly', name:'Learning to Fly', genre:'Epic Dubstep, Brostep' },
-    { id:'Dream', name:'Dream', genre:'2012 Oldschool Dubstep' },
-    { id:'Street Instinct', name:'Street Instinct', genre:'Ragga Rockstep' },
-    { id:'Zenith', name:'Zenith', genre:'Melodic Dubstep, Complextro' },
-    { id:'Voltage', name:'Voltage', genre:'Dubstep EDM' },
-    { id:'GOD MODE: EXTENDED', name:'GOD MODE: EXTENDED', genre:'Gaming Dubstep' },
-    { id:'Boneless Pressure', name:'Boneless Pressure', genre:'Ragga Dubstep' },
-    { id:'Unleash the Storm', name:'Unleash the Storm', genre:'Melodic Dubstep, Crossbreed' },
-    { id:'Beyond the Sky', name:'Beyond the Sky', genre:'Cyberpunk, Dubstep' }
+    { id:'Everything is OK', name:'Everything is OK', genre:'Ragga Dubstep', subgenre:'Bass', bpm:'140 BPM' },
+    { id:'Rendezvous with Life', name:'Rendezvous with Life', genre:'Melodic Dubstep', subgenre:'Chillstep', bpm:'140 BPM' },
+    { id:'Boundless Ocean', name:'Boundless Ocean', genre:'Melodic Dubstep', subgenre:'Atmospheric', bpm:'138 BPM' },
+    { id:"Tomorrow's Light", name:"Tomorrow's Light", genre:'Tribal Dubstep', subgenre:'Ethnic Bass', bpm:'140 BPM' },
+    { id:'NEON OVERRIDE', name:'NEON OVERRIDE', genre:'Cyberpunk Dubstep', subgenre:'Glitchstep', bpm:'142 BPM' },
+    { id:'Starry Tide', name:'Starry Tide', genre:'Brostep', subgenre:'Complextro', bpm:'140 BPM' },
+    { id:'Learning to Fly', name:'Learning to Fly', genre:'Epic Dubstep', subgenre:'Brostep', bpm:'140 BPM' },
+    { id:'Dream', name:'Dream', genre:'2012 Oldschool', subgenre:'Dubstep', bpm:'140 BPM' },
+    { id:'Street Instinct', name:'Street Instinct', genre:'Ragga Rockstep', subgenre:'Bass', bpm:'140 BPM' },
+    { id:'Zenith', name:'Zenith', genre:'Melodic Dubstep', subgenre:'Complextro', bpm:'138 BPM' },
+    { id:'Voltage', name:'Voltage', genre:'Dubstep EDM', subgenre:'Heavy Bass', bpm:'140 BPM' },
+    { id:'GOD MODE: EXTENDED', name:'GOD MODE: EXTENDED', genre:'Gaming Dubstep', subgenre:'Crossbreed', bpm:'145 BPM' },
+    { id:'Boneless Pressure', name:'Boneless Pressure', genre:'Ragga Dubstep', subgenre:'Reggae Bass', bpm:'140 BPM' },
+    { id:'Unleash the Storm', name:'Unleash the Storm', genre:'Melodic Dubstep', subgenre:'Crossbreed', bpm:'142 BPM' },
+    { id:'Beyond the Sky', name:'Beyond the Sky', genre:'Cyberpunk', subgenre:'Dubstep', bpm:'140 BPM' }
 ];
 
-/* =========================================================
-   ЭЛЕМЕНТЫ
-   ========================================================= */
-
 const audio = document.getElementById('audio-player');
-const playerContainer = document.getElementById('player-container');
+const playerCard = document.getElementById('player-card');
 const btnPlay = document.getElementById('btn-play');
 const playIcon = document.getElementById('play-icon');
 const btnPrev = document.getElementById('btn-prev');
 const btnNext = document.getElementById('btn-next');
 const btnShuffle = document.getElementById('btn-shuffle');
 const btnRepeat = document.getElementById('btn-repeat');
-const progressBar = document.getElementById('progress-bar');
-const progressFill = document.getElementById('progress-fill');
 const timeCurrent = document.getElementById('time-current');
 const timeTotal = document.getElementById('time-total');
 const volumeSlider = document.getElementById('volume-slider');
+
 const playerTitle = document.getElementById('player-title');
 const playerGenre = document.getElementById('player-genre');
+const playerSubgenre = document.getElementById('player-subgenre');
+const playerBpm = document.getElementById('player-bpm');
 const playerCover = document.getElementById('player-cover');
+
 const waveform = document.getElementById('waveform');
 const canvas = document.getElementById('wave-canvas');
 const ctx = canvas.getContext('2d');
-const coreStatus = document.getElementById('core-status-text');
 
 let currentPlaylist = playlistRockstep;
 let currentIndex = 0;
@@ -937,145 +723,112 @@ let sourceNode = null;
 let isAudioInit = false;
 let animationId = null;
 
-/* =========================================================
-   AUDIO ANALYSER
-   ========================================================= */
-
 function initAudioContext(){
     if(isAudioInit) {
         if(audioCtx.state === 'suspended') audioCtx.resume();
         return;
     }
-
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
     analyser = audioCtx.createAnalyser();
-    analyser.fftSize = 256;
-    analyser.smoothingTimeConstant = 0.82;
+    analyser.fftSize = 128;
+    analyser.smoothingTimeConstant = 0.8;
 
     sourceNode = audioCtx.createMediaElementSource(audio);
     sourceNode.connect(analyser);
     analyser.connect(audioCtx.destination);
 
     dataArray = new Uint8Array(analyser.frequencyBinCount);
-
     isAudioInit = true;
     startWave();
 }
 
 function resizeCanvas(){
     const rect = canvas.getBoundingClientRect();
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-
-    canvas.width = Math.max(1, Math.floor(rect.width * dpr));
-    canvas.height = Math.max(1, Math.floor(rect.height * dpr));
-
-    ctx.setTransform(dpr,0,0,dpr,0,0);
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
 }
 
 function drawWave(){
     const width = canvas.clientWidth;
     const height = canvas.clientHeight;
-
     if(!width || !height) return;
 
     ctx.clearRect(0,0,width,height);
 
-    if(!isAudioInit || audio.paused || !analyser){
-        drawIdleWave(width,height);
-        animationId = null;
-        return;
-    }
-
-    analyser.getByteFrequencyData(dataArray);
-
-    const bars = Math.min(72, dataArray.length);
-    const step = dataArray.length / bars;
-    const gap = 2;
-    const barWidth = Math.max(1, width / bars - gap);
+    const bars = 60;
+    const barGap = 3;
+    const barWidth = (width - (bars * barGap)) / bars;
     const progress = audio.duration ? audio.currentTime / audio.duration : 0;
 
-    for(let i=0;i<bars;i++){
-        const index = Math.floor(i * step);
-        const value = dataArray[index] / 255;
-        const barHeight = Math.max(2, value * height * .88);
-
-        const x = i * (width / bars);
-        const y = (height - barHeight) / 2;
-
-        const played = (i / bars) < progress;
-
-        ctx.fillStyle = played
-            ? '#c87f43'
-            : 'rgba(255,255,255,.13)';
-
-        ctx.fillRect(
-            x,
-            y,
-            barWidth,
-            barHeight
-        );
+    if(isAudioInit && !audio.paused && analyser){
+        analyser.getByteFrequencyData(dataArray);
     }
 
-    animationId = requestAnimationFrame(drawWave);
-}
+    for(let i = 0; i < bars; i++){
+        let value = 0.15;
+        if(isAudioInit && !audio.paused && dataArray){
+            const index = Math.floor((i / bars) * dataArray.length);
+            value = Math.max(0.1, dataArray[index] / 255);
+        } else {
+            value = Math.sin(i * 0.2) * 0.15 + 0.2;
+        }
 
-function drawIdleWave(width,height){
-    const bars = 72;
+        const barHeight = value * height * 0.9;
+        const x = i * (barWidth + barGap);
+        const y = (height - barHeight) / 2;
 
-    for(let i=0;i<bars;i++){
-        const wave = Math.sin(i * .58) * .16 + .28;
-        const barHeight = Math.max(3, height * wave);
+        const isPlayed = (i / bars) <= progress;
 
-        ctx.fillStyle = 'rgba(200,127,67,.18)';
-        ctx.fillRect(
-            i * (width / bars),
-            (height - barHeight) / 2,
-            Math.max(1,width / bars - 2),
-            barHeight
-        );
+        // Оранжевый цвет для воспроизведённой части, тёмно-серый для оставшейся
+        ctx.fillStyle = isPlayed ? '#e05a1d' : '#222832';
+        ctx.fillRect(x, y, barWidth, barHeight);
+
+        // Индикатор позиции
+        if(Math.abs((i / bars) - progress) < (1 / bars)){
+            ctx.fillStyle = '#ffffff';
+            ctx.shadowColor = '#e05a1d';
+            ctx.shadowBlur = 8;
+            ctx.fillRect(x, y - 2, barWidth, barHeight + 4);
+            ctx.shadowBlur = 0;
+        }
+    }
+
+    if(!audio.paused){
+        animationId = requestAnimationFrame(drawWave);
     }
 }
 
 function startWave(){
-    if(animationId === null){
+    if(!animationId){
         animationId = requestAnimationFrame(drawWave);
     }
 }
 
 function stopWave(){
-    if(animationId !== null){
+    if(animationId){
         cancelAnimationFrame(animationId);
         animationId = null;
     }
-
     drawWave();
 }
 
-window.addEventListener('resize',()=>{
+window.addEventListener('resize', ()=>{
     resizeCanvas();
     drawWave();
 });
 
-/* =========================================================
-   УПРАВЛЕНИЕ
-   ========================================================= */
-
 function formatTime(seconds){
-    if(!Number.isFinite(seconds)) return '0:00';
-
-    const minutes = Math.floor(seconds / 60);
+    if(!Number.isFinite(seconds)) return '00:00';
+    const min = Math.floor(seconds / 60);
     const sec = Math.floor(seconds % 60);
-
-    return minutes + ':' + (sec < 10 ? '0' : '') + sec;
+    return (min < 10 ? '0' + min : min) + ':' + (sec < 10 ? '0' + sec : sec);
 }
 
 function setPlayingState(playing){
-    playerContainer.classList.toggle('is-playing',playing);
-
-    coreStatus.textContent = playing
-        ? 'CORE ACTIVE'
-        : 'CORE IDLE';
+    playerCard.classList.toggle('is-playing', playing);
+    document.getElementById('status-text').textContent = playing ? 'CORE ACTIVE' : 'CORE ONLINE';
 
     if(playing){
         playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
@@ -1095,54 +848,33 @@ function loadTrack(index, playlist, autoPlay = true){
     const track = playlist[index];
 
     playerTitle.textContent = track.name;
-    playerGenre.textContent = track.genre || '—';
+    playerGenre.textContent = track.genre || 'INDUSTRIAL METAL';
+    playerSubgenre.textContent = track.subgenre || 'METALSTEP';
+    playerBpm.textContent = track.bpm || '135 BPM';
 
-    /*
-      Сейчас все треки используют acm_logo.png.
-      Если появятся отдельные обложки, просто добавь:
-      cover:'covers/Hellish Paradise.jpg'
-      в объект трека.
-    */
     playerCover.src = track.cover || 'acm_logo.png';
     playerCover.alt = track.name;
 
     const url = `${WORKER_URL}/?track=${encodeURIComponent(track.id)}`;
-
     audio.src = url;
     audio.load();
 
-    document.querySelectorAll('.track-item')
-        .forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.track-item').forEach(el => el.classList.remove('active'));
 
-    const listId =
-        playlist === playlistRockstep
-            ? 'list-rockstep'
-            : 'list-dubstep';
-
+    const listId = playlist === playlistRockstep ? 'list-rockstep' : 'list-dubstep';
     const list = document.getElementById(listId);
-
     const items = list.querySelectorAll('.track-item');
 
     if(items[index]){
         items[index].classList.add('active');
     }
 
-    const activeDetails = list.closest('details');
-
-    if(activeDetails){
-        activeDetails.open = true;
-    }
-
-    progressFill.style.width = '0%';
-    timeCurrent.textContent = '0:00';
-    timeTotal.textContent = '0:00';
+    timeCurrent.textContent = '00:00';
+    timeTotal.textContent = '00:00';
 
     if(autoPlay){
         initAudioContext();
-
-        audio.play().catch(error=>{
-            console.log('Play blocked:',error);
-        });
+        audio.play().catch(e => console.log('Autoplay issue:', e));
     }else{
         setPlayingState(false);
     }
@@ -1150,26 +882,16 @@ function loadTrack(index, playlist, autoPlay = true){
 
 function togglePlay(){
     initAudioContext();
-
     if(audio.paused){
-        audio.play().catch(error=>{
-            console.log('Play blocked:',error);
-        });
+        audio.play().catch(e => console.log('Play issue:', e));
     }else{
         audio.pause();
     }
 }
 
 function nextTrack(){
-    let next;
-
-    if(isShuffle){
-        next = Math.floor(Math.random() * currentPlaylist.length);
-    }else{
-        next = (currentIndex + 1) % currentPlaylist.length;
-    }
-
-    loadTrack(next,currentPlaylist,true);
+    let next = isShuffle ? Math.floor(Math.random() * currentPlaylist.length) : (currentIndex + 1) % currentPlaylist.length;
+    loadTrack(next, currentPlaylist, true);
 }
 
 function prevTrack(){
@@ -1177,121 +899,62 @@ function prevTrack(){
         audio.currentTime = 0;
         return;
     }
-
-    const prev =
-        (currentIndex - 1 + currentPlaylist.length)
-        % currentPlaylist.length;
-
-    loadTrack(prev,currentPlaylist,true);
+    let prev = (currentIndex - 1 + currentPlaylist.length) % currentPlaylist.length;
+    loadTrack(prev, currentPlaylist, true);
 }
 
-/* =========================================================
-   СОБЫТИЯ
-   ========================================================= */
+btnPlay.addEventListener('click', togglePlay);
+audio.addEventListener('play', () => setPlayingState(true));
+audio.addEventListener('pause', () => setPlayingState(false));
+audio.addEventListener('ended', () => isRepeat ? (audio.currentTime = 0, audio.play()) : nextTrack());
 
-btnPlay.addEventListener('click',togglePlay);
-
-audio.addEventListener('play',()=>{
-    setPlayingState(true);
-});
-
-audio.addEventListener('pause',()=>{
-    setPlayingState(false);
-});
-
-audio.addEventListener('ended',()=>{
-    if(isRepeat){
-        audio.currentTime = 0;
-        audio.play();
-    }else{
-        nextTrack();
-    }
-});
-
-audio.addEventListener('timeupdate',()=>{
+audio.addEventListener('timeupdate', () => {
     if(!audio.duration) return;
-
-    const pct =
-        (audio.currentTime / audio.duration) * 100;
-
-    progressFill.style.width = pct + '%';
     timeCurrent.textContent = formatTime(audio.currentTime);
+    drawWave();
 });
 
-audio.addEventListener('loadedmetadata',()=>{
-    timeTotal.textContent =
-        formatTime(audio.duration);
+audio.addEventListener('loadedmetadata', () => {
+    timeTotal.textContent = formatTime(audio.duration);
 });
 
-progressBar.addEventListener('click',event=>{
-    const rect = progressBar.getBoundingClientRect();
-    const pct =
-        (event.clientX - rect.left) / rect.width;
-
-    if(audio.duration){
-        audio.currentTime =
-            Math.max(0,Math.min(1,pct))
-            * audio.duration;
-    }
-});
-
-waveform.addEventListener('click',event=>{
+waveform.addEventListener('click', (e) => {
     const rect = waveform.getBoundingClientRect();
-    const pct =
-        (event.clientX - rect.left) / rect.width;
-
+    const pct = (e.clientX - rect.left) / rect.width;
     if(audio.duration){
-        audio.currentTime =
-            Math.max(0,Math.min(1,pct))
-            * audio.duration;
+        audio.currentTime = Math.max(0, Math.min(1, pct)) * audio.duration;
     }
 });
 
-volumeSlider.addEventListener('input',event=>{
-    audio.volume = Number(event.target.value);
+volumeSlider.addEventListener('input', (e) => {
+    audio.volume = Number(e.target.value);
 });
 
-btnShuffle.addEventListener('click',()=>{
+btnShuffle.addEventListener('click', () => {
     isShuffle = !isShuffle;
-    btnShuffle.classList.toggle('active',isShuffle);
+    btnShuffle.classList.toggle('active', isShuffle);
 });
 
-btnRepeat.addEventListener('click',()=>{
+btnRepeat.addEventListener('click', () => {
     isRepeat = !isRepeat;
-    btnRepeat.classList.toggle('active',isRepeat);
+    btnRepeat.classList.toggle('active', isRepeat);
 });
 
-btnNext.addEventListener('click',nextTrack);
-btnPrev.addEventListener('click',prevTrack);
+btnNext.addEventListener('click', nextTrack);
+btnPrev.addEventListener('click', prevTrack);
 
-/* =========================================================
-   ПЛЕЙЛИСТЫ
-   ========================================================= */
-
-function renderList(list,containerId){
-    const container =
-        document.getElementById(containerId);
-
+function renderList(list, containerId){
+    const container = document.getElementById(containerId);
     container.innerHTML = '';
 
-    list.forEach((track,index)=>{
+    list.forEach((track, index) => {
         const div = document.createElement('div');
-
         div.className = 'track-item';
-
         div.innerHTML = `
-            <div class="track-item-name">
-                ${escapeHtml(track.name)}
-            </div>
-            <div class="track-item-meta">
-                ${escapeHtml(track.genre)}
-            </div>
+            <div class="track-item-name">${escapeHtml(track.name)}</div>
+            <div class="track-item-meta">${escapeHtml(track.genre)}</div>
         `;
-
-        div.addEventListener('click',()=>{
-            loadTrack(index,list,true);
-        });
-
+        div.addEventListener('click', () => loadTrack(index, list, true));
         container.appendChild(div);
     });
 }
@@ -1305,31 +968,11 @@ function escapeHtml(value){
         .replaceAll("'","&#039;");
 }
 
-/* =========================================================
-   СТАРТ
-   ========================================================= */
-
-window.addEventListener('DOMContentLoaded',()=>{
+window.addEventListener('DOMContentLoaded', () => {
     resizeCanvas();
-
-    renderList(
-        playlistRockstep,
-        'list-rockstep'
-    );
-
-    renderList(
-        playlistDubstep,
-        'list-dubstep'
-    );
-
-    loadTrack(
-        0,
-        playlistRockstep,
-        false
-    );
-
-    drawWave();
-
+    renderList(playlistRockstep, 'list-rockstep');
+    renderList(playlistDubstep, 'list-dubstep');
+    loadTrack(0, playlistRockstep, false);
     audio.volume = Number(volumeSlider.value);
 });
 </script>
