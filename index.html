@@ -6,11 +6,7 @@
 <title>ACM — AI Core Mixes</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
     --copper: #c87f43;
@@ -20,689 +16,671 @@
     --card-hover: rgba(255,255,255,.075);
     --text: #fff;
     --text-dim: #a9a9a9;
-    --text-muted: #666;
 }
-
-html { scroll-behavior: smooth; }
 
 body {
     font-family: "Segoe UI", Tahoma, sans-serif;
     color: var(--text);
     min-height: 100vh;
     background: var(--bg);
-    user-select: none;
-    overflow-x: hidden;
+    background-image: url("acm_logo.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
-.bg {
+body::before {
+    content: '';
     position: fixed;
-    inset: -40px;
+    inset: 0;
+    background: rgba(8,8,8,0.85);
     z-index: -1;
-    background: url("acm_logo.png") center/cover no-repeat; /* Заменил на лого, пока нет last_cover */
-    filter: blur(40px) brightness(.25);
-    opacity: .65;
-    transform: scale(1.08);
-    transition: background-image .8s ease, opacity .6s ease;
 }
 
 .wrap {
-    width: 100%;
     max-width: 900px;
     margin: 0 auto;
-    padding: 36px 20px 60px;
+    padding: 40px 20px;
 }
 
 .logo {
     display: block;
-    width: min(360px, 82%);
-    height: auto;
-    margin: 0 auto 24px;
+    width: min(360px, 80%);
+    margin: 0 auto 30px;
 }
 
-.intro-details {
-    max-width: 640px;
-    margin: 0 auto 38px;
+/* ===== ПРОСТОЙ ПЛЕЕР ===== */
+.player-container {
+    background: rgba(0,0,0,0.7);
+    border: 1px solid var(--copper);
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 40px;
+}
+
+.player-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(200,127,67,0.3);
+}
+
+.player-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--copper);
+    text-transform: uppercase;
+}
+
+.core-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+}
+
+.core-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--copper);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+.player-main {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.player-cover {
+    width: 180px;
+    height: 180px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid rgba(200,127,67,0.3);
+}
+
+.player-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.player-info {
+    flex: 1;
+}
+
+.player-title {
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.player-genre {
+    font-size: 12px;
+    color: var(--copper);
+    letter-spacing: 1px;
+}
+
+/* Визуализация */
+.waveform {
+    width: 100%;
+    height: 60px;
+    margin: 20px 0;
+    background: rgba(255,255,255,0.03);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#wave-canvas {
+    width: 100%;
+    height: 100%;
+}
+
+/* Прогресс */
+.progress-container {
+    margin-bottom: 15px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+    cursor: pointer;
+    position: relative;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--copper);
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.1s;
+}
+
+.time-display {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--text-dim);
+    font-family: monospace;
+}
+
+/* Контролы */
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.btn {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    padding: 10px;
+    transition: all 0.2s;
+}
+
+.btn:hover {
+    color: var(--copper);
+    transform: scale(1.1);
+}
+
+.btn.active {
+    color: var(--copper);
+}
+
+.btn-play {
+    width: 56px;
+    height: 56px;
+    border: 2px solid var(--copper);
+    border-radius: 50%;
+    color: var(--copper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-play:hover {
+    background: rgba(200,127,67,0.1);
+}
+
+.btn svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
+
+/* Громкость */
+.volume-control {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.volume-slider {
+    width: 100px;
+    height: 3px;
+    -webkit-appearance: none;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+    outline: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    background: var(--copper);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* Плейлисты */
+.playlists {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.genre-section details {
+    width: 100%;
+}
+
+.genre-section summary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    background: rgba(200,127,67,0.1);
+    border: 1px solid rgba(200,127,67,0.3);
+    border-radius: 8px;
+    cursor: pointer;
+    list-style: none;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--copper);
+    margin-bottom: 15px;
+}
+
+.genre-section summary::-webkit-details-marker {
+    display: none;
+}
+
+.track-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.track-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--card);
+    border-radius: 8px;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: all 0.2s;
+}
+
+.track-item:hover {
+    background: var(--card-hover);
+    transform: translateX(5px);
+}
+
+.track-item.active {
+    background: rgba(200,127,67,0.15);
+    border-left-color: var(--copper);
+}
+
+.track-item-name {
+    flex: 1;
+    font-weight: 600;
+}
+
+.track-item-meta {
+    font-size: 11px;
+    color: var(--text-dim);
+}
+
+/* Футер */
+.footer {
     text-align: center;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255,255,255,0.05);
 }
 
-.intro-summary {
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.social-link {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 18px;
-    color: var(--copper);
-    font-size: .85rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    background: rgba(255, 255, 255, .03);
-    border: 1px solid rgba(200, 127, 67, .3);
-    border-radius: 20px;
-    cursor: pointer;
-    list-style: none;
-    transition: all .2s ease;
-}
-.intro-summary::-webkit-details-marker { display: none; }
-.intro-summary:hover { background: rgba(200, 127, 67, .15); border-color: var(--copper); color: #fff; }
-.intro-summary::after { content: "▾"; font-size: .9rem; transition: transform .2s ease; }
-.intro-details[open] .intro-summary::after { transform: rotate(180deg); }
-
-.intro-content {
-    margin-top: 18px;
-    padding: 16px 20px;
-    background: rgba(0, 0, 0, .3);
-    border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, .05);
-    color: #b9b9b9;
-    font-size: .9rem;
-    line-height: 1.7;
-}
-.intro-content p + p { margin-top: 10px; }
-
-.sec-title {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin: 0 0 18px;
-    font-size: .8rem;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--copper);
-}
-.sec-title::after {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, var(--copper-dim), transparent);
+    padding: 10px 20px;
+    background: var(--card);
+    border: 1px solid rgba(200,127,67,0.3);
+    border-radius: 25px;
+    color: var(--text);
+    text-decoration: none;
+    transition: all 0.2s;
 }
 
-.genre-details { width: 100%; }
-.genre-summary {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 14px;
-    font-size: .8rem;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--copper);
-    cursor: pointer;
-    list-style: none;
-    transition: color .2s ease;
-}
-.genre-summary::-webkit-details-marker { display: none; }
-.genre-summary:hover { color: #fff; }
-.genre-summary::after { content: "▾"; font-size: .85rem; margin-left: 2px; transition: transform .2s ease; }
-.genre-details[open] .genre-summary::after { transform: rotate(180deg); }
-.genre-title-line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--copper-dim), transparent); }
-
-/* ===== CUSTOM PLAYER STYLES ===== */
-.player {
-    background: rgba(0,0,0,.6);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(200,127,67,.25);
-    border-radius: 20px;
-    padding: 24px;
-    margin-bottom: 42px;
-    position: relative;
-    overflow: hidden;
-}
-.player::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--copper), transparent);
-    opacity: 0.6;
-}
-
-.acm-core-status {
-    position: absolute;
-    top: 16px; right: 20px;
-    display: flex; align-items: center; gap: 8px;
-    font-family: 'Courier New', monospace;
-    font-size: 10px; letter-spacing: 2px;
-    color: var(--text-muted); text-transform: uppercase;
-}
-.acm-core-dot {
-    width: 6px; height: 6px;
+.social-link:hover {
     background: var(--copper);
-    border-radius: 50%;
-    box-shadow: 0 0 8px var(--copper);
-    animation: acm-pulse 2s ease-in-out infinite;
-}
-@keyframes acm-pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(0.8); }
+    color: #000;
+    transform: translateY(-2px);
 }
 
-.acm-player-top {
-    display: flex; gap: 24px; align-items: center;
-    margin-bottom: 20px;
-}
-.acm-cover-wrap {
-    position: relative; width: 160px; height: 160px; flex-shrink: 0;
-}
-.acm-cover {
-    width: 100%; height: 100%; object-fit: cover;
-    border-radius: 8px;
-    -webkit-mask-image: linear-gradient(to right, #000 70%, transparent 100%);
-    mask-image: linear-gradient(to right, #000 70%, transparent 100%);
-    filter: url(#acm-destroy);
-    transition: filter 0.5s;
-}
-.acm-cover-glow {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: radial-gradient(circle at center, rgba(200,127,67,0.15), transparent 70%);
-    pointer-events: none;
-    animation: acm-glow 3s ease-in-out infinite;
-}
-@keyframes acm-glow { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
-
-.acm-track-info { flex: 1; min-width: 0; text-align: left; }
-.acm-label {
-    font-family: 'Courier New', monospace;
-    font-size: 10px; letter-spacing: 3px;
-    color: var(--text-muted); text-transform: uppercase;
-    margin-bottom: 8px;
-}
-.acm-track-title {
-    font-size: 24px; font-weight: 800;
-    color: var(--text); letter-spacing: 1px;
-    text-transform: uppercase; margin: 0 0 8px 0;
-    line-height: 1.2; white-space: nowrap;
-    overflow: hidden; text-overflow: ellipsis;
-}
-.acm-track-meta {
-    font-family: 'Courier New', monospace;
-    font-size: 11px; color: var(--copper);
-    letter-spacing: 1px; text-transform: uppercase;
+.coffee-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 13px;
+    margin-bottom: 15px;
 }
 
-.acm-waveform {
-    width: 100%; height: 50px; margin: 15px 0 10px 0; position: relative;
-}
-#acm-wave-canvas { width: 100%; height: 100%; display: block; }
-
-.acm-progress-wrap {
-    position: relative; width: 100%; height: 4px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 2px; cursor: pointer; margin-bottom: 6px;
-}
-.acm-progress-fill {
-    height: 100%; background: var(--copper);
-    border-radius: 2px; width: 0%; position: relative;
-    box-shadow: 0 0 8px rgba(200,127,67,0.5);
-    transition: width 0.1s linear;
-}
-.acm-progress-fill::after {
-    content: ''; position: absolute; right: -5px; top: 50%;
-    transform: translateY(-50%); width: 10px; height: 10px;
-    background: var(--copper); border-radius: 50%;
-    box-shadow: 0 0 10px var(--copper);
-}
-.acm-time {
-    display: flex; justify-content: space-between;
-    font-family: 'Courier New', monospace;
-    font-size: 10px; color: var(--text-muted); margin-bottom: 16px;
+.coffee-link:hover {
+    color: var(--copper);
 }
 
-.acm-controls {
-    display: flex; align-items: center; justify-content: center;
-    gap: 16px; margin-bottom: 16px;
-}
-.acm-btn {
-    background: none; border: none; color: var(--text-dim);
-    cursor: pointer; padding: 8px; transition: all 0.2s;
-    display: flex; align-items: center; justify-content: center;
-}
-.acm-btn:hover { color: var(--copper); transform: scale(1.1); }
-.acm-btn.active { color: var(--copper); }
-.acm-btn svg { width: 20px; height: 20px; fill: currentColor; }
-
-.acm-btn-play {
-    width: 48px; height: 48px; border-radius: 50%;
-    border: 2px solid var(--copper); color: var(--copper);
-    background: rgba(200,127,67,0.05);
-}
-.acm-btn-play:hover {
-    background: rgba(200,127,67,0.15);
-    box-shadow: 0 0 16px rgba(200,127,67,0.4);
-}
-.acm-btn-play svg { width: 22px; height: 22px; }
-
-.acm-volume-wrap {
-    display: flex; align-items: center; justify-content: flex-end; gap: 8px;
-}
-.acm-volume-wrap svg { width: 16px; height: 16px; fill: var(--text-muted); }
-.acm-volume-slider {
-    -webkit-appearance: none; appearance: none;
-    width: 80px; height: 3px; background: rgba(255,255,255,0.1);
-    border-radius: 2px; outline: none; cursor: pointer;
-}
-.acm-volume-slider::-webkit-slider-thumb {
-    -webkit-appearance: none; width: 10px; height: 10px;
-    background: var(--copper); border-radius: 50%; cursor: pointer;
-    box-shadow: 0 0 6px rgba(200,127,67,0.6);
+.copyright {
+    font-size: 12px;
+    color: #555;
 }
 
-/* ===== PLAYLISTS ===== */
-.playlists-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 24px; align-items: start; margin-bottom: 38px;
-}
-.track-list { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 10px; }
-.track {
-    display: flex; align-items: center; gap: 12px;
-    min-height: 48px; padding: 10px 14px;
-    background: var(--card); border-radius: 12px;
-    cursor: pointer; border-left: 3px solid transparent;
-    transition: background .2s ease, transform .2s ease, border-color .2s ease;
-}
-.track:hover { background: var(--card-hover); transform: translateX(4px); }
-.track.active { background: rgba(200,127,67,.13); border-left-color: var(--copper); }
-.track-info { flex: 1; min-width: 0; }
-.track-name {
-    font-weight: 600; font-size: .9rem;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;
-}
-.track-meta {
-    font-size: .75rem; color: var(--text-muted);
-    margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;
-}
-
-/* ===== FOOTER ===== */
-.footer { margin-top: 48px; text-align: center; }
-.links { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 6px; }
-.link {
-    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-    min-width: 150px; padding: 10px 18px; border-radius: 30px;
-    text-decoration: none; color: #eee; background: rgba(255,255,255,.045);
-    border: 1px solid rgba(200,127,67,.3);
-    transition: background .2s ease, color .2s ease, border-color .2s ease, transform .2s ease;
-    font-size: .9rem;
-}
-.link:hover { background: var(--copper); color: #0a0a0a; border-color: var(--copper); transform: translateY(-2px); }
-.link svg { width: 18px; height: 18px; fill: currentColor; }
-.link .stroke { fill: none; stroke: currentColor; stroke-width: 2; }
-
-.coffee {
-    display: inline-flex; align-items: center; gap: 7px;
-    margin-top: 18px; color: var(--text-muted);
-    font-size: .85rem; text-decoration: none; transition: color .2s ease;
-}
-.coffee:hover { color: var(--copper); }
-.coffee svg { width: 16px; height: 16px; flex-shrink: 0; }
-.coffee svg path { fill: none; stroke: currentColor; stroke-width: 2; stroke-linejoin: round; }
-
-.copy { color: #555; font-size: .78rem; line-height: 1.6; margin-top: 18px; }
-
-@media(max-width: 720px) {
-    .playlists-grid { grid-template-columns: 1fr; gap: 20px; }
-    .acm-player-top { flex-direction: column; text-align: center; }
-    .acm-track-info { text-align: center; }
-    .acm-cover-wrap { width: 140px; height: 140px; margin: 0 auto; }
-}
-@media(max-width: 600px) {
-    .wrap { padding: 30px 18px 48px; }
-    .logo { width: min(340px, 88%); margin-bottom: 20px; }
-    .player { padding: 16px 12px; margin-bottom: 32px; border-radius: 18px; }
-    .track { gap: 10px; padding: 8px 12px; min-height: 48px; }
+/* Адаптив */
+@media (max-width: 768px) {
+    .player-main {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .player-cover {
+        width: 150px;
+        height: 150px;
+        margin: 0 auto;
+    }
+    
+    .playlists {
+        grid-template-columns: 1fr;
+    }
+    
+    .volume-control {
+        justify-content: center;
+    }
 }
 </style>
 </head>
 
-<body oncontextmenu="return false;">
-
-<div class="bg" id="bg"></div>
+<body>
 
 <div class="wrap">
 
-<img class="logo" src="acm_logo.png" alt="ACM — AI Core Mixes">
+<img class="logo" src="acm_logo.png" alt="ACM">
 
-<details class="intro-details">
-    <summary class="intro-summary" data-i18n="aboutBtn">О проекте</summary>
-    <div class="intro-content">
-        <p data-i18n="intro1">AI Core Mixes — музыкальная лаборатория на стыке жанров и технологий.</p>
-        <p data-i18n="intro2">Этот канал посвящён поиску идеального симбиоза между живой яростью рока и цифровой мощью EDM. Здесь стираются границы: от классического Industrial Metalstep до безумных сочетаний Rock, Rap и Bass.</p>
-        <p data-i18n="intro3">Здесь нет коммерции и жёстких графиков. Только личный вкус, ручной отбор и то, что реально качает. Выкладываю годноту по мере её появления.</p>
-    </div>
-</details>
-
-<!-- ЗАГОЛОВОК "ПОСЛЕДНИЙ РЕЛИЗ" УДАЛЁН -->
-
-<!-- CUSTOM PLAYER -->
-<div class="player" id="player">
-    <!-- SVG фильтр для эффекта распада обложки -->
-    <svg style="position:absolute;width:0;height:0;">
-        <defs>
-            <filter id="acm-destroy">
-                <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="3" result="noise"/>
-                <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G"/>
-            </filter>
-        </defs>
-    </svg>
-
-    <div class="acm-core-status">
-        <div class="acm-core-dot"></div>
-        CORE ONLINE
-    </div>
-
-    <div class="acm-player-top">
-        <div class="acm-cover-wrap">
-            <img class="acm-cover" id="acm-cover" src="acm_logo.png" alt="Cover">
-            <div class="acm-cover-glow"></div>
+<!-- ПЛЕЕР -->
+<div class="player-container">
+    <div class="player-header">
+        <div class="player-label">ACM / NOW PLAYING</div>
+        <div class="core-status">
+            <div class="core-dot"></div>
+            CORE ONLINE
         </div>
-        <div class="acm-track-info">
-            <div class="acm-label">ACM / NOW PLAYING</div>
-            <h2 class="acm-track-title" id="acm-title">—</h2>
-            <div class="acm-track-meta" id="acm-genre">—</div>
-        </div</div>
-
-    <div class="acm-waveform">
-        <canvas id="acm-wave-canvas"></canvas>
     </div>
-
-    <div class="acm-progress-wrap" id="acm-progress">
-        <div class="acm-progress-fill" id="acm-progress-fill"></div>
+    
+    <div class="player-main">
+        <div class="player-cover">
+            <img id="player-cover" src="acm_logo.png" alt="Cover">
+        </div>
+        <div class="player-info">
+            <div class="player-title" id="player-title">—</div>
+            <div class="player-genre" id="player-genre">—</div>
+        </div>
     </div>
-    <div class="acm-time">
-        <span id="acm-time-cur">0:00</span>
-        <span id="acm-time-dur">0:00</span>
+    
+    <div class="waveform">
+        <canvas id="wave-canvas"></canvas>
     </div>
-
-    <div class="acm-controls">
-        <button class="acm-btn" id="acm-shuffle" title="Shuffle">
+    
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <div class="time-display">
+            <span id="time-current">0:00</span>
+            <span id="time-total">0:00</span>
+        </div>
+    </div>
+    
+    <div class="controls">
+        <button class="btn" id="btn-shuffle" title="Shuffle">
             <svg viewBox="0 0 24 24"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>
         </button>
-        <button class="acm-btn" id="acm-prev" title="Previous">
+        <button class="btn" id="btn-prev" title="Previous">
             <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
         </button>
-        <button class="acm-btn acm-btn-play" id="acm-play" title="Play">
-            <svg viewBox="0 0 24 24" id="acm-play-icon"><path d="M8 5v14l11-7z"/></svg>
+        <button class="btn btn-play" id="btn-play" title="Play">
+            <svg viewBox="0 0 24 24" id="play-icon"><path d="M8 5v14l11-7z"/></svg>
         </button>
-        <button class="acm-btn" id="acm-next" title="Next">
+        <button class="btn" id="btn-next" title="Next">
             <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
         </button>
-        <button class="acm-btn" id="acm-repeat" title="Repeat">
+        <button class="btn" id="btn-repeat" title="Repeat">
             <svg viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>
         </button>
     </div>
-
-    <div class="acm-volume-wrap">
-        <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
-        <input type="range" class="acm-volume-slider" id="acm-volume" min="0" max="1" step="0.01" value="0.7">
+    
+    <div class="volume-control">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+        <input type="range" class="volume-slider" id="volume-slider" min="0" max="1" step="0.01" value="0.7">
     </div>
 </div>
 
-<audio id="acm-audio" preload="auto"></audio>
-<!-- /CUSTOM PLAYER -->
+<audio id="audio-player" preload="auto"></audio>
 
-<div class="playlists-grid">
-    <details class="genre-details">
-        <summary class="genre-summary">
-            <span>Rockstep</span>
-            <div class="genre-title-line"></div>
-        </summary>
-        <div class="track-list" id="listRockstep"></div>
-    </details>
-
-    <details class="genre-details">
-        <summary class="genre-summary">
-            <span>Dubstep</span>
-            <div class="genre-title-line"></div>
-        </summary>
-        <div class="track-list" id="listDubstep"></div>
-    </details>
+<!-- ПЛЕЙЛИСТЫ -->
+<div class="playlists">
+    <div class="genre-section">
+        <details open>
+            <summary>Rockstep</summary>
+            <div class="track-list" id="list-rockstep"></div>
+        </details>
+    </div>
+    
+    <div class="genre-section">
+        <details>
+            <summary>Dubstep</summary>
+            <div class="track-list" id="list-dubstep"></div>
+        </details>
+    </div>
 </div>
 
+<!-- ФУТЕР -->
 <div class="footer">
-<div class="links">
-<a class="link" href="https://youtube.com/ник" target="_blank" rel="noopener noreferrer">
-<svg viewBox="0 0 24 24"><path d="M23 12s0-3.9-.5-5.8c-.3-1-1.1-1.8-2.1-2.1C18.5 3.6 12 3.6 12 3.6s-6.5 0-8.4.5c-1 .3-1.8 1.1-2.1 2.1C1 8.1 1 12 1 12s0 3.9.5 5.8c.3 1 1.1 1.8 2.1 2.1 1.9.5 8.4.5 8.4.5s6.5 0 8.4-.5c1-.3 1.8-1.1 2.1-2.1.5-1.9.5-5.8.5-5.8zM9.8 15.5V8.5l6.2 3.5-6.2 3.5z"/></svg>
-YouTube
-</a>
-<a class="link" href="https://instagram.com/ВАШ_НИК" target="_blank" rel="noopener noreferrer">
-<svg viewBox="0 0 24 24"><rect class="stroke" x="3" y="3" width="18" height="18" rx="5"/><circle class="stroke" cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1.2"/></svg>
-Instagram
-</a>
-</div>
-
-<a class="coffee" href="https://ko-fi.com/ВАШ_НИК" target="_blank" rel="noopener noreferrer">
-<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h13a3 3 0 0 1 0 6h-1.2M4 8v7a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4V8H4z"/></svg>
-<span data-i18n="support">Поддержать проект, купив чашечку кофе</span>
-</a>
-
-<p class="copy" data-i18n="copyright">© 2026 AI Core Mixes · Все треки — бесплатно, только для прослушивания.</p>
+    <div class="social-links">
+        <a href="https://youtube.com/ник" target="_blank" class="social-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.9-.5-5.8c-.3-1-1.1-1.8-2.1-2.1C18.5 3.6 12 3.6 12 3.6s-6.5 0-8.4.5c-1 .3-1.8 1.1-2.1 2.1C1 8.1 1 12 1 12s0 3.9.5 5.8c.3 1 1.1 1.8 2.1 2.1 1.9.5 8.4.5 8.4.5s6.5 0 8.4-.5c1-.3 1.8-1.1 2.1-2.1.5-1.9.5-5.8.5-5.8zM9.8 15.5V8.5l6.2 3.5-6.2 3.5z"/></svg>
+            YouTube
+        </a>
+        <a href="https://instagram.com/ВАШ_НИК" target="_blank" class="social-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1.2"/></svg>
+            Instagram
+        </a>
+    </div>
+    
+    <a href="https://ko-fi.com/ВАШ_НИК" target="_blank" class="coffee-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h13a3 3 0 0 1 0 6h-1.2M4 8v7a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4V8H4z"/></svg>
+        Поддержать проект
+    </a>
+    
+    <div class="copyright">© 2026 AI Core Mixes · Все треки — бесплатно, только для прослушивания.</div>
 </div>
 
 </div>
 
 <script>
-// ===== ЯЗЫК =====
-const browserLanguage = (navigator.language || "en").toLowerCase();
-const currentLanguage = browserLanguage.startsWith("ru") ? "ru" : "en";
-document.documentElement.lang = currentLanguage;
+// ===== ДАННЫЕ =====
+const WORKER_URL = 'https://acm-audio-proxy.deniska.workers.dev';
 
-const translations = {
-    ru: {
-        aboutBtn: "О проекте",
-        intro1: "AI Core Mixes — музыкальная лаборатория на стыке жанров и технологий.",
-        intro2: "Этот канал посвящён поиску идеального симбиоза между живой яростью рока и цифровой мощью EDM. Здесь стираются границы: от классического Industrial Metalstep до безумных сочетаний Rock, Rap и Bass.",
-        intro3: "Здесь нет коммерции и жёстких графиков. Только личный вкус, ручной отбор и то, что реально качает. Выкладываю годноту по мере её появления.",
-        support: "Поддержать проект, купив чашечку кофе",
-        copyright: "© 2026 AI Core Mixes · Все треки — бесплатно, только для прослушивания."
-    },
-    en: {
-        aboutBtn: "About Project",
-        intro1: "AI Core Mixes — a music laboratory at the intersection of genres and technology.",
-        intro2: "This channel is about finding the perfect fusion between the raw energy of rock and the digital power of EDM. Boundaries disappear here: from classic Industrial Metalstep to wild combinations of Rock, Rap and Bass.",
-        intro3: "No commercial pressure and no strict schedule. Just personal taste, careful selection, and whatever really hits. New music is released as it comes.",
-        support: "Support the project with a cup of coffee",
-        copyright: "© 2026 AI Core Mixes · All tracks are free to listen to."
-    }
-};
-
-document.querySelectorAll("[data-i18n]").forEach(element => {
-    const key = element.dataset.i18n;
-    if (translations[currentLanguage] && translations[currentLanguage][key]) {
-        element.textContent = translations[currentLanguage][key];
-    }
-});
-
-// ===== ДАННЫЕ ТРЕКОВ =====
-// ВАЖНО: поле 'id' должно ТОЧНО совпадать с именем файла в папке Nekogram в R2 (без .mp3)
-// Поле 'cover' пока стоит заглушкой, поменяем позже.
 const playlistRockstep = [
-    { id: "Blindfold", name: "Blindfold", descRu: "Industrial Rock, Electronic Rock", descEn: "Industrial Rock, Electronic Rock", cover: "acm_logo.png" },
-    { id: "Lost In The Cloud-Abyss", name: "Lost In The Cloud-Abyss", descRu: "Nu-Metal, Metalstep", descEn: "Nu-Metal, Metalstep", cover: "acm_logo.png" },
-    { id: "Hellish Paradise", name: "Hellish Paradise", descRu: "Industrial Metal, Cyber Metal", descEn: "Industrial Metal, Cyber Metal", cover: "acm_logo.png" },
-    { id: "Stray God", name: "Stray God", descRu: "Doom Metal, Metalstep", descEn: "Doom Metal, Metalstep", cover: "acm_logo.png" },
-    { id: "Twilight Mind", name: "Twilight Mind", descRu: "Blues Rockstep", descEn: "Blues Rockstep", cover: "acm_logo.png" },
-    { id: "Ash Wanderer", name: "Ash Wanderer", descRu: "Nu-Metal, Metalcore, Doom Metal, Metalstep", descEn: "Nu-Metal, Metalcore, Doom Metal, Metalstep", cover: "acm_logo.png" },
-    { id: "Nameless City", name: "Nameless City", descRu: "Dark Metal, Industrial Metal, Metalstep", descEn: "Dark Metal, Industrial Metal, Metalstep", cover: "acm_logo.png" },
-    { id: "Burn To The Ground", name: "Burn To The Ground", descRu: "Doom Metal, Nu-Metal, Metalstep", descEn: "Doom Metal, Nu-Metal, Metalstep", cover: "acm_logo.png" },
-    { id: "Inversion", name: "Inversion", descRu: "Industrial Metal, Doom Metal, Metalstep, Nu-Metal", descEn: "Industrial Metal, Doom Metal, Metalstep, Nu-Metal", cover: "acm_logo.png" },
-    { id: "Burning With Hate", name: "Burning With Hate", descRu: "Electronic Metalcore, Doom Metal", descEn: "Electronic Metalcore, Doom Metal", cover: "acm_logo.png" },
-    { id: "Descend", name: "Descend", descRu: "Blues Rockstep", descEn: "Blues Rockstep", cover: "acm_logo.png" },
-    { id: "Zero Zero", name: "Zero Zero", descRu: "Industrial Rock, Electronic Metal", descEn: "Industrial Rock, Electronic Metal", cover: "acm_logo.png" },
-    { id: "Through The Fear", name: "Through The Fear", descRu: "Doom Metal, Metalcore, Nu-Metal, Metalstep", descEn: "Doom Metal, Metalcore, Nu-Metal, Metalstep", cover: "acm_logo.png" },
-    { id: "Boiling Blood", name: "Boiling Blood", descRu: "Industrial Metal, Doom Metal, Cyberpunk", descEn: "Industrial Metal, Doom Metal, Cyberpunk", cover: "acm_logo.png" },
-    { id: "My Demons Within", name: "My Demons Within", descRu: "Industrial Metal, Nu-Metal, Metalstep", descEn: "Industrial Metal, Nu-Metal, Metalstep", cover: "acm_logo.png" },
-    { id: "False Memories", name: "False Memories", descRu: "Industrial Doom Metalstep, Sludge-step", descEn: "Industrial Doom Metalstep, Sludge-step", cover: "acm_logo.png" },
-    { id: "Burn My Yesterday", name: "Burn My Yesterday", descRu: "Metalcore, Industrial Metal, Metalstep", descEn: "Metalcore, Industrial Metal, Metalstep", cover: "acm_logo.png" },
-    { id: "Mad War", name: "Mad War", descRu: "Electronic Rock, Post-Hardcore", descEn: "Electronic Rock, Post-Hardcore", cover: "acm_logo.png" },
-    { id: "Apex Predator", name: "Apex Predator", descRu: "Neoclassical Doom Metalstep", descEn: "Neoclassical Doom Metalstep", cover: "acm_logo.png" },
-    { id: "Cold Valhalla", name: "Cold Valhalla", descRu: "Cyberpunk Trap Metal", descEn: "Cyberpunk Trap Metal", cover: "acm_logo.png" },
-    { id: "Blades Of Volition", name: "Blades Of Volition", descRu: "Dark Metal, Metalstep", descEn: "Dark Metal, Metalstep", cover: "acm_logo.png" },
-    { id: "Black Bile", name: "Black Bile", descRu: "Dark Industrial Metal", descEn: "Dark Industrial Metal", cover: "acm_logo.png" },
-    { id: "Bloodboil", name: "Bloodboil", descRu: "Industrial Metal, Metalstep", descEn: "Industrial Metal, Metalstep", cover: "acm_logo.png" },
-    { id: "Iron Will", name: "Iron Will", descRu: "Industrial Metalstep", descEn: "Industrial Metalstep", cover: "acm_logo.png" },
-    { id: "Ashes Of The Heavens", name: "Ashes Of The Heavens", descRu: "Metalstep, Post-Hardcore", descEn: "Metalstep, Post-Hardcore", cover: "acm_logo.png" },
-    { id: "Silicon Rage", name: "Silicon Rage", descRu: "Cybercore, Doom Metal", descEn: "Cybercore, Doom Metal", cover: "acm_logo.png" },
-    { id: "Obsidian Pulse", name: "Obsidian Pulse", descRu: "Industrial Metalcore, Doom Metalstep", descEn: "Industrial Metalcore, Doom Metalstep", cover: "acm_logo.png" },
-    { id: "Glacial Ignite", name: "Glacial Ignite", descRu: "Doom Metal, Metalstep, Rapcore", descEn: "Doom Metal, Metalstep, Rapcore", cover: "acm_logo.png" },
-    { id: "Ghost Chemistry", name: "Ghost Chemistry", descRu: "Heavy Rockstep, Dark Dubstep", descEn: "Heavy Rockstep, Dark Dubstep", cover: "acm_logo.png" },
-    { id: "One Step Into The Void", name: "One Step Into The Void", descRu: "Doom Metal, Nu-Metal, Industrial Metalstep", descEn: "Doom Metal, Nu-Metal, Industrial Metalstep", cover: "acm_logo.png" },
-    { id: "Thunder Echo", name: "Thunder Echo", descRu: "Modern Hard Rock, Rockstep", descEn: "Modern Hard Rock, Rockstep", cover: "acm_logo.png" },
-    { id: "Protocol Ghost", name: "Protocol Ghost", descRu: "Dark Cyberpunk, Industrial Metal", descEn: "Dark Cyberpunk, Industrial Metal", cover: "acm_logo.png" },
-    { id: "Neural Fracture", name: "Neural Fracture", descRu: "Rap, Metalcore, Doomstep", descEn: "Rap, Metalcore, Doomstep", cover: "acm_logo.png" },
-    { id: "Berserks Protocol", name: "Berserks Protocol", descRu: "Industrial Metalstep, Folk Metal", descEn: "Industrial Metalstep, Folk Metal", cover: "acm_logo.png" },
-    { id: "Illuminated Error", name: "Illuminated Error", descRu: "", descEn: "", cover: "acm_logo.png" },
-    { id: "Neural Breach", name: "Neural Breach", descRu: "", descEn: "", cover: "acm_logo.png" },
-    { id: "System Overload", name: "System Overload", descRu: "", descEn: "", cover: "acm_logo.png" }
+    { id: 'Blindfold', name: 'Blindfold', genre: 'Industrial Rock, Electronic Rock' },
+    { id: 'Lost In The Cloud-Abyss', name: 'Lost In The Cloud-Abyss', genre: 'Nu-Metal, Metalstep' },
+    { id: 'Hellish Paradise', name: 'Hellish Paradise', genre: 'Industrial Metal, Cyber Metal' },
+    { id: 'Stray God', name: 'Stray God', genre: 'Doom Metal, Metalstep' },
+    { id: 'Twilight Mind', name: 'Twilight Mind', genre: 'Blues Rockstep' },
+    { id: 'Ash Wanderer', name: 'Ash Wanderer', genre: 'Nu-Metal, Metalcore' },
+    { id: 'Nameless City', name: 'Nameless City', genre: 'Dark Metal, Industrial Metal' },
+    { id: 'Burn To The Ground', name: 'Burn To The Ground', genre: 'Doom Metal, Nu-Metal' },
+    { id: 'Inversion', name: 'Inversion', genre: 'Industrial Metal, Doom Metal' },
+    { id: 'Burning With Hate', name: 'Burning With Hate', genre: 'Electronic Metalcore' },
+    { id: 'Descend', name: 'Descend', genre: 'Blues Rockstep' },
+    { id: 'Zero Zero', name: 'Zero Zero', genre: 'Industrial Rock, Electronic Metal' },
+    { id: 'Through The Fear', name: 'Through The Fear', genre: 'Doom Metal, Metalcore' },
+    { id: 'Boiling Blood', name: 'Boiling Blood', genre: 'Industrial Metal, Cyberpunk' },
+    { id: 'My Demons Within', name: 'My Demons Within', genre: 'Industrial Metal, Nu-Metal' },
+    { id: 'False Memories', name: 'False Memories', genre: 'Industrial Doom Metalstep' },
+    { id: 'Burn My Yesterday', name: 'Burn My Yesterday', genre: 'Metalcore, Industrial Metal' },
+    { id: 'Mad War', name: 'Mad War', genre: 'Electronic Rock, Post-Hardcore' },
+    { id: 'Apex Predator', name: 'Apex Predator', genre: 'Neoclassical Doom Metalstep' },
+    { id: 'Cold Valhalla', name: 'Cold Valhalla', genre: 'Cyberpunk Trap Metal' },
+    { id: 'Blades Of Volition', name: 'Blades Of Volition', genre: 'Dark Metal, Metalstep' },
+    { id: 'Black Bile', name: 'Black Bile', genre: 'Dark Industrial Metal' },
+    { id: 'Bloodboil', name: 'Bloodboil', genre: 'Industrial Metal, Metalstep' },
+    { id: 'Iron Will', name: 'Iron Will', genre: 'Industrial Metalstep' },
+    { id: 'Ashes Of The Heavens', name: 'Ashes Of The Heavens', genre: 'Metalstep, Post-Hardcore' },
+    { id: 'Silicon Rage', name: 'Silicon Rage', genre: 'Cybercore, Doom Metal' },
+    { id: 'Obsidian Pulse', name: 'Obsidian Pulse', genre: 'Industrial Metalcore' },
+    { id: 'Glacial Ignite', name: 'Glacial Ignite', genre: 'Doom Metal, Metalstep' },
+    { id: 'Ghost Chemistry', name: 'Ghost Chemistry', genre: 'Heavy Rockstep, Dark Dubstep' },
+    { id: 'One Step Into The Void', name: 'One Step Into The Void', genre: 'Doom Metal, Nu-Metal' },
+    { id: 'Thunder Echo', name: 'Thunder Echo', genre: 'Modern Hard Rock, Rockstep' },
+    { id: 'Protocol Ghost', name: 'Protocol Ghost', genre: 'Dark Cyberpunk, Industrial Metal' },
+    { id: 'Neural Fracture', name: 'Neural Fracture', genre: 'Rap, Metalcore, Doomstep' },
+    { id: 'Berserks Protocol', name: 'Berserks Protocol', genre: 'Industrial Metalstep, Folk Metal' },
+    { id: 'Illuminated Error', name: 'Illuminated Error', genre: '' },
+    { id: 'Neural Breach', name: 'Neural Breach', genre: '' },
+    { id: 'System Overload', name: 'System Overload', genre: '' }
 ];
 
 const playlistDubstep = [
-    { id: "Everything is OK", name: "Everything is OK", descRu: "Ragga Dubstep", descEn: "Ragga Dubstep", cover: "acm_logo.png" },
-    { id: "Rendezvous with Life", name: "Rendezvous with Life", descRu: "Melodic Dubstep", descEn: "Melodic Dubstep", cover: "acm_logo.png" },
-    { id: "Boundless Ocean", name: "Boundless Ocean", descRu: "Melodic Dubstep", descEn: "Melodic Dubstep", cover: "acm_logo.png" },
-    { id: "Tomorrow’s Light", name: "Tomorrow’s Light", descRu: "Tribal Dubstep, Oriental Brostep", descEn: "Tribal Dubstep, Oriental Brostep", cover: "acm_logo.png" },
-    { id: "NEON OVERRIDE", name: "NEON OVERRIDE", descRu: "Cyberpunk Dubstep, Glitchstep", descEn: "Cyberpunk Dubstep, Glitchstep", cover: "acm_logo.png" },
-    { id: "Starry Tide", name: "Starry Tide", descRu: "Brostep, Complextro", descEn: "Brostep, Complextro", cover: "acm_logo.png" },
-    { id: "Learning to Fly", name: "Learning to Fly", descRu: "Epic Dubstep, Brostep", descEn: "Epic Dubstep, Brostep", cover: "acm_logo.png" },
-    { id: "Dream", name: "Dream", descRu: "2012 Oldschool Dubstep", descEn: "2012 Oldschool Dubstep", cover: "acm_logo.png" },
-    { id: "Street Instinct", name: "Street Instinct", descRu: "Ragga Rockstep", descEn: "Ragga Rockstep", cover: "acm_logo.png" },
-    { id: "Zenith", name: "Zenith", descRu: "Melodic Dubstep, Complextro", descEn: "Melodic Dubstep, Complextro", cover: "acm_logo.png" },
-    { id: "Voltage", name: "Voltage", descRu: "Dubstep EDM", descEn: "Dubstep EDM", cover: "acm_logo.png" },
-    { id: "GOD MODE: EXTENDED", name: "GOD MODE: EXTENDED", descRu: "Gaming Dubstep", descEn: "Gaming Dubstep", cover: "acm_logo.png" },
-    { id: "Boneless Pressure", name: "Boneless Pressure", descRu: "Ragga Dubstep", descEn: "Ragga Dubstep", cover: "acm_logo.png" },
-    { id: "Unleash the Storm", name: "Unleash the Storm", descRu: "Melodic Dubstep, Crossbreed, Drum-step", descEn: "Melodic Dubstep, Crossbreed, Drum-step", cover: "acm_logo.png" },
-    { id: "Beyond the Sky", name: "Beyond the Sky", descRu: "Cyberpunk, Dubstep", descEn: "Cyberpunk, Dubstep", cover: "acm_logo.png" }
+    { id: 'Everything is OK', name: 'Everything is OK', genre: 'Ragga Dubstep' },
+    { id: 'Rendezvous with Life', name: 'Rendezvous with Life', genre: 'Melodic Dubstep' },
+    { id: 'Boundless Ocean', name: 'Boundless Ocean', genre: 'Melodic Dubstep' },
+    { id: 'Tomorrow's Light', name: 'Tomorrow's Light', genre: 'Tribal Dubstep' },
+    { id: 'NEON OVERRIDE', name: 'NEON OVERRIDE', genre: 'Cyberpunk Dubstep, Glitchstep' },
+    { id: 'Starry Tide', name: 'Starry Tide', genre: 'Brostep, Complextro' },
+    { id: 'Learning to Fly', name: 'Learning to Fly', genre: 'Epic Dubstep, Brostep' },
+    { id: 'Dream', name: 'Dream', genre: '2012 Oldschool Dubstep' },
+    { id: 'Street Instinct', name: 'Street Instinct', genre: 'Ragga Rockstep' },
+    { id: 'Zenith', name: 'Zenith', genre: 'Melodic Dubstep, Complextro' },
+    { id: 'Voltage', name: 'Voltage', genre: 'Dubstep EDM' },
+    { id: 'GOD MODE: EXTENDED', name: 'GOD MODE: EXTENDED', genre: 'Gaming Dubstep' },
+    { id: 'Boneless Pressure', name: 'Boneless Pressure', genre: 'Ragga Dubstep' },
+    { id: 'Unleash the Storm', name: 'Unleash the Storm', genre: 'Melodic Dubstep, Crossbreed' },
+    { id: 'Beyond the Sky', name: 'Beyond the Sky', genre: 'Cyberpunk, Dubstep' }
 ];
 
-// ===== ЛОГИКА ПЛЕЕРА =====
-const $ = id => document.getElementById(id);
-const audio = $("acm-audio");
-const playBtn = $("acm-play");
-const playIcon = $("acm-play-icon");
-const prevBtn = $("acm-prev");
-const nextBtn = $("acm-next");
-const shuffleBtn = $("acm-shuffle");
-const repeatBtn = $("acm-repeat");
-const progressWrap = $("acm-progress");
-const progressFill = $("acm-progress-fill");
-const timeCur = $("acm-time-cur");
-const timeDur = $("acm-time-dur");
-const volumeSlider = $("acm-volume");
-const titleEl = $("acm-title");
-const genreEl = $("acm-genre");
-const coverEl = $("acm-cover");
-const canvas = $("acm-wave-canvas");
-const ctx = canvas.getContext("2d");
+// ===== ЭЛЕМЕНТЫ =====
+const audio = document.getElementById('audio-player');
+const btnPlay = document.getElementById('btn-play');
+const playIcon = document.getElementById('play-icon');
+const btnPrev = document.getElementById('btn-prev');
+const btnNext = document.getElementById('btn-next');
+const btnShuffle = document.getElementById('btn-shuffle');
+const btnRepeat = document.getElementById('btn-repeat');
+const progressBar = document.getElementById('progress-bar');
+const progressFill = document.getElementById('progress-fill');
+const timeCurrent = document.getElementById('time-current');
+const timeTotal = document.getElementById('time-total');
+const volumeSlider = document.getElementById('volume-slider');
+const playerTitle = document.getElementById('player-title');
+const playerGenre = document.getElementById('player-genre');
+const playerCover = document.getElementById('player-cover');
+const canvas = document.getElementById('wave-canvas');
+const ctx = canvas.getContext('2d');
 
 let currentPlaylist = playlistRockstep;
-let currentTrackIndex = 0;
+let currentIndex = 0;
 let isShuffle = false;
 let isRepeat = false;
-let audioContext, analyser, source, dataArray;
-let isAudioContextInit = false;
+let audioCtx, analyser, dataArray;
+let isInit = false;
 
-const WORKER_URL = "https://acm-audio-proxy.deniska.workers.dev";
-
-function getTrackDescription(track) {
-    return currentLanguage === "ru" ? track.descRu : track.descEn;
-}
-
+// ===== ВИЗУАЛИЗАЦИЯ =====
 function initAudioContext() {
-    if (isAudioContextInit) return;
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    analyser = audioContext.createAnalyser();
+    if (isInit) return;
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    analyser = audioCtx.createAnalyser();
     analyser.fftSize = 256;
-    source = audioContext.createMediaElementSource(audio);
+    const source = audioCtx.createMediaElementSource(audio);
     source.connect(analyser);
-    analyser.connect(audioContext.destination);
+    analyser.connect(audioCtx.destination);
     dataArray = new Uint8Array(analyser.frequencyBinCount);
-    isAudioContextInit = true;
-    drawWaveform();
+    isInit = true;
+    drawWave();
 }
 
-function drawWaveform() {
+function drawWave() {
     const w = canvas.width = canvas.offsetWidth * 2;
     const h = canvas.height = canvas.offsetHeight * 2;
-    ctx.clearRect(0, 0, w, h);
-
-    if (!isAudioContextInit || audio.paused) {
-        drawStaticWave(w, h);
-        requestAnimationFrame(drawWaveform);
+    
+    if (!isInit || audio.paused) {
+        ctx.clearRect(0, 0, w, h);
+        // Статичная волна
+        for (let i = 0; i < 50; i++) {
+            const barH = Math.random() * h * 0.5 + h * 0.1;
+            ctx.fillStyle = 'rgba(200,127,67,0.2)';
+            ctx.fillRect(i * (w/50), (h-barH)/2, w/50-2, barH);
+        }
+        requestAnimationFrame(drawWave);
         return;
     }
-
+    
     analyser.getByteFrequencyData(dataArray);
-    const barWidth = w / dataArray.length * 2.5;
-    let x = 0;
-    const progress = audio.duration ? (audio.currentTime / audio.duration) : 0;
-    const progressX = w * progress;
-
-    for (let i = 0; i < dataArray.length; i++) {
-        const barHeight = (dataArray[i] / 255) * h * 0.8;
-        const isPlayed = x < progressX;
-        ctx.fillStyle = isPlayed ? "var(--copper)" : "rgba(255,255,255,0.1)";
-        // Примечание: ctx.fillStyle не понимает CSS переменные напрямую в некоторых браузерах, 
-        // поэтому используем getComputedStyle или хардкод цвета для canvas
-        ctx.fillStyle = isPlayed ? "#c87f43" : "rgba(255,255,255,0.1)";
-        ctx.fillRect(x, (h - barHeight) / 2, Math.max(1, barWidth - 1), barHeight);
-        x += barWidth;
-    }
-    requestAnimationFrame(drawWaveform);
-}
-
-function drawStaticWave(w, h) {
     ctx.clearRect(0, 0, w, h);
-    const bars = 60;
-    const barWidth = w / bars;
-    for (let i = 0; i < bars; i++) {
-        const barHeight = Math.random() * h * 0.4 + h * 0.1;
-        ctx.fillStyle = "rgba(200, 127, 67, 0.2)";
-        ctx.fillRect(i * barWidth, (h - barHeight) / 2, barWidth - 2, barHeight);
+    
+    const barW = w / dataArray.length * 2;
+    const progress = audio.currentTime / audio.duration || 0;
+    
+    for (let i = 0; i < dataArray.length; i++) {
+        const barH = (dataArray[i] / 255) * h;
+        const x = i * barW;
+        const isPlayed = x < w * progress;
+        
+        ctx.fillStyle = isPlayed ? '#c87f43' : 'rgba(255,255,255,0.1)';
+        ctx.fillRect(x, (h-barH)/2, barW-1, barH);
     }
+    
+    requestAnimationFrame(drawWave);
 }
 
+// ===== УПРАВЛЕНИЕ =====
 function formatTime(s) {
-    if (isNaN(s)) return "0:00";
+    if (isNaN(s)) return '0:00';
     const m = Math.floor(s / 60);
     const sec = Math.floor(s % 60);
-    return m + ":" + (sec < 10 ? "0" : "") + sec;
+    return m + ':' + (sec<10?'0':'') + sec;
 }
 
 function loadTrack(index, playlist, autoPlay = true) {
     if (index < 0 || index >= playlist.length) return;
     currentPlaylist = playlist;
-    currentTrackIndex = index;
+    currentIndex = index;
     const track = playlist[index];
-
-    titleEl.textContent = track.name;
-    genreEl.textContent = getTrackDescription(track);
-    coverEl.src = track.cover || "acm_logo.png";
-
+    
+    playerTitle.textContent = track.name;
+    playerGenre.textContent = track.genre || '—';
+    playerCover.src = 'acm_logo.png'; // Пока заглушка
+    
     const url = `${WORKER_URL}/?track=${encodeURIComponent(track.id)}`;
     audio.src = url;
     
     if (autoPlay) {
         initAudioContext();
-        audio.play().catch(e => console.log("Autoplay blocked:", e));
+        audio.play().catch(e => console.log('Play blocked:', e));
     }
-
-    // Обновляем активный класс в списках
-    document.querySelectorAll(".track").forEach(el => el.classList.remove("active"));
-    const containerId = playlist === playlistRockstep ? "listRockstep" : "listDubstep";
-    const trackElements = $(containerId).querySelectorAll(".track");
-    if (trackElements[index]) {
-        trackElements[index].classList.add("active");
-        // Плавный скролл к плееру при ручном выборе
-        if (autoPlay) {
-            $("player").scrollIntoView({ behavior: "smooth", block: "center" });
-        }
-    }
+    
+    // Обновляем активный трек в списке
+    document.querySelectorAll('.track-item').forEach(el => el.classList.remove('active'));
+    const listId = playlist === playlistRockstep ? 'list-rockstep' : 'list-dubstep';
+    const items = document.getElementById(listId).querySelectorAll('.track-item');
+    if (items[index]) items[index].classList.add('active');
 }
 
 function togglePlay() {
-    if (!isAudioContextInit) initAudioContext();
-    if (audio.paused) {
-        audio.play().catch(e => console.log("Play error:", e));
-    } else {
-        audio.pause();
-    }
+    if (!isInit) initAudioContext();
+    if (audio.paused) audio.play();
+    else audio.pause();
 }
 
 function updatePlayIcon() {
@@ -714,12 +692,8 @@ function updatePlayIcon() {
 }
 
 function nextTrack() {
-    let next;
-    if (isShuffle) {
-        next = Math.floor(Math.random() * currentPlaylist.length);
-    } else {
-        next = (currentTrackIndex + 1) % currentPlaylist.length;
-    }
+    let next = isShuffle ? Math.floor(Math.random() * currentPlaylist.length) 
+                         : (currentIndex + 1) % currentPlaylist.length;
     loadTrack(next, currentPlaylist, true);
 }
 
@@ -728,99 +702,74 @@ function prevTrack() {
         audio.currentTime = 0;
         return;
     }
-    const prev = (currentTrackIndex - 1 + currentPlaylist.length) % currentPlaylist.length;
+    const prev = (currentIndex - 1 + currentPlaylist.length) % currentPlaylist.length;
     loadTrack(prev, currentPlaylist, true);
 }
 
 // ===== СОБЫТИЯ =====
-playBtn.addEventListener("click", togglePlay);
-audio.addEventListener("play", updatePlayIcon);
-audio.addEventListener("pause", updatePlayIcon);
-
-audio.addEventListener("ended", () => {
-    if (isRepeat) {
-        audio.currentTime = 0;
-        audio.play();
-    } else {
-        nextTrack();
-    }
+btnPlay.addEventListener('click', togglePlay);
+audio.addEventListener('play', updatePlayIcon);
+audio.addEventListener('pause', updatePlayIcon);
+audio.addEventListener('ended', () => {
+    if (isRepeat) { audio.currentTime = 0; audio.play(); }
+    else nextTrack();
 });
 
-audio.addEventListener("timeupdate", () => {
+audio.addEventListener('timeupdate', () => {
     if (audio.duration) {
         const pct = (audio.currentTime / audio.duration) * 100;
-        progressFill.style.width = pct + "%";
-        timeCur.textContent = formatTime(audio.currentTime);
+        progressFill.style.width = pct + '%';
+        timeCurrent.textContent = formatTime(audio.currentTime);
     }
 });
 
-audio.addEventListener("loadedmetadata", () => {
-    timeDur.textContent = formatTime(audio.duration);
+audio.addEventListener('loadedmetadata', () => {
+    timeTotal.textContent = formatTime(audio.duration);
 });
 
-audio.addEventListener("error", (e) => {
-    console.error("Audio load error:", e);
-    titleEl.textContent = "Ошибка загрузки (проверьте имя файла в R2)";
-});
-
-progressWrap.addEventListener("click", (e) => {
-    const rect = progressWrap.getBoundingClientRect();
+progressBar.addEventListener('click', (e) => {
+    const rect = progressBar.getBoundingClientRect();
     const pct = (e.clientX - rect.left) / rect.width;
     if (audio.duration) audio.currentTime = pct * audio.duration;
 });
 
-volumeSlider.addEventListener("input", (e) => {
-    audio.volume = e.target.value;
-});
+volumeSlider.addEventListener('input', (e) => { audio.volume = e.target.value; });
 
-shuffleBtn.addEventListener("click", () => {
+btnShuffle.addEventListener('click', () => {
     isShuffle = !isShuffle;
-    shuffleBtn.classList.toggle("active", isShuffle);
+    btnShuffle.classList.toggle('active', isShuffle);
 });
 
-repeatBtn.addEventListener("click", () => {
+btnRepeat.addEventListener('click', () => {
     isRepeat = !isRepeat;
-    repeatBtn.classList.toggle("active", isRepeat);
+    btnRepeat.classList.toggle('active', isRepeat);
 });
 
-nextBtn.addEventListener("click", nextTrack);
-prevBtn.addEventListener("click", prevTrack);
+btnNext.addEventListener('click', nextTrack);
+btnPrev.addEventListener('click', prevTrack);
 
-function render(list, containerId) {
-    const container = $(containerId);
-    container.innerHTML = "";
-    list.forEach((track, index) => {
-        const element = document.createElement("div");
-        element.className = "track";
-        
-        const info = document.createElement("div");
-        info.className = "track-info";
-        
-        const name = document.createElement("div");
-        name.className = "track-name";
-        name.textContent = track.name;
-        
-        const meta = document.createElement("div");
-        meta.className = "track-meta";
-        meta.textContent = getTrackDescription(track);
-        
-        info.appendChild(name);
-        if (getTrackDescription(track)) info.appendChild(meta);
-        element.appendChild(info);
-        
-        element.onclick = () => loadTrack(index, list, true);
-        container.appendChild(element);
+// ===== РЕНДЕР СПИСКОВ =====
+function renderList(list, containerId) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+    list.forEach((track, i) => {
+        const div = document.createElement('div');
+        div.className = 'track-item';
+        div.innerHTML = `
+            <div class="track-item-name">${track.name}</div>
+            <div class="track-item-meta">${track.genre}</div>
+        `;
+        div.addEventListener('click', () => loadTrack(i, list, true));
+        container.appendChild(div);
     });
 }
 
-// ===== ИНИЦИАЛИЗАЦИЯ =====
-window.addEventListener("DOMContentLoaded", () => {
-    render(playlistRockstep, "listRockstep");
-    render(playlistDubstep, "listDubstep");
-    
-    // Загружаем первый трек, но не запускаем автоматически (ждем клика)
+// ===== СТАРТ =====
+window.addEventListener('DOMContentLoaded', () => {
+    renderList(playlistRockstep, 'list-rockstep');
+    renderList(playlistDubstep, 'list-dubstep');
     loadTrack(0, playlistRockstep, false);
-    drawStaticWave(canvas.offsetWidth * 2, canvas.offsetHeight * 2);
+    drawWave();
 });
 </script>
 
