@@ -563,7 +563,8 @@ body::before{
 
 </div>
 
-<audio id="audio-player" preload="auto"></audio>
+<!-- Обязательный атрибут crossorigin="anonymous" для корректной работы AudioContext без блокировок CORS -->
+<audio id="audio-player" crossorigin="anonymous" preload="auto"></audio>
 
 <!-- ПЛЕЙЛИСТЫ -->
 <div class="playlists">
@@ -657,57 +658,58 @@ function applyLanguage() {
     if (copyEl) copyEl.textContent = t.copyright;
 }
 
+/* Списки инвертированы (свежие треки вверху) */
 const playlistRockstep = [
-    { id:'Neural Fracture', name:'Neural Fracture', genre:'Rap, Metalcore, Doomstep' },
-    { id:'Protocol Ghost', name:'Protocol Ghost', genre:'Dark Cyberpunk, Industrial Metal' },
-    { id:'Thunder Echo', name:'Thunder Echo', genre:'Modern Hard Rock, Rockstep' },
-    { id:'One step into the void', name:'One step into the void', genre:'Doom Metal, Nu-Metal' },
-    { id:'Ghost Chemistry', name:'Ghost Chemistry', genre:'Heavy Rockstep, Dark Dubstep' },
-    { id:'Glacial Ignite', name:'Glacial Ignite', genre:'Doom Metal, Metalstep' },
-    { id:'Obsidian Pulse', name:'Obsidian Pulse', genre:'Industrial Metalcore' },
-    { id:'Silicon Rage', name:'Silicon Rage', genre:'Cybercore, Doom Metal' },
-    { id:'Ashes of the Heavens', name:'Ashes of the Heavens', genre:'Metalstep, Post-Hardcore' },
-    { id:'Iron Will', name:'Iron Will', genre:'Industrial Metalstep' },
-    { id:'Bloodboil', name:'Bloodboil', genre:'Industrial Metal, Metalstep' },
-    { id:'Black Bile', name:'Black Bile', genre:'Dark Industrial Metal' },
-    { id:'BLADES OF VOLITION', name:'BLADES OF VOLITION', genre:'Dark Metal, Metalstep' },
-    { id:'Cold Valhalla', name:'Cold Valhalla', genre:'Cyberpunk Trap Metal' },
-    { id:'APEX PREDATOR', name:'APEX PREDATOR', genre:'Neoclassical Doom Metalstep' },
-    { id:'Mad War', name:'Mad War', genre:'Electronic Rock, Post-Hardcore' },
-    { id:'Burn My Yesterday', name:'Burn My Yesterday', genre:'Metalcore, Industrial Metal' },
-    { id:'False Memories', name:'False Memories', genre:'Industrial Doom Metalstep' },
-    { id:'My Demons Within', name:'My Demons Within', genre:'Industrial Metal, Nu-Metal' },
-    { id:'Boiling Blood', name:'Boiling Blood', genre:'Industrial Metal, Cyberpunk' },
-    { id:'Through the Fear', name:'Through the Fear', genre:'Doom Metal, Metalcore' },
-    { id:'Zero Zero', name:'Zero Zero', genre:'Industrial Rock, Electronic Metal' },
-    { id:'DESCEND!', name:'DESCEND!', genre:'Blues Rockstep' },
-    { id:'Burning With Hate', name:'Burning With Hate', genre:'Electronic Metalcore' },
-    { id:'INVERSION', name:'INVERSION', genre:'Industrial Metal, Doom Metal' },
-    { id:'Burn to theground', name:'Burn to theground', genre:'Doom Metal, Nu-Metal' },
-    { id:'Nameless City', name:'Nameless City', genre:'Dark Metal, Industrial Metal' },
-    { id:'Ash Wanderer', name:'Ash Wanderer', genre:'Nu-Metal, Metalcore' },
-    { id:'Twilight Mind', name:'Twilight Mind', genre:'Blues Rockstep' },
-    { id:'Stray God', name:'Stray God', genre:'Doom Metal, Metalstep' },
-    { id:'Hellish Paradise', name:'Hellish Paradise', genre:'Industrial Metal, Cyber Metal' },
+    { id:'Blindfold', name:'Blindfold', genre:'Industrial Rock, Electronic Rock' },
     { id:'Lost in the Cloud-Abyss', name:'Lost in the Cloud-Abyss', genre:'Nu-Metal, Metalstep' },
-    { id:'Blindfold', name:'Blindfold', genre:'Industrial Rock, Electronic Rock' }
+    { id:'Hellish Paradise', name:'Hellish Paradise', genre:'Industrial Metal, Cyber Metal' },
+    { id:'Stray God', name:'Stray God', genre:'Doom Metal, Metalstep' },
+    { id:'Twilight Mind', name:'Twilight Mind', genre:'Blues Rockstep' },
+    { id:'Ash Wanderer', name:'Ash Wanderer', genre:'Nu-Metal, Metalcore' },
+    { id:'Nameless City', name:'Nameless City', genre:'Dark Metal, Industrial Metal' },
+    { id:'Burn to theground', name:'Burn to theground', genre:'Doom Metal, Nu-Metal' },
+    { id:'INVERSION', name:'INVERSION', genre:'Industrial Metal, Doom Metal' },
+    { id:'Burning With Hate', name:'Burning With Hate', genre:'Electronic Metalcore' },
+    { id:'DESCEND!', name:'DESCEND!', genre:'Blues Rockstep' },
+    { id:'Zero Zero', name:'Zero Zero', genre:'Industrial Rock, Electronic Metal' },
+    { id:'Through the Fear', name:'Through the Fear', genre:'Doom Metal, Metalcore' },
+    { id:'Boiling Blood', name:'Boiling Blood', genre:'Industrial Metal, Cyberpunk' },
+    { id:'My Demons Within', name:'My Demons Within', genre:'Industrial Metal, Nu-Metal' },
+    { id:'False Memories', name:'False Memories', genre:'Industrial Doom Metalstep' },
+    { id:'Burn My Yesterday', name:'Burn My Yesterday', genre:'Metalcore, Industrial Metal' },
+    { id:'Mad War', name:'Mad War', genre:'Electronic Rock, Post-Hardcore' },
+    { id:'APEX PREDATOR', name:'APEX PREDATOR', genre:'Neoclassical Doom Metalstep' },
+    { id:'Cold Valhalla', name:'Cold Valhalla', genre:'Cyberpunk Trap Metal' },
+    { id:'BLADES OF VOLITION', name:'BLADES OF VOLITION', genre:'Dark Metal, Metalstep' },
+    { id:'Black Bile', name:'Black Bile', genre:'Dark Industrial Metal' },
+    { id:'Bloodboil', name:'Bloodboil', genre:'Industrial Metal, Metalstep' },
+    { id:'Iron Will', name:'Iron Will', genre:'Industrial Metalstep' },
+    { id:'Ashes of the Heavens', name:'Ashes of the Heavens', genre:'Metalstep, Post-Hardcore' },
+    { id:'Silicon Rage', name:'Silicon Rage', genre:'Cybercore, Doom Metal' },
+    { id:'Obsidian Pulse', name:'Obsidian Pulse', genre:'Industrial Metalcore' },
+    { id:'Glacial Ignite', name:'Glacial Ignite', genre:'Doom Metal, Metalstep' },
+    { id:'Ghost Chemistry', name:'Ghost Chemistry', genre:'Heavy Rockstep, Dark Dubstep' },
+    { id:'One step into the void', name:'One step into the void', genre:'Doom Metal, Nu-Metal' },
+    { id:'Thunder Echo', name:'Thunder Echo', genre:'Modern Hard Rock, Rockstep' },
+    { id:'Protocol Ghost', name:'Protocol Ghost', genre:'Dark Cyberpunk, Industrial Metal' },
+    { id:'Neural Fracture', name:'Neural Fracture', genre:'Rap, Metalcore, Doomstep' }
 ];
 
 const playlistDubstep = [
-    { id:'Unleash the Storm', name:'Unleash the Storm', genre:'Melodic Dubstep, Crossbreed' },
-    { id:'Boneless Pressure', name:'Boneless Pressure', genre:'Ragga Dubstep' },
-    { id:'GOD MODE EXTENDED', name:'GOD MODE EXTENDED', genre:'Gaming Dubstep' },
-    { id:'Voltage', name:'Voltage', genre:'Dubstep EDM' },
-    { id:'Zenith', name:'Zenith', genre:'Melodic Dubstep, Complextro' },
-    { id:'Street Instinct', name:'Street Instinct', genre:'Ragga Rockstep' },
-    { id:'Dream', name:'Dream', genre:'2012 Oldschool Dubstep' },
-    { id:'Learning to Fly', name:'Learning to Fly', genre:'Epic Dubstep, Brostep' },
-    { id:'Starry Tide', name:'Starry Tide', genre:'Brostep, Complextro' },
-    { id:'NEON OVERRIDE', name:'NEON OVERRIDE', genre:'Cyberpunk Dubstep, Glitchstep' },
-    { id:"Tomorrow’s Light", name:"Tomorrow’s Light", genre:'Tribal Dubstep' },
-    { id:'Boundless Ocean', name:'Boundless Ocean', genre:'Melodic Dubstep' },
+    { id:'EVERYTHING IS OK', name:'EVERYTHING IS OK', genre:'Ragga Dubstep' },
     { id:'Rendezvous with Life', name:'Rendezvous with Life', genre:'Melodic Dubstep' },
-    { id:'EVERYTHING IS OK', name:'EVERYTHING IS OK', genre:'Ragga Dubstep' }
+    { id:'Boundless Ocean', name:'Boundless Ocean', genre:'Melodic Dubstep' },
+    { id:"Tomorrow’s Light", name:"Tomorrow’s Light", genre:'Tribal Dubstep' },
+    { id:'NEON OVERRIDE', name:'NEON OVERRIDE', genre:'Cyberpunk Dubstep, Glitchstep' },
+    { id:'Starry Tide', name:'Starry Tide', genre:'Brostep, Complextro' },
+    { id:'Learning to Fly', name:'Learning to Fly', genre:'Epic Dubstep, Brostep' },
+    { id:'Dream', name:'Dream', genre:'2012 Oldschool Dubstep' },
+    { id:'Street Instinct', name:'Street Instinct', genre:'Ragga Rockstep' },
+    { id:'Zenith', name:'Zenith', genre:'Melodic Dubstep, Complextro' },
+    { id:'Voltage', name:'Voltage', genre:'Dubstep EDM' },
+    { id:'GOD MODE EXTENDED', name:'GOD MODE EXTENDED', genre:'Gaming Dubstep' },
+    { id:'Boneless Pressure', name:'Boneless Pressure', genre:'Ragga Dubstep' },
+    { id:'Unleash the Storm', name:'Unleash the Storm', genre:'Melodic Dubstep, Crossbreed' }
 ];
 
 const audio = document.getElementById('audio-player');
@@ -957,6 +959,13 @@ btnRepeat.addEventListener('click', () => {
 
 btnNext.addEventListener('click', nextTrack);
 btnPrev.addEventListener('click', prevTrack);
+
+/* Автоматическая разблокировка AudioContext по первому клику */
+window.addEventListener('click', () => {
+    if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+    }
+}, { once: true });
 
 function renderList(list, containerId){
     const container = document.getElementById(containerId);
