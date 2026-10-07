@@ -50,7 +50,6 @@ body::before{
     opacity:0.9;
 }
 
-/* ===== О ПРОЕКТЕ & КНОПКИ-РАЗДЕЛИТЕЛИ С ЛИНИЯМИ ===== */
 .about-section{margin-bottom:30px}
 
 .about-toggle,
@@ -81,7 +80,6 @@ body::before{
     text-shadow: 0 0 10px var(--copper-glow);
 }
 
-/* Линии слева и справа */
 .about-toggle::before,
 .about-toggle::after,
 .genre-section summary::before,
@@ -92,21 +90,18 @@ body::before{
     pointer-events: none;
 }
 
-/* Левая полоса (сужается и угасает влево) */
 .about-toggle::before,
 .genre-section summary::before {
     background: linear-gradient(to left, rgba(224, 90, 29, 0.8), rgba(224, 90, 29, 0));
     clip-path: polygon(0 50%, 100% 0, 100% 100%);
 }
 
-/* Правая полоса (сужается и угасает вправо) */
 .about-toggle::after,
 .genre-section summary::after {
     background: linear-gradient(to right, rgba(224, 90, 29, 0.8), rgba(224, 90, 29, 0));
     clip-path: polygon(0 0, 100% 50%, 0 100%);
 }
 
-/* Стрелки-указатели */
 .about-toggle span::after,
 .genre-section summary span::after {
     content: "▼";
@@ -134,10 +129,6 @@ body::before{
 
 .about-content p{margin-bottom:8px}
 .about-content p:last-child{margin-bottom:0}
-
-/* =========================================================
-   ACM PLAYER
-   ========================================================= */
 
 .player-card{
     position:relative;
@@ -370,7 +361,6 @@ body::before{
     box-shadow:0 0 6px var(--copper);
 }
 
-/* ===== ПЛЕЙЛИСТЫ ===== */
 .playlists{
     display:grid;
     grid-template-columns:1fr 1fr;
@@ -420,7 +410,6 @@ body::before{
     color:var(--text-dim);
 }
 
-/* ===== ФУТЕР ===== */
 .footer{
     text-align:center;
     padding-top:25px;
@@ -493,15 +482,11 @@ body::before{
 
 <img class="logo" src="acm_logo.png" alt="ACM">
 
-<!-- О ПРОЕКТЕ -->
 <details class="about-section" id="about-section">
     <summary class="about-toggle" id="about-toggle"><span>О проекте</span></summary>
-    <div class="about-content" id="about-content">
-        <!-- Заполняется автоматически через JS -->
-    </div>
+    <div class="about-content" id="about-content"></div>
 </details>
 
-<!-- ACM ПЛЕЕР -->
 <div class="player-card" id="player-card">
 
     <div class="status-badge">
@@ -563,10 +548,8 @@ body::before{
 
 </div>
 
-<!-- Обязательный атрибут crossorigin="anonymous" для корректной работы AudioContext -->
 <audio id="audio-player" crossorigin="anonymous" preload="auto"></audio>
 
-<!-- ПЛЕЙЛИСТЫ -->
 <div class="playlists">
 
     <div class="genre-section">
@@ -585,7 +568,6 @@ body::before{
 
 </div>
 
-<!-- ФУТЕР -->
 <div class="footer">
 
     <div class="social-links">
@@ -663,85 +645,85 @@ const playlistRockstep = [
         id: 'Kings Of The Night', 
         name: 'Kings Of The Night', 
         genre: 'Modern Blues Rockstep',
-        cover: 'https://api.pcloud.com/getpubthumb?code=XZTOwk7ZnD8XlhQdoDBJ61TmBqClbBysq1yX&size=500x500'
+        cover: 'https://i.postimg.cc/mggbpTMJ/getpubthumb-code-XZTOwk7Zn-D8Xlh-Qdo-DBJ61Tm-Bq-Clb-Bysq1y-X-fileid-108310729914-size-1200x628-crop.jpg'
     },
     { 
         id: 'Blindfold', 
         name: 'Blindfold', 
         genre: 'Industrial Rock, Electronic Rock',
-        cover: 'https://api.pcloud.com/getpubthumb?code=XZTtwk7ZSRCmAg6leX0NIv5TaY2e8SnADbRV&size=500x500'
+        cover: 'https://i.postimg.cc/hGMVWD35/getpubthumb-code-XZTtwk7ZSRCm-Ag6le-X0NIv5Ta-Y2e8Sn-ADb-RV-fileid-107278697824-size-1200x628-crop-1.jpg'
     },
     { 
         id: 'Lost in the Cloud-Abyss', 
         name: 'Lost in the Cloud-Abyss', 
         genre: 'Nu-Metal, Metalstep',
-        cover: 'https://api.pcloud.com/getpubthumb?code=XZOtwk7ZSyGbxMaiPkHa8Op1P8IJ3zae6nX7&size=500x500'
+        cover: 'https://i.postimg.cc/sXQPYFwp/getpubthumb-code-XZOtwk7ZSy-Gbx-Mai-Pk-Ha8Op1P8IJ3zae6n-X7-fileid-106339664278-size-600x315-crop-1-t.jpg'
     },
     { 
         id: 'Hellish Paradise', 
         name: 'Hellish Paradise', 
         genre: 'Industrial Metal, Cyber Metal',
-        cover: 'https://api.pcloud.com/getpubthumb?code=XZctwk7ZYsRtE9UUOBzDFacPPSOTcXvwWbNy&size=500x500'
+        cover: 'https://i.postimg.cc/qqCTH7Qq/getpubthumb-code-XZctwk7ZYs-Rt-E9UUOBz-DFac-PPSOTc-Xvw-Wb-Ny-fileid-107015445406-size-1200x628-crop.jpg'
     },
     { 
         id: 'Stray God', 
         name: 'Stray God', 
         genre: 'Doom Metal, Metalstep',
-        cover: 'https://api.pcloud.com/getpubthumb?code=XZX6wk7ZttiSrzPXWy7m5NGC1ANLPuAQXAdV&size=500x500'
+        cover: 'https://i.postimg.cc/Hn0yzT5B/getpubthumb-code-XZX6wk7Ztti-Srz-PXWy7m5NGC1ANLPu-AQXAd-V-fileid-107015552844-size-1200x628-crop-1-t.jpg'
     },
     { 
         id: 'Twilight Mind', 
         name: 'Twilight Mind', 
         genre: 'Blues Rockstep',
-        cover: 'https://api.pcloud.com/getpubthumb?code=XZR6wk7ZgLV1F9bM6Wkw6Wy9ilY9a5BSvWXy&size=500x500'
+        cover: 'https://i.postimg.cc/BnzXxjy5/getpubthumb-code-XZR6wk7Zg-LV1F9b-M6Wkw6Wy9il-Y9a5BSv-WXy-fileid-104900290079-size-1200x628-crop-1-t.jpg'
     },
     { 
         id: 'Ash Wanderer', 
         name: 'Ash Wanderer', 
         genre: 'Nu-Metal, Metalcore',
-        cover: 'https://api.pcloud.com/getpubthumb?code=XZm6wk7ZNFUbCuN0YoQOFpsPogsSW7YP54Ky&size=500x500'
+        cover: 'https://i.postimg.cc/0QDM59tv/getpubthumb-code-XZm6wk7ZNFUb-Cu-N0Yo-QOFps-Pogs-SW7YP54Ky-fileid-104900281212-size-1200x628-crop-1.jpg'
     },
     { 
         id: 'Nameless City', 
         name: 'Nameless City', 
         genre: 'Dark Metal, Industrial Metal',
-        cover: 'https://api.pcloud.com/getpubthumb?code=XZs6wk7ZwxM0ITRgOLBKeIJKxvxGuSItMf6X&size=500x500'
+        cover: 'https://i.postimg.cc/286k2zn9/getpubthumb-code-XZs6wk7Zwx-M0ITRg-OLBKe-IJKxvx-Gu-SIt-Mf6X-fileid-105165471582-size-1200x628-crop-1.jpg'
     },
     { 
         id: 'Burn to theground', 
         name: 'Burn to theground', 
         genre: 'Doom Metal, Nu-Metal',
-        cover: 'https://api.pcloud.com/getpubthumb?code=XZC6wk7ZUT0i6RyOMLJ0cBsbeG2IK486Erp7&size=500x500'
+        cover: 'https://i.postimg.cc/Qths5sXR/getpubthumb-code-XZC6wk7ZUT0i6Ry-OMLJ0c-Bsbe-G2IK486Erp7-fileid-102880511464-size-1200x628-crop-1-ty.jpg'
     },
     { 
         id: 'INVERSION', 
         name: 'INVERSION', 
         genre: 'Industrial Metal, Doom Metal',
-        cover: 'https://api.pcloud.com/getpubthumb?code=XZq6wk7Z6zQVmN85gpJJQl3wb2se8V7KKPiV&size=500x500'
+        cover: 'https://i.postimg.cc/hvYHCqBz/getpubthumb-code-XZq6wk7Z6z-QVm-N85gp-JJQl3wb2se8V7KKPi-V-fileid-102205673267-size-1200x628-crop-1-t.jpg'
     },
     { 
         id: 'Burning With Hate', 
         name: 'Burning With Hate', 
         genre: 'Electronic Metalcore',
-        cover: 'https://api.pcloud.com/getpubthumb?code=XZN6wk7ZjcE865MtfFhRFpONjod3LHvvz5oV&size=500x500'
+        cover: 'https://i.postimg.cc/MHnLfrQ8/getpubthumb-code-XZN6wk7Zjc-E865Mtf-Fh-RFp-ONjod3LHvvz5o-V-fileid-101719218734-size-600x315-crop-1-t.jpg'
     },
     { 
         id: 'DESCEND!', 
         name: 'DESCEND!', 
         genre: 'Blues Rockstep',
-        cover: 'https://api.pcloud.com/getpubthumb?code=XZ7Ewk7Zon5FHPi16DY6y93cgjuyR8smb8wy&size=500x500'
+        cover: 'https://i.postimg.cc/NFXWPzfp/getpubthumb-code-XZ7Ewk7Zon5FHPi16DY6y93cgjuy-R8smb8wy-fileid-101010571829-size-1200x628-crop-1-type.jpg'
     },
     { 
         id: 'Zero Zero', 
         name: 'Zero Zero', 
         genre: 'Industrial Rock, Electronic Metal',
-        cover: 'https://api.pcloud.com/getpubthumb?code=XZXEwk7ZaENNxyoIo9jNEMPoyJwtyklcia4X&size=500x500'
+        cover: 'https://i.postimg.cc/433jTdN0/getpubthumb-code-XZXEwk7Za-ENNxyo-Io9j-NEMPoy-Jwtyklcia4X-fileid-100582928709-size-1200x628-crop-1-t.jpg'
     },
     { 
         id: 'Through the Fear', 
         name: 'Through the Fear', 
         genre: 'Doom Metal, Metalcore',
-        cover: 'https://api.pcloud.com/getpubthumb?code=XZHEwk7Zenh9qGPUtaboLPdKqEHQzXpQ3Xu7&size=500x500'
+        cover: 'https://i.postimg.cc/vm1Xz6mV/getpubthumb-code-XZHEwk7Zenh9q-GPUtabo-LPd-Kq-EHQz-Xp-Q3Xu7-fileid-99919953667-size-1200x628-crop-1.jpg'
     },
     { id:'Boiling Blood', name:'Boiling Blood', genre:'Industrial Metal, Cyberpunk' },
     { id:'My Demons Within', name:'My Demons Within', genre:'Industrial Metal, Nu-Metal' },
@@ -753,7 +735,7 @@ const playlistRockstep = [
         id: 'Cold Valhalla', 
         name: 'Cold Valhalla', 
         genre: 'Cyberpunk Trap Metal',
-        cover: 'https://api.pcloud.com/getpubthumb?code=XZ1twk7ZDMLe5hr32N53plE4BnQogzRqnj3X&size=500x500'
+        cover: 'https://i.postimg.cc/Xqq8DGjy/getpubthumb-code-XZ1twk7ZDMLe5hr32N53pl-E4Bn-Qogz-Rqnj3X-fileid-107673891092-size-1200x628-crop-1-ty.jpg'
     },
     { id:'BLADES OF VOLITION', name:'BLADES OF VOLITION', genre:'Dark Metal, Metalstep' },
     { id:'Black Bile', name:'Black Bile', genre:'Dark Industrial Metal' },
@@ -763,7 +745,7 @@ const playlistRockstep = [
         id: 'Ashes of the Heavens', 
         name: 'Ashes of the Heavens', 
         genre: 'Metalstep, Post-Hardcore',
-        cover: 'https://api.pcloud.com/getpubthumb?code=XZNEwk7ZH7psu2YG6yQ2G9fbouiQkQOdqppk&size=500x500'
+        cover: 'https://i.postimg.cc/1zZZhPNN/getpubthumb-code-XZNEwk7ZH7psu2YG6y-Q2G9fboui-Qk-QOdqppk-fileid-102637737340-size-1200x628-crop-1-ty.jpg'
     },
     { id:'Silicon Rage', name:'Silicon Rage', genre:'Cybercore, Doom Metal' },
     { id:'Obsidian Pulse', name:'Obsidian Pulse', genre:'Industrial Metalcore' },
@@ -780,43 +762,43 @@ const playlistDubstep = [
         id: 'World keeps dancing', 
         name: 'World keeps dancing', 
         genre: 'Melodic Dubstep',
-        cover: 'https://api.pcloud.com/getpubthumb?code=XZuUwk7Zzb9UCjj8pj7iD8iKDl5FIzCfbfk7&size=500x500'
+        cover: 'https://i.postimg.cc/ryfZCcVf/getpubthumb-code-XZu-Uwk7Zzb9UCjj8pj7i-D8i-KDl5FIz-Cfbfk7-fileid-108310730658-size-1200x628-crop-1-t.jpg'
     },
     { 
         id: 'EVERYTHING IS OK', 
         name: 'EVERYTHING IS OK', 
         genre: 'Ragga Dubstep',
-        cover: 'https://api.pcloud.com/getpubthumb?code=XZHOwk7ZvtzCme5BM0RAfEMrpywtX4EOWjKk&size=500x500'
+        cover: 'https://i.postimg.cc/DzfBbY94/getpubthumb-code-XZHOwk7Zvtz-Cme5BM0RAf-EMrpywt-X4EOWj-Kk-fileid-107278798999-size-1200x628-crop-1-t.jpg'
     },
     { 
         id: 'Rendezvous with Life', 
         name: 'Rendezvous with Life', 
         genre: 'Melodic Dubstep',
-        cover: 'https://api.pcloud.com/getpubthumb?code=XZXOwk7ZyUK8m8z22VLaL9nDYnj6Xh2rR3v7&size=500x500'
+        cover: 'https://i.postimg.cc/N0LRtqqj/getpubthumb-code-XZXOwk7Zy-UK8m8z22VLa-L9n-DYnj6Xh2r-R3v7-fileid-105954538067-size-1200x628-crop-1-t.jpg'
     },
     { 
         id: 'Boundless Ocean', 
         name: 'Boundless Ocean', 
         genre: 'Melodic Dubstep',
-        cover: 'https://api.pcloud.com/getpubthumb?code=XZcEwk7ZvO8VJRst8l8kuqoTGttjRpRzTv17&size=500x500'
+        cover: 'https://i.postimg.cc/3RXN5nRW/getpubthumb-code-XZc-Ewk7Zv-O8VJRst8l8kuqo-TGttj-Rp-Rz-Tv17-fileid-104446689946-size-1200x628-crop-1.jpg'
     },
     { 
         id: 'Tomorrow’s Light', 
         name: 'Tomorrow’s Light', 
         genre: 'Tribal Dubstep',
-        cover: 'https://api.pcloud.com/getpubthumb?code=XZtEwk7Za10QSiMqBSQUO5eSThILNJ6qMYgy&size=500x500'
+        cover: 'https://i.postimg.cc/s2SD7w5f/getpubthumb-code-XZt-Ewk7Za10QSi-Mq-BSQUO5e-STh-ILNJ6q-MYgy-fileid-103162388718-size-1200x628-crop-1.jpg'
     },
     { 
         id: 'NEON OVERRIDE', 
         name: 'NEON OVERRIDE', 
         genre: 'Cyberpunk Dubstep, Glitchstep',
-        cover: 'https://api.pcloud.com/getpubthumb?code=XZlEwk7ZOD9dwd8cafLdBx7UtAKbbuYwh2EX&size=500x500'
+        cover: 'https://i.postimg.cc/Xvx1H0fz/getpubthumb-code-XZl-Ewk7ZOD9dwd8caf-Ld-Bx7Ut-AKbbu-Ywh2EX-fileid-101203505962-size-1200x628-crop-1.jpg'
     },
     { 
         id: 'Starry Tide', 
         name: 'Starry Tide', 
         genre: 'Brostep, Complextro',
-        cover: 'https://api.pcloud.com/getpubthumb?code=XZMEwk7ZrYNHaEsqe9JKUPyX85JKF5akaUkk&size=500x500'
+        cover: 'https://i.postimg.cc/VNTZQWhF/getpubthumb-code-XZMEwk7Zr-YNHa-Esqe9JKUPy-X85JKF5aka-Ukk-fileid-100066137670-size-1200x628-crop-1-t.jpg'
     },
     { id:'Learning to Fly', name:'Learning to Fly', genre:'Epic Dubstep, Brostep' },
     { id:'Dream', name:'Dream', genre:'2012 Oldschool Dubstep' },
@@ -1076,7 +1058,6 @@ btnRepeat.addEventListener('click', () => {
 btnNext.addEventListener('click', nextTrack);
 btnPrev.addEventListener('click', prevTrack);
 
-/* Автоматическая разблокировка AudioContext по первому клику */
 window.addEventListener('click', () => {
     if (audioCtx && audioCtx.state === 'suspended') {
         audioCtx.resume();
