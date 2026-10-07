@@ -50,15 +50,14 @@ body::before{
     opacity:0.9;
 }
 
+/* ===== О ПРОЕКТЕ ===== */
 .about-section{margin-bottom:30px}
 
-.about-toggle,
-.genre-section summary {
+.about-toggle {
     width: 100%;
     padding: 10px 0;
     background: transparent;
     border: none;
-    border-radius: 0;
     color: var(--copper);
     font-size: 11px;
     letter-spacing: 2px;
@@ -72,38 +71,32 @@ body::before{
     list-style: none;
 }
 
-.genre-section summary::-webkit-details-marker { display: none; }
+.about-toggle::-webkit-details-marker { display: none; }
 
-.about-toggle:hover,
-.genre-section summary:hover {
+.about-toggle:hover {
     color: #ff773d;
     text-shadow: 0 0 10px var(--copper-glow);
 }
 
 .about-toggle::before,
-.about-toggle::after,
-.genre-section summary::before,
-.genre-section summary::after {
+.about-toggle::after {
     content: "";
     flex: 1;
     height: 2px;
     pointer-events: none;
 }
 
-.about-toggle::before,
-.genre-section summary::before {
+.about-toggle::before {
     background: linear-gradient(to left, rgba(224, 90, 29, 0.8), rgba(224, 90, 29, 0));
     clip-path: polygon(0 50%, 100% 0, 100% 100%);
 }
 
-.about-toggle::after,
-.genre-section summary::after {
+.about-toggle::after {
     background: linear-gradient(to right, rgba(224, 90, 29, 0.8), rgba(224, 90, 29, 0));
     clip-path: polygon(0 0, 100% 50%, 0 100%);
 }
 
-.about-toggle span::after,
-.genre-section summary span::after {
+.about-toggle span::after {
     content: "▼";
     display: inline-block;
     margin-left: 8px;
@@ -111,8 +104,7 @@ body::before{
     transition: transform 0.3s;
 }
 
-.about-section[open] .about-toggle span::after,
-.genre-section details[open] summary span::after {
+.about-section[open] .about-toggle span::after {
     transform: rotate(180deg);
 }
 
@@ -130,6 +122,7 @@ body::before{
 .about-content p{margin-bottom:8px}
 .about-content p:last-child{margin-bottom:0}
 
+/* ===== ПЛЕЕР ===== */
 .player-card{
     position:relative;
     background:radial-gradient(ellipse at center, #12151b 0%, #08090c 100%);
@@ -361,6 +354,7 @@ body::before{
     box-shadow:0 0 6px var(--copper);
 }
 
+/* ===== ПЛЕЙЛИСТЫ В ОДНУ ЛИНИЮ ===== */
 .playlists{
     display:grid;
     grid-template-columns:1fr 1fr;
@@ -368,8 +362,72 @@ body::before{
     margin-bottom:40px;
 }
 
-.genre-section summary{
-    margin-bottom:12px;
+.playlists-header {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 12px;
+}
+
+.playlists-header::before {
+    content: "";
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(to left, rgba(224, 90, 29, 0.8), rgba(224, 90, 29, 0));
+    clip-path: polygon(0 50%, 100% 0, 100% 100%);
+}
+
+.playlists-header::after {
+    content: "";
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(to right, rgba(224, 90, 29, 0.8), rgba(224, 90, 29, 0));
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+.genre-section summary {
+    background: transparent;
+    border: none;
+    color: var(--copper);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.3s, text-shadow 0.3s;
+    list-style: none;
+}
+
+.genre-section summary::-webkit-details-marker { display: none; }
+
+.genre-section summary:hover {
+    color: #ff773d;
+    text-shadow: 0 0 10px var(--copper-glow);
+}
+
+.genre-section-rockstep summary span::after {
+    content: "▼";
+    display: inline-block;
+    margin-left: 8px;
+    font-size: 8px;
+    transition: transform 0.3s;
+}
+
+.genre-section-dubstep summary span::before {
+    content: "▼";
+    display: inline-block;
+    margin-right: 8px;
+    font-size: 8px;
+    transition: transform 0.3s;
+}
+
+.genre-section details[open] summary span::before,
+.genre-section details[open] summary span::after {
+    transform: rotate(180deg);
 }
 
 .track-list{
@@ -410,6 +468,7 @@ body::before{
     color:var(--text-dim);
 }
 
+/* ===== ФУТЕР ===== */
 .footer{
     text-align:center;
     padding-top:25px;
@@ -467,11 +526,10 @@ body::before{
         gap:25px;
     }
     .cover-wrapper{
-        margin:0 auto;
+        margin:0;
         width:220px;
         height:220px;
     }
-    .playlists{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -552,18 +610,26 @@ body::before{
 
 <div class="playlists">
 
-    <div class="genre-section">
-        <details open>
-            <summary><span>Rockstep</span></summary>
-            <div class="track-list" id="list-rockstep"></div>
-        </details>
+    <div class="playlists-header">
+        <div class="genre-section genre-section-rockstep">
+            <details open id="details-rockstep">
+                <summary><span>Rockstep</span></summary>
+            </details>
+        </div>
+
+        <div class="genre-section genre-section-dubstep">
+            <details id="details-dubstep">
+                <summary><span>Dubstep</span></summary>
+            </details>
+        </div>
     </div>
 
-    <div class="genre-section">
-        <details>
-            <summary><span>Dubstep</span></summary>
-            <div class="track-list" id="list-dubstep"></div>
-        </details>
+    <div class="genre-section genre-section-rockstep">
+        <div class="track-list" id="list-rockstep"></div>
+    </div>
+
+    <div class="genre-section genre-section-dubstep">
+        <div class="track-list" id="list-dubstep" style="display:none;"></div>
     </div>
 
 </div>
@@ -967,7 +1033,10 @@ function loadTrack(index, playlist, autoPlay = true){
     playerTitle.textContent = track.name;
     playerGenre.textContent = track.genre || 'INDUSTRIAL METAL';
 
-    playerCover.src = track.cover || 'acm_logo.png';
+    playerCover.src = '';
+    setTimeout(() => {
+        playerCover.src = track.cover || 'acm_logo.png';
+    }, 10);
     playerCover.alt = track.name;
 
     const url = `${WORKER_URL}/play?track=${encodeURIComponent(track.id)}`;
@@ -1089,11 +1158,27 @@ function escapeHtml(value){
         .replaceAll("'","&#039;");
 }
 
+function setupPlaylistToggles() {
+    const detailsRock = document.getElementById('details-rockstep');
+    const detailsDub = document.getElementById('details-dubstep');
+    const listRock = document.getElementById('list-rockstep');
+    const listDub = document.getElementById('list-dubstep');
+
+    detailsRock.addEventListener('toggle', () => {
+        listRock.style.display = detailsRock.open ? 'flex' : 'none';
+    });
+
+    detailsDub.addEventListener('toggle', () => {
+        listDub.style.display = detailsDub.open ? 'flex' : 'none';
+    });
+}
+
 window.addEventListener('DOMContentLoaded', () => {
     applyLanguage();
     resizeCanvas();
     renderList(playlistRockstep, 'list-rockstep');
     renderList(playlistDubstep, 'list-dubstep');
+    setupPlaylistToggles();
     loadTrack(0, playlistRockstep, false);
     audio.volume = Number(volumeSlider.value);
 });
