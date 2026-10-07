@@ -515,10 +515,10 @@ body::before{
 
     <div class="player-details">
         <div class="track-category" id="track-category">NOW PLAYING</div>
-        <div class="track-title" id="player-title">Neural Fracture</div>
+        <div class="track-title" id="player-title">Kings Of The Night</div>
         
         <div class="track-meta-tags">
-            <span id="player-genre">Rap, Metalcore, Doomstep</span>
+            <span id="player-genre">Modern Blues Rockstep</span>
         </div>
 
         <div class="waveform-container" id="waveform">
@@ -563,7 +563,7 @@ body::before{
 
 </div>
 
-<!-- Обязательный атрибут crossorigin="anonymous" для корректной работы AudioContext без блокировок CORS -->
+<!-- Обязательный атрибут crossorigin="anonymous" для корректной работы AudioContext -->
 <audio id="audio-player" crossorigin="anonymous" preload="auto"></audio>
 
 <!-- ПЛЕЙЛИСТЫ -->
@@ -658,33 +658,113 @@ function applyLanguage() {
     if (copyEl) copyEl.textContent = t.copyright;
 }
 
-/* Списки инвертированы (свежие треки вверху) */
 const playlistRockstep = [
-    { id:'Blindfold', name:'Blindfold', genre:'Industrial Rock, Electronic Rock' },
-    { id:'Lost in the Cloud-Abyss', name:'Lost in the Cloud-Abyss', genre:'Nu-Metal, Metalstep' },
-    { id:'Hellish Paradise', name:'Hellish Paradise', genre:'Industrial Metal, Cyber Metal' },
-    { id:'Stray God', name:'Stray God', genre:'Doom Metal, Metalstep' },
-    { id:'Twilight Mind', name:'Twilight Mind', genre:'Blues Rockstep' },
-    { id:'Ash Wanderer', name:'Ash Wanderer', genre:'Nu-Metal, Metalcore' },
-    { id:'Nameless City', name:'Nameless City', genre:'Dark Metal, Industrial Metal' },
-    { id:'Burn to theground', name:'Burn to theground', genre:'Doom Metal, Nu-Metal' },
-    { id:'INVERSION', name:'INVERSION', genre:'Industrial Metal, Doom Metal' },
-    { id:'Burning With Hate', name:'Burning With Hate', genre:'Electronic Metalcore' },
-    { id:'DESCEND!', name:'DESCEND!', genre:'Blues Rockstep' },
-    { id:'Zero Zero', name:'Zero Zero', genre:'Industrial Rock, Electronic Metal' },
-    { id:'Through the Fear', name:'Through the Fear', genre:'Doom Metal, Metalcore' },
+    { 
+        id: 'Kings Of The Night', 
+        name: 'Kings Of The Night', 
+        genre: 'Modern Blues Rockstep',
+        cover: 'https://api.pcloud.com/getpubthumb?code=XZTOwk7ZnD8XlhQdoDBJ61TmBqClbBysq1yX&size=500x500'
+    },
+    { 
+        id: 'Blindfold', 
+        name: 'Blindfold', 
+        genre: 'Industrial Rock, Electronic Rock',
+        cover: 'https://api.pcloud.com/getpubthumb?code=XZTtwk7ZSRCmAg6leX0NIv5TaY2e8SnADbRV&size=500x500'
+    },
+    { 
+        id: 'Lost in the Cloud-Abyss', 
+        name: 'Lost in the Cloud-Abyss', 
+        genre: 'Nu-Metal, Metalstep',
+        cover: 'https://api.pcloud.com/getpubthumb?code=XZOtwk7ZSyGbxMaiPkHa8Op1P8IJ3zae6nX7&size=500x500'
+    },
+    { 
+        id: 'Hellish Paradise', 
+        name: 'Hellish Paradise', 
+        genre: 'Industrial Metal, Cyber Metal',
+        cover: 'https://api.pcloud.com/getpubthumb?code=XZctwk7ZYsRtE9UUOBzDFacPPSOTcXvwWbNy&size=500x500'
+    },
+    { 
+        id: 'Stray God', 
+        name: 'Stray God', 
+        genre: 'Doom Metal, Metalstep',
+        cover: 'https://api.pcloud.com/getpubthumb?code=XZX6wk7ZttiSrzPXWy7m5NGC1ANLPuAQXAdV&size=500x500'
+    },
+    { 
+        id: 'Twilight Mind', 
+        name: 'Twilight Mind', 
+        genre: 'Blues Rockstep',
+        cover: 'https://api.pcloud.com/getpubthumb?code=XZR6wk7ZgLV1F9bM6Wkw6Wy9ilY9a5BSvWXy&size=500x500'
+    },
+    { 
+        id: 'Ash Wanderer', 
+        name: 'Ash Wanderer', 
+        genre: 'Nu-Metal, Metalcore',
+        cover: 'https://api.pcloud.com/getpubthumb?code=XZm6wk7ZNFUbCuN0YoQOFpsPogsSW7YP54Ky&size=500x500'
+    },
+    { 
+        id: 'Nameless City', 
+        name: 'Nameless City', 
+        genre: 'Dark Metal, Industrial Metal',
+        cover: 'https://api.pcloud.com/getpubthumb?code=XZs6wk7ZwxM0ITRgOLBKeIJKxvxGuSItMf6X&size=500x500'
+    },
+    { 
+        id: 'Burn to theground', 
+        name: 'Burn to theground', 
+        genre: 'Doom Metal, Nu-Metal',
+        cover: 'https://api.pcloud.com/getpubthumb?code=XZC6wk7ZUT0i6RyOMLJ0cBsbeG2IK486Erp7&size=500x500'
+    },
+    { 
+        id: 'INVERSION', 
+        name: 'INVERSION', 
+        genre: 'Industrial Metal, Doom Metal',
+        cover: 'https://api.pcloud.com/getpubthumb?code=XZq6wk7Z6zQVmN85gpJJQl3wb2se8V7KKPiV&size=500x500'
+    },
+    { 
+        id: 'Burning With Hate', 
+        name: 'Burning With Hate', 
+        genre: 'Electronic Metalcore',
+        cover: 'https://api.pcloud.com/getpubthumb?code=XZN6wk7ZjcE865MtfFhRFpONjod3LHvvz5oV&size=500x500'
+    },
+    { 
+        id: 'DESCEND!', 
+        name: 'DESCEND!', 
+        genre: 'Blues Rockstep',
+        cover: 'https://api.pcloud.com/getpubthumb?code=XZ7Ewk7Zon5FHPi16DY6y93cgjuyR8smb8wy&size=500x500'
+    },
+    { 
+        id: 'Zero Zero', 
+        name: 'Zero Zero', 
+        genre: 'Industrial Rock, Electronic Metal',
+        cover: 'https://api.pcloud.com/getpubthumb?code=XZXEwk7ZaENNxyoIo9jNEMPoyJwtyklcia4X&size=500x500'
+    },
+    { 
+        id: 'Through the Fear', 
+        name: 'Through the Fear', 
+        genre: 'Doom Metal, Metalcore',
+        cover: 'https://api.pcloud.com/getpubthumb?code=XZHEwk7Zenh9qGPUtaboLPdKqEHQzXpQ3Xu7&size=500x500'
+    },
     { id:'Boiling Blood', name:'Boiling Blood', genre:'Industrial Metal, Cyberpunk' },
     { id:'My Demons Within', name:'My Demons Within', genre:'Industrial Metal, Nu-Metal' },
     { id:'False Memories', name:'False Memories', genre:'Industrial Doom Metalstep' },
     { id:'Burn My Yesterday', name:'Burn My Yesterday', genre:'Metalcore, Industrial Metal' },
     { id:'Mad War', name:'Mad War', genre:'Electronic Rock, Post-Hardcore' },
     { id:'APEX PREDATOR', name:'APEX PREDATOR', genre:'Neoclassical Doom Metalstep' },
-    { id:'Cold Valhalla', name:'Cold Valhalla', genre:'Cyberpunk Trap Metal' },
+    { 
+        id: 'Cold Valhalla', 
+        name: 'Cold Valhalla', 
+        genre: 'Cyberpunk Trap Metal',
+        cover: 'https://api.pcloud.com/getpubthumb?code=XZ1twk7ZDMLe5hr32N53plE4BnQogzRqnj3X&size=500x500'
+    },
     { id:'BLADES OF VOLITION', name:'BLADES OF VOLITION', genre:'Dark Metal, Metalstep' },
     { id:'Black Bile', name:'Black Bile', genre:'Dark Industrial Metal' },
     { id:'Bloodboil', name:'Bloodboil', genre:'Industrial Metal, Metalstep' },
     { id:'Iron Will', name:'Iron Will', genre:'Industrial Metalstep' },
-    { id:'Ashes of the Heavens', name:'Ashes of the Heavens', genre:'Metalstep, Post-Hardcore' },
+    { 
+        id: 'Ashes of the Heavens', 
+        name: 'Ashes of the Heavens', 
+        genre: 'Metalstep, Post-Hardcore',
+        cover: 'https://api.pcloud.com/getpubthumb?code=XZNEwk7ZH7psu2YG6yQ2G9fbouiQkQOdqppk&size=500x500'
+    },
     { id:'Silicon Rage', name:'Silicon Rage', genre:'Cybercore, Doom Metal' },
     { id:'Obsidian Pulse', name:'Obsidian Pulse', genre:'Industrial Metalcore' },
     { id:'Glacial Ignite', name:'Glacial Ignite', genre:'Doom Metal, Metalstep' },
@@ -696,12 +776,48 @@ const playlistRockstep = [
 ];
 
 const playlistDubstep = [
-    { id:'EVERYTHING IS OK', name:'EVERYTHING IS OK', genre:'Ragga Dubstep' },
-    { id:'Rendezvous with Life', name:'Rendezvous with Life', genre:'Melodic Dubstep' },
-    { id:'Boundless Ocean', name:'Boundless Ocean', genre:'Melodic Dubstep' },
-    { id:"Tomorrow’s Light", name:"Tomorrow’s Light", genre:'Tribal Dubstep' },
-    { id:'NEON OVERRIDE', name:'NEON OVERRIDE', genre:'Cyberpunk Dubstep, Glitchstep' },
-    { id:'Starry Tide', name:'Starry Tide', genre:'Brostep, Complextro' },
+    { 
+        id: 'World keeps dancing', 
+        name: 'World keeps dancing', 
+        genre: 'Melodic Dubstep',
+        cover: 'https://api.pcloud.com/getpubthumb?code=XZuUwk7Zzb9UCjj8pj7iD8iKDl5FIzCfbfk7&size=500x500'
+    },
+    { 
+        id: 'EVERYTHING IS OK', 
+        name: 'EVERYTHING IS OK', 
+        genre: 'Ragga Dubstep',
+        cover: 'https://api.pcloud.com/getpubthumb?code=XZHOwk7ZvtzCme5BM0RAfEMrpywtX4EOWjKk&size=500x500'
+    },
+    { 
+        id: 'Rendezvous with Life', 
+        name: 'Rendezvous with Life', 
+        genre: 'Melodic Dubstep',
+        cover: 'https://api.pcloud.com/getpubthumb?code=XZXOwk7ZyUK8m8z22VLaL9nDYnj6Xh2rR3v7&size=500x500'
+    },
+    { 
+        id: 'Boundless Ocean', 
+        name: 'Boundless Ocean', 
+        genre: 'Melodic Dubstep',
+        cover: 'https://api.pcloud.com/getpubthumb?code=XZcEwk7ZvO8VJRst8l8kuqoTGttjRpRzTv17&size=500x500'
+    },
+    { 
+        id: 'Tomorrow’s Light', 
+        name: 'Tomorrow’s Light', 
+        genre: 'Tribal Dubstep',
+        cover: 'https://api.pcloud.com/getpubthumb?code=XZtEwk7Za10QSiMqBSQUO5eSThILNJ6qMYgy&size=500x500'
+    },
+    { 
+        id: 'NEON OVERRIDE', 
+        name: 'NEON OVERRIDE', 
+        genre: 'Cyberpunk Dubstep, Glitchstep',
+        cover: 'https://api.pcloud.com/getpubthumb?code=XZlEwk7ZOD9dwd8cafLdBx7UtAKbbuYwh2EX&size=500x500'
+    },
+    { 
+        id: 'Starry Tide', 
+        name: 'Starry Tide', 
+        genre: 'Brostep, Complextro',
+        cover: 'https://api.pcloud.com/getpubthumb?code=XZMEwk7ZrYNHaEsqe9JKUPyX85JKF5akaUkk&size=500x500'
+    },
     { id:'Learning to Fly', name:'Learning to Fly', genre:'Epic Dubstep, Brostep' },
     { id:'Dream', name:'Dream', genre:'2012 Oldschool Dubstep' },
     { id:'Street Instinct', name:'Street Instinct', genre:'Ragga Rockstep' },
