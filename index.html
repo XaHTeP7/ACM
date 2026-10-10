@@ -910,6 +910,22 @@ async function fetchStats() {
     }
 }
 
+async function registerPlay(trackId) {
+    try {
+        await fetch(`${WORKER_URL}/hit?track=${encodeURIComponent(trackId)}`);
+        // Обновляем статистику локально и перерисовываем списки
+        if(trackStats[trackId]) {
+            trackStats[trackId] = parseInt(trackStats[trackId], 10) + 1;
+        } else {
+            trackStats[trackId] = 1;
+        }
+        renderList(playlistRockstep, 'list-rockstep');
+        renderList(playlistDubstep, 'list-dubstep');
+    } catch (e) {
+        console.log('Hit error:', e);
+    }
+}
+
 const audio = document.getElementById('audio-player');
 const playerCard = document.getElementById('player-card');
 const btnPlay = document.getElementById('btn-play');
@@ -1092,6 +1108,7 @@ function loadTrack(index, playlist, autoPlay = true){
 
     if(autoPlay){
         initAudioContext();
+        registerPlay(track.id); // Засчитываем прослушивание только при реальном клике/запуске
         audio.play().catch(e => console.log('Autoplay issue:', e));
     }else{
         setPlayingState(false);
