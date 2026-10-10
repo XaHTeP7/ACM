@@ -432,11 +432,11 @@ body::before{
     gap:6px;
 }
 
-/* ЭЛЕМЕНТЫ ТРЕКОВ (ВЕРТИКАЛЬНАЯ ВЕРСТКА) */
+/* ЭЛЕМЕНТЫ ТРЕКОВ */
 .track-item{
     display:flex;
-    flex-direction:column;
-    align-items:flex-start;
+    justify-content:space-between;
+    align-items:center;
     padding:10px 12px;
     background:var(--card);
     border-radius:6px;
@@ -455,6 +455,14 @@ body::before{
     border-left-color:var(--copper);
 }
 
+.track-item-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-grow: 1;
+    min-width: 0;
+}
+
 .track-item-name{
     width:100%;
     font-weight:600;
@@ -470,6 +478,15 @@ body::before{
     margin-top:4px;
     line-height:1.2;
     word-break:break-word;
+}
+
+.track-plays {
+    font-size: 11px;
+    color: var(--copper);
+    font-family: monospace;
+    white-space: nowrap;
+    margin-left: 12px;
+    opacity: 0.9;
 }
 
 /* ===== ФУТЕР ===== */
@@ -880,6 +897,19 @@ const playlistDubstep = [
     { id:'Unleash the Storm', name:'Unleash the Storm', genre:'Melodic Dubstep, Crossbreed' }
 ];
 
+let trackStats = {};
+
+async function fetchStats() {
+    try {
+        const res = await fetch(`${WORKER_URL}/stats`);
+        trackStats = await res.json();
+        renderList(playlistRockstep, 'list-rockstep');
+        renderList(playlistDubstep, 'list-dubstep');
+    } catch (e) {
+        console.log('Stats error:', e);
+    }
+}
+
 const audio = document.getElementById('audio-player');
 const playerCard = document.getElementById('player-card');
 const btnPlay = document.getElementById('btn-play');
@@ -1142,11 +1172,15 @@ function renderList(list, containerId){
     container.innerHTML = '';
 
     list.forEach((track, index) => {
+        const plays = trackStats[track.id] || 0;
         const div = document.createElement('div');
         div.className = 'track-item';
         div.innerHTML = `
-            <div class="track-item-name">${escapeHtml(track.name)}</div>
-            <div class="track-item-meta">${escapeHtml(track.genre)}</div>
+            <div class="track-item-info">
+                <div class="track-item-name">${escapeHtml(track.name)}</div>
+                <div class="track-item-meta">${escapeHtml(track.genre)}</div>
+            </div>
+            <div class="track-plays">${plays} ▶</div>
         `;
         div.addEventListener('click', () => loadTrack(index, list, true));
         container.appendChild(div);
@@ -1180,8 +1214,7 @@ function setupPlaylistToggles() {
 window.addEventListener('DOMContentLoaded', () => {
     applyLanguage();
     resizeCanvas();
-    renderList(playlistRockstep, 'list-rockstep');
-    renderList(playlistDubstep, 'list-dubstep');
+    fetchStats();
     setupPlaylistToggles();
     loadTrack(0, playlistRockstep, false);
     audio.volume = Number(volumeSlider.value);
