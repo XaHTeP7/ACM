@@ -942,6 +942,7 @@ let sourceNode = null;
 let isAudioInit = false;
 let animationId = null;
 let currentBlobUrl = null;
+let lastHitTrackId = null;
 
 function initAudioContext(){
     if(isAudioInit) {
@@ -1145,7 +1146,24 @@ function prevTrack(){
 }
 
 btnPlay.addEventListener('click', togglePlay);
-audio.addEventListener('play', () => setPlayingState(true));
+
+audio.addEventListener('play', () => {
+    setPlayingState(true);
+
+    const currentTrack = currentPlaylist[currentIndex];
+    if (currentTrack && lastHitTrackId !== currentTrack.id) {
+        lastHitTrackId = currentTrack.id;
+        
+        fetch(`${WORKER_URL}/hit?track=${encodeURIComponent(currentTrack.id)}`, {
+            headers: {
+                'X-App-Token': 'ACM-SECURE-STREAM'
+            }
+        })
+        .then(() => fetchStats())
+        .catch(e => console.log('Hit error:', e));
+    }
+});
+
 audio.addEventListener('pause', () => setPlayingState(false));
 audio.addEventListener('ended', () => isRepeat ? (audio.currentTime = 0, audio.play()) : nextTrack());
 
