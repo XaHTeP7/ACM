@@ -941,6 +941,7 @@ let dataArray = null;
 let sourceNode = null;
 let isAudioInit = false;
 let animationId = null;
+let currentBlobUrl = null;
 
 function initAudioContext(){
     if(isAudioInit) {
@@ -1056,7 +1057,7 @@ function setPlayingState(playing){
     }
 }
 
-function loadTrack(index, playlist, autoPlay = true){
+async function loadTrack(index, playlist, autoPlay = true){
     if(index < 0 || index >= playlist.length) return;
 
     currentPlaylist = playlist;
@@ -1073,29 +1074,50 @@ function loadTrack(index, playlist, autoPlay = true){
     }, 10);
     playerCover.alt = track.name;
 
-    // ИСПРАВЛЕННЫЙ ПУТЬ К ВОРКЕРУ С ПАРАМЕТРОМ ?track=
-    const url = `${WORKER_URL}/?track=${encodeURIComponent(track.id)}`;
-    audio.src = url;
-    audio.load();
-
-    document.querySelectorAll('.track-item').forEach(el => el.classList.remove('active'));
-
-    const listId = playlist === playlistRockstep ? 'list-rockstep' : 'list-dubstep';
-    const list = document.getElementById(listId);
-    const items = list.querySelectorAll('.track-item');
-
-    if(items[index]){
-        items[index].classList.add('active');
+    if (currentBlobUrl) {
+        URL.revokeObjectURL(currentBlobUrl);
+        currentBlobUrl = null;
     }
 
-    timeCurrent.textContent = '00:00';
-    timeTotal.textContent = '00:00';
+    try {
+        const downloadUrl = `${WORKER_URL}/?track=${encodeURIComponent(track.id)}`;
+        
+        const response = await fetch(downloadUrl, {
+            headers: {
+                'X-App-Token': 'ACM-SECURE-STREAM'
+            }
+        });
 
-    if(autoPlay){
-        initAudioContext();
-        audio.play().catch(e => console.log('Autoplay issue:', e));
-    }else{
-        setPlayingState(false);
+        if (!response.ok) throw new Error('Network response was not ok');
+
+        const arrayBuffer = await response.arrayBuffer();
+        const audioBlob = new Blob([arrayBuffer], { type: 'audio/mpeg' });
+        currentBlobUrl = URL.createObjectURL(audioBlob);
+
+        audio.src = currentBlobUrl;
+        audio.load();
+
+        document.querySelectorAll('.track-item').forEach(el => el.classList.remove('active'));
+
+        const listId = playlist === playlistRockstep ? 'list-rockstep' : 'list-dubstep';
+        const list = document.getElementById(listId);
+        const items = list.querySelectorAll('.track-item');
+
+        if(items[index]){
+            items[index].classList.add('active');
+        }
+
+        timeCurrent.textContent = '00:00';
+        timeTotal.textContent = '00:00';
+
+        if(autoPlay){
+            initAudioContext();
+            audio.play().catch(e => console.log('Autoplay issue:', e));
+        }else{
+            setPlayingState(false);
+        }
+    } catch (err) {
+        console.error('Playback error:', err);
     }
 }
 
@@ -1212,7 +1234,6 @@ function setupPlaylistToggles() {
     });
 }
 
-// Защита от скачивания и инспекции
 document.addEventListener('contextmenu', e => e.preventDefault());
 document.addEventListener('keydown', (e) => {
     if (
